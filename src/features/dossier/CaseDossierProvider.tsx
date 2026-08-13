@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem, CaseTechnicalScope, NewCaseQuestionInput, CaseQuestion } from "./case-dossier-types";
+import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem, CaseTechnicalScope, NewCaseQuestionInput, CaseQuestion, CaseInterview, NewCaseInterviewInput } from "./case-dossier-types";
 import { INITIAL_DOSSIERS } from "./mock-dossiers";
 
 interface CaseDossierContextType {
@@ -22,6 +22,9 @@ interface CaseDossierContextType {
   setCaseQuestionResponse: (caseId: string, questionId: string, response: string) => void;
   setCaseQuestionInsufficient: (caseId: string, questionId: string) => void;
   clearCaseQuestionResponse: (caseId: string, questionId: string) => void;
+  addCaseInterview: (caseId: string, input: NewCaseInterviewInput) => void;
+  updateCaseInterview: (caseId: string, interviewId: string, patch: Partial<Pick<CaseInterview, "personName" | "relation" | "professionalIds" | "purpose" | "status" | "scheduledAt" | "completedAt" | "questionIds">>) => void;
+  removeCaseInterview: (caseId: string, interviewId: string) => void;
 }
 
 const CaseDossierContext = createContext<CaseDossierContextType | undefined>(undefined);
@@ -435,7 +438,190 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
         ...prev,
         [caseId]: {
           ...dossier,
-          questions: dossier.questions.filter(q => q.id !== questionId)
+          questions: dossier.questions.filter(q => q.id !== questionId),
+          interviews: dossier.interviews.map(interview => ({
+            ...interview,
+            questionIds: interview.questionIds.filter(id => id !== questionId)
+          }))
+        }
+      };
+    });
+  }, []);
+
+  const addCaseInterview = useCallback((caseId: string, input: NewCaseInterviewInput) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      // Normalization and validation
+      const personName = input.personName.trim();
+      const relation = input.relation.trim();
+      const purpose = input.purpose.trim();
+
+      if (!personName || !relation || !purpose) return prev;
+
+      const professionalIds = Array.from(new Set(
+        input.professionalIds
+          .map(id => id.trim())
+          .filter(id => id !== "")
+      ));
+
+      if (professionalIds.length === 0) return prev;
+
+      const scheduledAt = input.scheduledAt?.trim() || null;
+      const completedAt = input.completedAt?.trim() || null;
+
+      // Status invariants
+      if (input.status === "scheduled" && !scheduledAt) return prev;
+      if (input.status === "completed" && !completedAt) return prev;
+
+      const finalScheduledAt = (input.status === "planned" || input.status === "scheduled" || input.status === "completed" || input.status === "cancelled") ? scheduledAt : null;
+      const finalCompletedAt = (input.status === "completed") ? completedAt : null;
+
+      // Final invariant check after status-specific rules
+      if (input.status === "scheduled" && !finalScheduledAt) return prev;
+      if (input.status === "completed" && !finalCompletedAt) return prev;
+
+      // Canonical questionIds
+      const canonicalQuestionIds = dossier.questions
+        .filter(q => q.kind === "interview" && input.questionIds.includes(q.id))
+        .map(q => q.id);
+
+      // Generate ENTxx ID
+      const existingIds = dossier.interviews.map(i => i.id);
+      let maxNum = 0;
+      for (const id of existingIds) {
+        const match = /^ENT(\d+)$/.exec(id);
+        if (match && match[1]) {
+          const num = parseInt(match[1], 10);
+          if (!isNaN(num)) maxNum = Math.max(maxNum, num);
+        }
+      }
+      const newId = `ENT${(maxNum + 1).toString().padStart(2, "0")}`;
+
+      const newInterview: CaseInterview = {
+        id: newId,
+        personName,
+        relation,
+        purpose,
+        professionalIds,
+        status: input.status,
+        scheduledAt: finalScheduledAt,
+        completedAt: finalCompletedAt,
+        questionIds: canonicalQuestionIds
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          interviews: [...dossier.interviews, newInterview]
+        }
+      };
+    });
+  }, []);
+
+  const updateCaseInterview = useCallback((caseId: string, interviewId: string, patch: Partial<Pick<CaseInterview, "personName" | "relation" | "professionalIds" | "purpose" | "status" | "scheduledAt" | "completedAt" | "questionIds">>) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      const interview = dossier.interviews.find(i => i.id === interviewId);
+      if (!interview) return prev;
+
+      // Normalization
+      const personName = patch.personName !== undefined ? patch.personName.trim() : interview.personName;
+      const relation = patch.relation !== undefined ? patch.relation.trim() : interview.relation;
+      const purpose = patch.purpose !== undefined ? patch.purpose.trim() : interview.purpose;
+
+      // Required field validation
+      if (patch.personName !== undefined && !personName) return prev;
+      if (patch.relation !== undefined && !relation) return prev;
+      if (patch.purpose !== undefined && !purpose) return prev;
+
+      let professionalIds = interview.professionalIds;
+      if (patch.professionalIds !== undefined) {
+        professionalIds = Array.from(new Set(
+          patch.professionalIds
+            .map(id => id.trim())
+            .filter(id => id !== "")
+        ));
+        if (professionalIds.length === 0) return prev;
+      }
+
+      const scheduledAt = patch.scheduledAt !== undefined ? (patch.scheduledAt?.trim() || null) : interview.scheduledAt;
+      const completedAt = patch.completedAt !== undefined ? (patch.completedAt?.trim() || null) : interview.completedAt;
+      const status = patch.status !== undefined ? patch.status : interview.status;
+
+      // Status invariants apply to the final resulting state
+      let finalScheduledAt = scheduledAt;
+      let finalCompletedAt = completedAt;
+
+      if (status === "planned") {
+        finalCompletedAt = null;
+      } else if (status === "scheduled") {
+        if (!scheduledAt) return prev;
+        finalCompletedAt = null;
+      } else if (status === "completed") {
+        if (!completedAt) return prev;
+      } else if (status === "not-applicable") {
+        finalScheduledAt = null;
+        finalCompletedAt = null;
+      } else if (status === "cancelled") {
+        finalCompletedAt = null;
+      }
+
+      const questionIds = patch.questionIds !== undefined
+        ? dossier.questions.filter(q => q.kind === "interview" && patch.questionIds!.includes(q.id)).map(q => q.id)
+        : interview.questionIds;
+
+      // Change detection
+      const hasChanged = personName !== interview.personName ||
+        relation !== interview.relation ||
+        purpose !== interview.purpose ||
+        status !== interview.status ||
+        finalScheduledAt !== interview.scheduledAt ||
+        finalCompletedAt !== interview.completedAt ||
+        professionalIds.length !== interview.professionalIds.length ||
+        professionalIds.some((id, idx) => id !== interview.professionalIds[idx]) ||
+        questionIds.length !== interview.questionIds.length ||
+        questionIds.some((id, idx) => id !== interview.questionIds[idx]);
+
+      if (!hasChanged) return prev;
+
+      const updatedInterview: CaseInterview = {
+        ...interview,
+        personName,
+        relation,
+        purpose,
+        professionalIds,
+        status,
+        scheduledAt: finalScheduledAt,
+        completedAt: finalCompletedAt,
+        questionIds
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          interviews: dossier.interviews.map(i => i.id === interviewId ? updatedInterview : i)
+        }
+      };
+    });
+  }, []);
+
+  const removeCaseInterview = useCallback((caseId: string, interviewId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+      if (!dossier.interviews.some(i => i.id === interviewId)) return prev;
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          interviews: dossier.interviews.filter(i => i.id !== interviewId)
         }
       };
     });

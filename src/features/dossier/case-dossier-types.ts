@@ -53,6 +53,27 @@ export interface CaseTechnicalScope {
   confirmed: boolean;
 }
 
+export type CaseInterviewStatus =
+  | "planned"
+  | "scheduled"
+  | "completed"
+  | "not-applicable"
+  | "cancelled";
+
+export interface CaseInterview {
+  id: string;
+  personName: string;
+  relation: string;
+  professionalIds: string[];
+  purpose: string;
+  status: CaseInterviewStatus;
+  scheduledAt: string | null;
+  completedAt: string | null;
+  questionIds: string[];
+}
+
+export type NewCaseInterviewInput = Omit<CaseInterview, "id">;
+
 export interface CaseDossierState {
   caseId: string;
   items: CaseDossierItem[];
@@ -61,6 +82,7 @@ export interface CaseDossierState {
   triageComplete: boolean;
   technicalScope: CaseTechnicalScope;
   questions: CaseQuestion[];
+  interviews: CaseInterview[];
 }
 
 export type CaseQuestionKind =
