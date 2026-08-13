@@ -14,6 +14,7 @@ export function PWABrowserNotice() {
         const timer = setTimeout(() => setIsVisible(true), 2000);
         return () => clearTimeout(timer);
       }
+    }
     return undefined;
   }, [displayMode]);
 
@@ -25,7 +26,7 @@ export function PWABrowserNotice() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-6 left-6 right-6 z-[100] animate-fade-in-down">
+    <div className="fixed top-6 left-6 right-6 z-[100] animate-fade-in-down text-white">
       <div className="bg-veritas-graphite/95 backdrop-blur-xl border border-veritas-electric/20 p-4 rounded-2xl shadow-2xl flex items-start gap-3">
         <div className="p-2 rounded-full bg-veritas-electric/10 text-veritas-electric shrink-0">
           <Info className="h-4 w-4" />
