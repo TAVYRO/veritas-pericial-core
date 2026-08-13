@@ -64,11 +64,7 @@ function CaseMaterialsPage() {
   const { getDossier, setMaterialsCollectionComplete, addDossierItem } = useCaseDossier();
   const dossier = getDossier(caseId);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isReviewMode, setIsReviewMode] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const [formData, setFormData] = useState<NewCaseDossierItemInput>({
+  const INITIAL_FORM_DATA: NewCaseDossierItemInput = {
     title: "",
     materialKind: "pdf",
     traceability: "documento",
@@ -80,9 +76,21 @@ function CaseMaterialsPage() {
     legibility: "high",
     duplicateStatus: "no",
     limitations: [],
-  });
+  };
 
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<NewCaseDossierItemInput>(INITIAL_FORM_DATA);
   const [limitationsText, setLimitationsText] = useState("");
+
+  const resetForm = () => {
+    setIsFormOpen(false);
+    setIsReviewMode(false);
+    setError(null);
+    setLimitationsText("");
+    setFormData(INITIAL_FORM_DATA);
+  };
 
   if (!dossier) {
     return (
@@ -122,22 +130,7 @@ function CaseMaterialsPage() {
 
   const handleRegister = () => {
     addDossierItem(caseId, formData);
-    setIsFormOpen(false);
-    setIsReviewMode(false);
-    setFormData({
-      title: "",
-      materialKind: "pdf",
-      traceability: "documento",
-      origin: "",
-      date: null,
-      theme: "",
-      processReference: "",
-      location: "",
-      legibility: "high",
-      duplicateStatus: "no",
-      limitations: [],
-    });
-    setLimitationsText("");
+    resetForm();
   };
 
   if (isFormOpen) {
@@ -150,12 +143,12 @@ function CaseMaterialsPage() {
           </div>
 
           <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-6">
-            <div className="grid grid-cols-1 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Título</p>
                 <p>{formData.title}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Tipo</p>
                   <p className="capitalize">{formData.materialKind}</p>
@@ -165,7 +158,7 @@ function CaseMaterialsPage() {
                   <p className="text-veritas-electric font-bold">{TRACEABILITY_OPTIONS.find(o => o.value === formData.traceability)?.label}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Origem</p>
                   <p>{formData.origin}</p>
@@ -187,7 +180,7 @@ function CaseMaterialsPage() {
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Localização</p>
                 <p>{formData.location}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Legibilidade</p>
                   <p>{LEGIBILITY_OPTIONS.find(o => o.value === formData.legibility)?.label}</p>
@@ -197,9 +190,9 @@ function CaseMaterialsPage() {
                   <p>{DUPLICATE_OPTIONS.find(o => o.value === formData.duplicateStatus)?.label}</p>
                 </div>
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Limitações</p>
-                <p>{formData.limitations.length > 0 ? formData.limitations.join(", ") : "Sem limitações registradas"}</p>
+                <p className="break-words">{formData.limitations.length > 0 ? formData.limitations.join(", ") : "Sem limitações registradas"}</p>
               </div>
             </div>
           </div>
@@ -232,8 +225,9 @@ function CaseMaterialsPage() {
             type="button"
             variant="ghost" 
             size="icon" 
-            onClick={() => setIsFormOpen(false)}
+            onClick={resetForm}
             className="rounded-full bg-white/5"
+            aria-label="Cancelar registro"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -256,7 +250,7 @@ function CaseMaterialsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 px-1">Tipo de Material</label>
                 <select 
@@ -279,7 +273,7 @@ function CaseMaterialsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 px-1">Origem *</label>
                 <input 
@@ -287,7 +281,7 @@ function CaseMaterialsPage() {
                   placeholder="Ex: Processo"
                   value={formData.origin}
                   onChange={e => setFormData(prev => ({ ...prev, origin: e.target.value }))}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none"
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none transition-colors focus:border-veritas-electric/50"
                 />
               </div>
               <div className="space-y-2">
@@ -296,7 +290,7 @@ function CaseMaterialsPage() {
                   type="date"
                   value={formData.date || ""}
                   onChange={e => setFormData(prev => ({ ...prev, date: e.target.value || null }))}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none"
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none transition-colors focus:border-veritas-electric/50"
                 />
               </div>
             </div>
@@ -334,7 +328,7 @@ function CaseMaterialsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 px-1">Legibilidade</label>
                 <select 
@@ -394,7 +388,7 @@ function CaseMaterialsPage() {
             <Button 
               type="button"
               variant="ghost"
-              onClick={() => setIsFormOpen(false)}
+              onClick={resetForm}
               className="w-full h-12 text-white/40 font-medium"
             >
               Cancelar
@@ -416,12 +410,13 @@ function CaseMaterialsPage() {
           type="button"
           onClick={() => setIsFormOpen(true)}
           className="h-10 w-10 rounded-full bg-veritas-electric hover:bg-veritas-electric/90 text-white shadow-lg p-0 flex items-center justify-center shrink-0"
+          aria-label="Registrar item no inventário"
         >
           <Plus className="w-5 h-5" />
         </Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {VISUAL_CATALOG.map((type) => {
           const count = dossier.items.filter(item => item.materialKind === type.kind).length;
           return (
