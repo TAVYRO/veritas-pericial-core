@@ -297,7 +297,7 @@ Marcar implementação: DECISÃO PENDENTE — C3/C4.
 *   [ ] revogação funciona imediatamente
 *   [ ] nenhum dado cruza processos.
 
-## 19. TESTES FINAIS PLANEJADOS — C18
+## 20. TESTES FINAIS PLANEJADOS — C18
 
 C18.1 — TESTE COM DUAS CONTAS REAIS
 
