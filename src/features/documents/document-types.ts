@@ -1,4 +1,18 @@
-import { DocumentTypeId } from "../cases/case-types";
+import { z } from "zod";
+import type { DocumentTypeId } from "../cases/case-types";
+
+export const DOCUMENT_TYPE_IDS = [
+  "laudo-psicologico",
+  "relatorio-psicologico",
+  "parecer-psicologico",
+  "estudo-laudo-social",
+  "parecer-social",
+  "relatorio-psicossocial",
+  "relatorio-multiprofissional",
+  "laudo-multiprofissional",
+] as const;
+
+export const documentTypeIdSchema = z.enum(DOCUMENT_TYPE_IDS);
 
 export type Discipline = "psychology" | "social-work" | "multiprofessional";
 

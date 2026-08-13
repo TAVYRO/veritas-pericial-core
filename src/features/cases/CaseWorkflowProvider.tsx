@@ -7,6 +7,7 @@ import {
 	useState,
 } from "react";
 import type { CaseData, CaseWorkflowState, DocumentTypeId, DocumentVersionRef, CaseProfessional } from "./case-types";
+import type { TemplateId } from "../documents/template-types";
 import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 
 interface CaseWorkflowContextType {
@@ -14,7 +15,7 @@ interface CaseWorkflowContextType {
 	getWorkflow: (caseId: string) => CaseWorkflowState | undefined;
 	updateCase: (caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "modality" | "professionals">) => void;
 	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
-	setTemplate: (caseId: string, templateId: string | null) => void;
+	setTemplate: (caseId: string, templateId: TemplateId | null) => void;
 	setProfessionals: (caseId: string, professionals: CaseProfessional[]) => void;
 	setCurrentVersion: (caseId: string, version: DocumentVersionRef) => void;
 	setAuditApproved: (caseId: string, approved: boolean) => void;
@@ -124,7 +125,7 @@ export function CaseWorkflowProvider({
 		}
 	}, [getCase, getWorkflow, updateCaseData, updateWorkflow]);
 
-	const setTemplate = useCallback((caseId: string, templateId: string | null) => {
+	const setTemplate = useCallback((caseId: string, templateId: TemplateId | null) => {
 		const current = getWorkflow(caseId);
 		if (!current) return;
 		

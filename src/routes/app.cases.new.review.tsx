@@ -3,16 +3,17 @@ import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, User, Scale, Activity, AlertCircle, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getDocumentTypeById } from "@/features/documents/document-types";
+import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
+import type { TemplateId } from "@/features/documents/template-types";
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
     mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
-    docType: z.string().optional(),
+    docType: documentTypeIdSchema.optional(),
     templateId: z.string().optional(),
   }).parse(search),
   component: ReviewPage,
@@ -25,15 +26,17 @@ function ReviewPage() {
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const templateInfo = templateId ? MOCK_TEMPLATES.find(t => t.id === templateId) : undefined;
 
-  const isValid = !!(docTypeInfo && templateInfo && templateInfo.supportedDocumentTypes.includes(docType as any));
+  const isValid = !!(docType && docTypeInfo && templateInfo && templateInfo.supportedDocumentTypes.includes(docType));
 
   const handleCreateCase = () => {
     if (!isValid) return;
 
     // Apply configuration to demo-case for demonstration purposes
-    setDocumentType("demo-case", docType as any, docTypeInfo.label);
-    if (templateId) {
-      setTemplate("demo-case", templateId);
+    if (docType && docTypeInfo) {
+      setDocumentType("demo-case", docType, docTypeInfo.label);
+      if (templateId) {
+        setTemplate("demo-case", templateId as TemplateId);
+      }
     }
   };
 
