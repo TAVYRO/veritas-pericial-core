@@ -30,6 +30,8 @@ import { Route as RegisterSuccessRouteImport } from './routes/register.success'
 import { Route as AppCasesIndexRouteImport } from './routes/app.cases.index'
 import { Route as AppCasesCaseIdRouteImport } from './routes/app.cases.$caseId'
 import { Route as AppCasesDemoCaseRouteImport } from './routes/app.cases.demo-case'
+import { Route as AppRecordCompleteRouteImport } from './routes/app.record.complete'
+import { Route as AppRecordSessionRouteImport } from './routes/app.record.session'
 import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
 
 const IndexRoute = IndexRouteImport.update({
@@ -137,6 +139,16 @@ const AppCasesDemoCaseRoute = AppCasesDemoCaseRouteImport.update({
   path: '/demo-case',
   getParentRoute: () => AppCasesRoute,
 } as any)
+const AppRecordCompleteRoute = AppRecordCompleteRouteImport.update({
+  id: '/complete',
+  path: '/complete',
+  getParentRoute: () => AppRecordRoute,
+} as any)
+const AppRecordSessionRoute = AppRecordSessionRouteImport.update({
+  id: '/session',
+  path: '/session',
+  getParentRoute: () => AppRecordRoute,
+} as any)
 const AppCasesNewProcessRoute = AppCasesNewProcessRouteImport.update({
   id: '/new/process',
   path: '/new/process',
@@ -154,7 +166,7 @@ export interface FileRoutesByFullPath {
   '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
-  '/app/record': typeof AppRecordRoute
+  '/app/record': typeof AppRecordRouteWithChildren
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -164,6 +176,8 @@ export interface FileRoutesByFullPath {
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/record/complete': typeof AppRecordCompleteRoute
+  '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -175,7 +189,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
-  '/app/record': typeof AppRecordRoute
+  '/app/record': typeof AppRecordRouteWithChildren
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -185,6 +199,8 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/record/complete': typeof AppRecordCompleteRoute
+  '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -200,7 +216,7 @@ export interface FileRoutesById {
   '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
-  '/app/record': typeof AppRecordRoute
+  '/app/record': typeof AppRecordRouteWithChildren
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -210,6 +226,8 @@ export interface FileRoutesById {
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/record/complete': typeof AppRecordCompleteRoute
+  '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -236,6 +254,8 @@ export interface FileRouteTypes {
     | '/register/'
     | '/app/cases/$caseId'
     | '/app/cases/demo-case'
+    | '/app/record/complete'
+    | '/app/record/session'
     | '/app/cases/'
     | '/app/cases/new/process'
   fileRoutesByTo: FileRoutesByTo
@@ -257,6 +277,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/cases/$caseId'
     | '/app/cases/demo-case'
+    | '/app/record/complete'
+    | '/app/record/session'
     | '/app/cases'
     | '/app/cases/new/process'
   id:
@@ -281,6 +303,8 @@ export interface FileRouteTypes {
     | '/register/'
     | '/app/cases/$caseId'
     | '/app/cases/demo-case'
+    | '/app/record/complete'
+    | '/app/record/session'
     | '/app/cases/'
     | '/app/cases/new/process'
   fileRoutesById: FileRoutesById
@@ -444,6 +468,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCasesDemoCaseRouteImport
       parentRoute: typeof AppCasesRoute
     }
+    '/app/record/complete': {
+      id: '/app/record/complete'
+      path: '/complete'
+      fullPath: '/app/record/complete'
+      preLoaderRoute: typeof AppRecordCompleteRouteImport
+      parentRoute: typeof AppRecordRoute
+    }
+    '/app/record/session': {
+      id: '/app/record/session'
+      path: '/session'
+      fullPath: '/app/record/session'
+      preLoaderRoute: typeof AppRecordSessionRouteImport
+      parentRoute: typeof AppRecordRoute
+    }
     '/app/cases/new/process': {
       id: '/app/cases/new/process'
       path: '/new/process'
@@ -472,11 +510,25 @@ const AppCasesRouteWithChildren = AppCasesRoute._addFileChildren(
   AppCasesRouteChildren,
 )
 
+interface AppRecordRouteChildren {
+  AppRecordCompleteRoute: typeof AppRecordCompleteRoute
+  AppRecordSessionRoute: typeof AppRecordSessionRoute
+}
+
+const AppRecordRouteChildren: AppRecordRouteChildren = {
+  AppRecordCompleteRoute: AppRecordCompleteRoute,
+  AppRecordSessionRoute: AppRecordSessionRoute,
+}
+
+const AppRecordRouteWithChildren = AppRecordRoute._addFileChildren(
+  AppRecordRouteChildren,
+)
+
 interface AppRouteChildren {
   AppCasesRoute: typeof AppCasesRouteWithChildren
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppProfileRoute: typeof AppProfileRoute
-  AppRecordRoute: typeof AppRecordRoute
+  AppRecordRoute: typeof AppRecordRouteWithChildren
   AppSearchRoute: typeof AppSearchRoute
   AppVeritasRoute: typeof AppVeritasRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -486,7 +538,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCasesRoute: AppCasesRouteWithChildren,
   AppNotificationsRoute: AppNotificationsRoute,
   AppProfileRoute: AppProfileRoute,
-  AppRecordRoute: AppRecordRoute,
+  AppRecordRoute: AppRecordRouteWithChildren,
   AppSearchRoute: AppSearchRoute,
   AppVeritasRoute: AppVeritasRoute,
   AppIndexRoute: AppIndexRoute,
