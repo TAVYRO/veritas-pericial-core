@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { useNavigate, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { CASE_NAVIGATION_GROUPS } from "./case-navigation-config";
 
@@ -7,6 +7,7 @@ interface CaseNavigationProps {
 }
 
 export function CaseNavigation({ caseId }: CaseNavigationProps) {
+	const navigate = useNavigate();
 	const location = useLocation();
 	const path = location.pathname;
 
@@ -19,7 +20,6 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 
 	let found = false;
 	for (const group of CASE_NAVIGATION_GROUPS) {
-		// First, try exact matches
 		const exactMatch = group.steps.find((s) => s.path === relativePath);
 		if (exactMatch) {
 			activeGroup = group;
@@ -28,7 +28,6 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			break;
 		}
 
-		// Then, try prefix matches (e.g. interviews/123/transcript)
 		const prefixMatch = group.steps.find(
 			(s) => s.matchPrefix && relativePath.startsWith(s.matchPrefix),
 		);
@@ -39,7 +38,6 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			break;
 		}
 
-		// Fallback for sub-routes
 		const startsWithMatch = group.steps.find(
 			(s) => relativePath.startsWith(s.path) && s.path !== "",
 		);
@@ -51,12 +49,10 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		}
 	}
 
-	// Double check we have an active group (TS safety)
 	if (!found || !activeGroup) {
 		activeGroup = CASE_NAVIGATION_GROUPS[0];
 		activeStepId = activeGroup.steps[0].id;
 	}
-
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
@@ -64,14 +60,14 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			<div className="grid grid-cols-4 px-2 border-b border-white/5">
 				{CASE_NAVIGATION_GROUPS.map((group) => {
 					const isActive = activeGroup.id === group.id;
-					const to = `/app/cases/$caseId/${group.defaultPath}` as any;
+					const targetRoute = `/app/cases/${caseId}/${group.defaultPath}`;
 					return (
-						<Link
+						<button
 							key={group.id}
-							to={to}
-							params={{ caseId }}
+							type="button"
+							onClick={() => navigate({ to: targetRoute as any })}
 							className={cn(
-								"flex flex-col items-center py-3 px-1 gap-1 transition-all duration-300 relative",
+								"flex flex-col items-center py-3 px-1 gap-1 transition-all duration-300 relative outline-none",
 								isActive ? "text-veritas-electric" : "text-white/20 hover:text-white/40",
 							)}
 							aria-current={isActive ? "page" : undefined}
@@ -82,7 +78,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 							{isActive && (
 								<div className="absolute -bottom-px w-full h-0.5 bg-veritas-electric rounded-full shadow-[0_0_8px_rgba(0,229,255,0.5)]" />
 							)}
-						</Link>
+						</button>
 					);
 				})}
 			</div>
@@ -93,15 +89,15 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 					{activeGroup.steps.map((step) => {
 						const isActive = activeStepId === step.id;
 						const Icon = step.icon;
-						const to = `/app/cases/$caseId/${step.path}` as any;
+						const targetRoute = `/app/cases/${caseId}/${step.path}`;
 
 						return (
-							<Link
+							<button
 								key={step.id}
-								to={to}
-								params={{ caseId }}
+								type="button"
+								onClick={() => navigate({ to: targetRoute as any })}
 								className={cn(
-									"flex items-center gap-2 transition-all duration-300 px-2 py-1 rounded-full whitespace-nowrap",
+									"flex items-center gap-2 transition-all duration-300 px-2 py-1 rounded-full whitespace-nowrap outline-none",
 									isActive ? "text-veritas-electric bg-veritas-electric/5" : "text-white/30 hover:text-white/50",
 								)}
 								aria-current={isActive ? "step" : undefined}
@@ -110,7 +106,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 								<span className="text-[9px] uppercase tracking-widest font-bold">
 									{step.label}
 								</span>
-							</Link>
+							</button>
 						);
 					})}
 				</div>
