@@ -19,6 +19,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppCasesRouteImport } from './routes/app.cases'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppRecordRouteImport } from './routes/app.record'
 import { Route as AppSearchRouteImport } from './routes/app.search'
 import { Route as AppVeritasRouteImport } from './routes/app.veritas'
@@ -29,11 +30,13 @@ import { Route as RegisterSuccessRouteImport } from './routes/register.success'
 import { Route as AppCasesIndexRouteImport } from './routes/app.cases.index'
 import { Route as AppCasesCaseIdRouteImport } from './routes/app.cases.$caseId'
 import { Route as AppCasesContinueRouteImport } from './routes/app.cases.continue'
+import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
 import { Route as AppProfileEditRouteImport } from './routes/app.profile.edit'
 import { Route as AppProfilePreferencesRouteImport } from './routes/app.profile.preferences'
 import { Route as AppProfileSecurityRouteImport } from './routes/app.profile.security'
 import { Route as AppRecordCompleteRouteImport } from './routes/app.record.complete'
 import { Route as AppRecordSessionRouteImport } from './routes/app.record.session'
+import { Route as AppReviewIndexRouteImport } from './routes/app.review.index'
 import { Route as AppCasesCaseIdIndexRouteImport } from './routes/app.cases.$caseId.index'
 import { Route as AppCasesCaseIdAnalysisRouteImport } from './routes/app.cases.$caseId.analysis'
 import { Route as AppCasesCaseIdApprovalRouteImport } from './routes/app.cases.$caseId.approval'
@@ -123,6 +126,11 @@ const AppNotificationsRoute = AppNotificationsRouteImport.update({
   path: '/notifications',
   getParentRoute: () => AppRoute,
 } as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppRecordRoute = AppRecordRouteImport.update({
   id: '/record',
   path: '/record',
@@ -173,20 +181,25 @@ const AppCasesContinueRoute = AppCasesContinueRouteImport.update({
   path: '/continue',
   getParentRoute: () => AppCasesRoute,
 } as any)
+const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppProfileRoute,
+} as any)
 const AppProfileEditRoute = AppProfileEditRouteImport.update({
-  id: '/profile/edit',
-  path: '/profile/edit',
-  getParentRoute: () => AppRoute,
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppProfileRoute,
 } as any)
 const AppProfilePreferencesRoute = AppProfilePreferencesRouteImport.update({
-  id: '/profile/preferences',
-  path: '/profile/preferences',
-  getParentRoute: () => AppRoute,
+  id: '/preferences',
+  path: '/preferences',
+  getParentRoute: () => AppProfileRoute,
 } as any)
 const AppProfileSecurityRoute = AppProfileSecurityRouteImport.update({
-  id: '/profile/security',
-  path: '/profile/security',
-  getParentRoute: () => AppRoute,
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => AppProfileRoute,
 } as any)
 const AppRecordCompleteRoute = AppRecordCompleteRouteImport.update({
   id: '/complete',
@@ -197,6 +210,11 @@ const AppRecordSessionRoute = AppRecordSessionRouteImport.update({
   id: '/session',
   path: '/session',
   getParentRoute: () => AppRecordRoute,
+} as any)
+const AppReviewIndexRoute = AppReviewIndexRouteImport.update({
+  id: '/review/',
+  path: '/review/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppCasesCaseIdIndexRoute = AppCasesCaseIdIndexRouteImport.update({
   id: '/',
@@ -413,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRouteWithChildren
   '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
   '/app/record': typeof AppRecordRouteWithChildren
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
@@ -429,6 +448,8 @@ export interface FileRoutesByFullPath {
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
+  '/app/profile/': typeof AppProfileIndexRoute
+  '/app/review/': typeof AppReviewIndexRoute
   '/app/cases/$caseId/analysis': typeof AppCasesCaseIdAnalysisRoute
   '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
   '/app/cases/$caseId/approvals': typeof AppCasesCaseIdApprovalsRoute
@@ -490,6 +511,8 @@ export interface FileRoutesByTo {
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases': typeof AppCasesIndexRoute
+  '/app/profile': typeof AppProfileIndexRoute
+  '/app/review': typeof AppReviewIndexRoute
   '/app/cases/$caseId/analysis': typeof AppCasesCaseIdAnalysisRoute
   '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
   '/app/cases/$caseId/approvals': typeof AppCasesCaseIdApprovalsRoute
@@ -540,6 +563,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRouteWithChildren
   '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRouteWithChildren
   '/app/record': typeof AppRecordRouteWithChildren
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
@@ -556,6 +580,8 @@ export interface FileRoutesById {
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
+  '/app/profile/': typeof AppProfileIndexRoute
+  '/app/review/': typeof AppReviewIndexRoute
   '/app/cases/$caseId/analysis': typeof AppCasesCaseIdAnalysisRoute
   '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
   '/app/cases/$caseId/approvals': typeof AppCasesCaseIdApprovalsRoute
@@ -607,6 +633,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/cases'
     | '/app/notifications'
+    | '/app/profile'
     | '/app/record'
     | '/app/search'
     | '/app/veritas'
@@ -623,6 +650,8 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases/'
+    | '/app/profile/'
+    | '/app/review/'
     | '/app/cases/$caseId/analysis'
     | '/app/cases/$caseId/approval'
     | '/app/cases/$caseId/approvals'
@@ -684,6 +713,8 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases'
+    | '/app/profile'
+    | '/app/review'
     | '/app/cases/$caseId/analysis'
     | '/app/cases/$caseId/approval'
     | '/app/cases/$caseId/approvals'
@@ -733,6 +764,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/cases'
     | '/app/notifications'
+    | '/app/profile'
     | '/app/record'
     | '/app/search'
     | '/app/veritas'
@@ -749,6 +781,8 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases/'
+    | '/app/profile/'
+    | '/app/review/'
     | '/app/cases/$caseId/analysis'
     | '/app/cases/$caseId/approval'
     | '/app/cases/$caseId/approvals'
@@ -871,6 +905,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNotificationsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/record': {
       id: '/app/record'
       path: '/record'
@@ -941,26 +982,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCasesContinueRouteImport
       parentRoute: typeof AppCasesRoute
     }
+    '/app/profile/': {
+      id: '/app/profile/'
+      path: '/'
+      fullPath: '/app/profile/'
+      preLoaderRoute: typeof AppProfileIndexRouteImport
+      parentRoute: typeof AppProfileRoute
+    }
     '/app/profile/edit': {
       id: '/app/profile/edit'
-      path: '/profile/edit'
+      path: '/edit'
       fullPath: '/app/profile/edit'
       preLoaderRoute: typeof AppProfileEditRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppProfileRoute
     }
     '/app/profile/preferences': {
       id: '/app/profile/preferences'
-      path: '/profile/preferences'
+      path: '/preferences'
       fullPath: '/app/profile/preferences'
       preLoaderRoute: typeof AppProfilePreferencesRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppProfileRoute
     }
     '/app/profile/security': {
       id: '/app/profile/security'
-      path: '/profile/security'
+      path: '/security'
       fullPath: '/app/profile/security'
       preLoaderRoute: typeof AppProfileSecurityRouteImport
-      parentRoute: typeof AppRoute
+      parentRoute: typeof AppProfileRoute
     }
     '/app/record/complete': {
       id: '/app/record/complete'
@@ -975,6 +1023,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/record/session'
       preLoaderRoute: typeof AppRecordSessionRouteImport
       parentRoute: typeof AppRecordRoute
+    }
+    '/app/review/': {
+      id: '/app/review/'
+      path: '/review'
+      fullPath: '/app/review/'
+      preLoaderRoute: typeof AppReviewIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/cases/$caseId/': {
       id: '/app/cases/$caseId/'
@@ -1375,6 +1430,24 @@ const AppCasesRouteWithChildren = AppCasesRoute._addFileChildren(
   AppCasesRouteChildren,
 )
 
+interface AppProfileRouteChildren {
+  AppProfileEditRoute: typeof AppProfileEditRoute
+  AppProfilePreferencesRoute: typeof AppProfilePreferencesRoute
+  AppProfileSecurityRoute: typeof AppProfileSecurityRoute
+  AppProfileIndexRoute: typeof AppProfileIndexRoute
+}
+
+const AppProfileRouteChildren: AppProfileRouteChildren = {
+  AppProfileEditRoute: AppProfileEditRoute,
+  AppProfilePreferencesRoute: AppProfilePreferencesRoute,
+  AppProfileSecurityRoute: AppProfileSecurityRoute,
+  AppProfileIndexRoute: AppProfileIndexRoute,
+}
+
+const AppProfileRouteWithChildren = AppProfileRoute._addFileChildren(
+  AppProfileRouteChildren,
+)
+
 interface AppRecordRouteChildren {
   AppRecordCompleteRoute: typeof AppRecordCompleteRoute
   AppRecordSessionRoute: typeof AppRecordSessionRoute
@@ -1392,13 +1465,12 @@ const AppRecordRouteWithChildren = AppRecordRoute._addFileChildren(
 interface AppRouteChildren {
   AppCasesRoute: typeof AppCasesRouteWithChildren
   AppNotificationsRoute: typeof AppNotificationsRoute
+  AppProfileRoute: typeof AppProfileRouteWithChildren
   AppRecordRoute: typeof AppRecordRouteWithChildren
   AppSearchRoute: typeof AppSearchRoute
   AppVeritasRoute: typeof AppVeritasRoute
   AppIndexRoute: typeof AppIndexRoute
-  AppProfileEditRoute: typeof AppProfileEditRoute
-  AppProfilePreferencesRoute: typeof AppProfilePreferencesRoute
-  AppProfileSecurityRoute: typeof AppProfileSecurityRoute
+  AppReviewIndexRoute: typeof AppReviewIndexRoute
   AppReviewReviewIdCheckRoute: typeof AppReviewReviewIdCheckRoute
   AppReviewReviewIdResultRoute: typeof AppReviewReviewIdResultRoute
 }
@@ -1406,13 +1478,12 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppCasesRoute: AppCasesRouteWithChildren,
   AppNotificationsRoute: AppNotificationsRoute,
+  AppProfileRoute: AppProfileRouteWithChildren,
   AppRecordRoute: AppRecordRouteWithChildren,
   AppSearchRoute: AppSearchRoute,
   AppVeritasRoute: AppVeritasRoute,
   AppIndexRoute: AppIndexRoute,
-  AppProfileEditRoute: AppProfileEditRoute,
-  AppProfilePreferencesRoute: AppProfilePreferencesRoute,
-  AppProfileSecurityRoute: AppProfileSecurityRoute,
+  AppReviewIndexRoute: AppReviewIndexRoute,
   AppReviewReviewIdCheckRoute: AppReviewReviewIdCheckRoute,
   AppReviewReviewIdResultRoute: AppReviewReviewIdResultRoute,
 }
