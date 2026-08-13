@@ -23,10 +23,10 @@ function ReviewPage() {
   const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
   const { setDocumentType, setTemplate } = useCaseWorkflow();
 
-  const docTypeInfo = getDocumentTypeById(docType);
+  const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const templateInfo = templateId ? MOCK_TEMPLATES.find(t => t.id === templateId) : undefined;
 
-  const isValid = !!(docTypeInfo && templateInfo && templateInfo.supportedDocumentTypes.includes(docType));
+  const isValid = !!(docType && docTypeInfo && templateInfo && templateInfo.supportedDocumentTypes.includes(docType));
 
   const handleCreateCase = () => {
     if (!isValid) return;
