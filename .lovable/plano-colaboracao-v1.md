@@ -126,13 +126,161 @@ C16.1 — Notificações
 C17.1 — Encerramento de colaboração
 C17.2 — Chat arquivado
 C17.3 — Revogação de membro
-C18.1 — Teste com duas contas reais
-C18.2 — Teste de isolamento entre casos
-C18.3 — Teste de tentativa por URL direta
-C18.4 — Teste de conflito simultâneo
-C18.5 — Teste de versões/comentários
-C18.6 — Teste de assinaturas
-C18.7 — Auditoria final de segurança
+C18.1 — TESTE COM DUAS CONTAS REAIS
+C18.2 — TESTE DE ISOLAMENTO ENTRE CASOS
+C18.3 — TESTE DE TENTATIVA POR URL DIRETA
+C18.4 — TESTE DE CONFLITO SIMULTÂNEO
+C18.5 — TESTE DE VERSÕES E COMENTÁRIOS
+C18.6 — TESTE DE ASSINATURAS
+C18.7 — AUDITORIA FINAL DE SEGURANÇA
+
+## 19. TESTES FINAIS PLANEJADOS — C18
+
+C18.1 — TESTE COM DUAS CONTAS REAIS
+
+Objetivo:
+provar que dois profissionais autenticados, em contas e sessões distintas, conseguem colaborar no MESMO caso autorizado, sem compartilhamento artificial de sessão e sem mocks.
+
+Critérios mínimos futuros:
+- Conta A e Conta B distintas;
+- ProfessionalProfile distintos;
+- ambos autenticados realmente;
+- ambos membros autorizados do mesmo caseId;
+- alterações autorizadas aparecem corretamente;
+- dados não dependem do mesmo navegador;
+- testar em sessões/dispositivos distintos quando possível.
+
+==================================================
+
+C18.2 — TESTE DE ISOLAMENTO ENTRE CASOS
+
+Objetivo:
+provar que participação no Caso A não concede qualquer acesso automático ao Caso B.
+
+Testar futuramente:
+- parceiro sem CaseMember;
+- membro somente do Caso A;
+- membro do Caso B;
+- profissional não relacionado;
+- dados de dossier;
+- documento;
+- workflow;
+- chat;
+- comentários;
+- assinaturas.
+
+Resultado obrigatório futuro:
+ZERO vazamento entre caseIds.
+
+==================================================
+
+C18.3 — TESTE DE TENTATIVA POR URL DIRETA
+
+Objetivo:
+provar que segurança não depende da interface.
+
+Usuário sem autorização deverá tentar acessar diretamente rotas de outro caseId.
+
+Testar futuramente:
+- página do caso;
+- dossier;
+- documento;
+- review;
+- final;
+- colaboração;
+- chat;
+- comentários;
+- versões.
+
+Resultado obrigatório:
+servidor/backend deve negar acesso.
+Não basta esconder botão ou menu.
+
+==================================================
+
+C18.4 — TESTE DE CONFLITO SIMULTÂNEO
+
+Objetivo:
+provar que edição concorrente não sobrescreve silenciosamente.
+
+Cenário mínimo:
+A abre revisão N.
+B abre revisão N.
+A salva e gera revisão N+1.
+B tenta salvar baseado em N.
+
+Resultado obrigatório:
+escrita de B NÃO sobrescreve A silenciosamente.
+Conflito deve ser detectado.
+B deve revisar o estado atualizado antes de nova gravação.
+
+==================================================
+
+C18.5 — TESTE DE VERSÕES E COMENTÁRIOS
+
+Objetivo:
+provar isolamento por:
+caseId + versionId.
+
+Testar:
+- comentário criado em V01;
+- criação de V02;
+- comentário de V01 não aparece silenciosamente como pertencente à V02;
+- referências de sectionId/paragraphId;
+- histórico da versão;
+- documento correto por versão.
+
+Resultado obrigatório:
+V01 ≠ V02.
+
+==================================================
+
+C18.6 — TESTE DE ASSINATURAS
+
+Objetivo:
+provar isolamento e autorização de assinatura por:
+professionalId + caseId + versionId.
+
+Testar futuramente:
+- PartnerRelationship não autoriza assinatura;
+- CaseMember não autoriza automaticamente;
+- role signer não autoriza automaticamente;
+- autorização de V01 não vale para V02;
+- autorização do Caso A não vale para Caso B;
+- profissional A não usa autorização do profissional B.
+
+Resultado obrigatório:
+nenhuma assinatura migra entre profissional, caso ou versão.
+
+==================================================
+
+C18.7 — AUDITORIA FINAL DE SEGURANÇA
+
+Objetivo:
+executar o checklist final integral antes de considerar colaboração concluída.
+
+Deve verificar, no mínimo:
+- autenticação real;
+- autorização server-side;
+- PartnerRelationship ≠ CaseMember;
+- isolamento de caseId;
+- isolamento de versionId;
+- revogação;
+- URL direta;
+- roles;
+- chat;
+- comentários;
+- concorrência;
+- workflow;
+- assinaturas;
+- auditoria;
+- notificações críticas;
+- duas contas reais.
+
+Resultado futuro:
+PASS / FAIL por item.
+Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
+
 
 ## 6. GRAFO E REGRAS DE DEPENDÊNCIA
 *   C2 depende de C1 CLOSED.
