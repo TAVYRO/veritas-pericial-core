@@ -45,7 +45,7 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       let maxNum = 0;
       for (const id of existingIds) {
         const match = /^F(\d+)$/.exec(id);
-        if (match) {
+        if (match && match[1]) {
           const num = parseInt(match[1], 10);
           if (!isNaN(num)) maxNum = Math.max(maxNum, num);
         }
