@@ -112,7 +112,7 @@ function DocumentTypePage() {
         >
           <Link 
             to="/app/cases/new/template" 
-            search={{ mode, caseNumber, professionals: selectedProfIds, docType: selectedId }}
+            search={{ mode, caseNumber, professionals: selectedProfIds, docType: selectedId || undefined }}
           >
             Continuar
             <ChevronRight className="ml-2 w-5 h-5" />
