@@ -269,6 +269,9 @@ export function CaseWorkflowProvider({
 			const requiredProfessionals = caseData.professionals.filter(
 				(p) => p.isRequiredSigner,
 			);
+			
+			if (requiredProfessionals.length === 0) return false;
+
 			return requiredProfessionals.every((p) =>
 				isSignatureApproved(caseId, p.id, workflow.currentVersion.id),
 			);
