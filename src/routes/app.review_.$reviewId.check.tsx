@@ -24,12 +24,12 @@ import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-export const Route = createFileRoute("/app/review/$reviewId/check")({
+export const Route = createFileRoute("/app/review_/$reviewId/check")({
   component: ReviewCheckPage,
 });
 
 function ReviewCheckPage() {
-  const { reviewId } = useParams({ from: "/app/review/$reviewId/check" });
+  const { reviewId } = useParams({ from: "/app/review_/$reviewId/check" });
   const navigate = useNavigate();
   const scrolled = useScroll(10);
   
