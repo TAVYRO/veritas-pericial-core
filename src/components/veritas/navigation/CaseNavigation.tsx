@@ -14,7 +14,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
-	let foundGroup: NavGroup | undefined = undefined;
+	let foundGroup: NavGroup | null = null;
 	let foundStepId = "";
 
 	for (const group of CASE_NAVIGATION_GROUPS) {
