@@ -17,7 +17,15 @@ import {
   Cpu,
   LineChart,
   Share2,
-  PenLine
+  PenLine,
+  Activity,
+  Lock,
+  FileCheck,
+  UserCheck,
+  ClipboardCheck,
+  Signature,
+  Download,
+  Inspect
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
