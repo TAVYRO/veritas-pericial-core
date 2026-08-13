@@ -1,9 +1,9 @@
-import { createFileRoute, useParams, Link } from "@tanstack/react-router";
-import { User, ClipboardList, Target, Clock, Plus, Trash2, Edit2, Check, X, Calendar, ArrowRight } from "lucide-react";
+import { createFileRoute, useParams } from "@tanstack/react-router";
+import { User, ClipboardList, Target, Clock, Plus, Trash2, Edit2, Check, X, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { CaseInterviewStatus, CaseInterview, NewCaseInterviewInput } from "@/features/dossier/case-dossier-types";
 
 const STATUS_LABELS: Record<CaseInterviewStatus, string> = {
@@ -144,6 +144,7 @@ function CaseInterviewPlanPage() {
         {!isAdding && !editingId && (
           <button 
             onClick={() => setIsAdding(true)}
+            aria-label="Adicionar entrevista"
             className="w-10 h-10 rounded-full bg-veritas-electric text-white flex items-center justify-center shadow-lg shadow-veritas-electric/20"
           >
             <Plus className="w-6 h-6" />
@@ -157,7 +158,7 @@ function CaseInterviewPlanPage() {
             <h3 className="text-sm font-bold text-veritas-electric uppercase tracking-widest">
                 {editingId ? "Editar Entrevista" : "Nova Entrevista"}
             </h3>
-            <button type="button" onClick={resetForm} className="text-white/40 hover:text-white">
+            <button type="button" onClick={resetForm} aria-label="Fechar formulário" className="text-white/40 hover:text-white">
                 <X className="w-5 h-5" />
             </button>
           </div>
@@ -169,7 +170,7 @@ function CaseInterviewPlanPage() {
                 id="personName"
                 value={personName}
                 onChange={(e) => setPersonName(e.target.value)}
-                placeholder="Ex: Maria Silva"
+                placeholder="Nome da pessoa entrevistada"
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:border-veritas-electric/50 transition-colors outline-none"
               />
             </div>
@@ -180,7 +181,7 @@ function CaseInterviewPlanPage() {
                 id="relation"
                 value={relation}
                 onChange={(e) => setRelation(e.target.value)}
-                placeholder="Ex: Mãe"
+                placeholder="Informe a relação ou vínculo"
                 className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/20 focus:border-veritas-electric/50 transition-colors outline-none"
               />
             </div>
@@ -213,7 +214,7 @@ function CaseInterviewPlanPage() {
                                 className="w-4 h-4 rounded border-white/20 bg-white/5 text-veritas-electric focus:ring-veritas-electric/50"
                             />
                             <label htmlFor={`pro-${pro.id}`} className="text-xs text-white/80 cursor-pointer">
-                                {pro.name} <span className="text-[10px] text-white/40">({pro.profession})</span>
+                                {pro.name} <span className="text-[10px] text-white/40">{pro.profession}{pro.registration ? ` • ${pro.registration}` : ""}</span>
                             </label>
                         </div>
                     ))}
