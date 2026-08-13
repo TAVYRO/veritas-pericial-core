@@ -34,6 +34,18 @@ import { Route as AppCasesContinueRouteImport } from './routes/app.cases.continu
 import { Route as AppCasesDemoCaseRouteImport } from './routes/app.cases.demo-case'
 import { Route as AppRecordCompleteRouteImport } from './routes/app.record.complete'
 import { Route as AppRecordSessionRouteImport } from './routes/app.record.session'
+import { Route as AppCasesCaseIdApprovalRouteImport } from './routes/app.cases.$caseId.approval'
+import { Route as AppCasesCaseIdAuditRouteImport } from './routes/app.cases.$caseId.audit'
+import { Route as AppCasesCaseIdDraftRouteImport } from './routes/app.cases.$caseId.draft'
+import { Route as AppCasesCaseIdFinalRouteImport } from './routes/app.cases.$caseId.final'
+import { Route as AppCasesCaseIdInterviewPlanRouteImport } from './routes/app.cases.$caseId.interview-plan'
+import { Route as AppCasesCaseIdMaterialsRouteImport } from './routes/app.cases.$caseId.materials'
+import { Route as AppCasesCaseIdObjectRouteImport } from './routes/app.cases.$caseId.object'
+import { Route as AppCasesCaseIdQuestionsRouteImport } from './routes/app.cases.$caseId.questions'
+import { Route as AppCasesCaseIdReviewRouteImport } from './routes/app.cases.$caseId.review'
+import { Route as AppCasesCaseIdSourcesRouteImport } from './routes/app.cases.$caseId.sources'
+import { Route as AppCasesCaseIdSufficiencyRouteImport } from './routes/app.cases.$caseId.sufficiency'
+import { Route as AppCasesCaseIdTriageRouteImport } from './routes/app.cases.$caseId.triage'
 import { Route as AppCasesDemoCaseMaterialsRouteImport } from './routes/app.cases.demo-case.materials'
 import { Route as AppCasesNewDocumentTypeRouteImport } from './routes/app.cases.new.document-type'
 import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
@@ -165,6 +177,68 @@ const AppRecordSessionRoute = AppRecordSessionRouteImport.update({
   path: '/session',
   getParentRoute: () => AppRecordRoute,
 } as any)
+const AppCasesCaseIdApprovalRoute = AppCasesCaseIdApprovalRouteImport.update({
+  id: '/approval',
+  path: '/approval',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdAuditRoute = AppCasesCaseIdAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdDraftRoute = AppCasesCaseIdDraftRouteImport.update({
+  id: '/draft',
+  path: '/draft',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdFinalRoute = AppCasesCaseIdFinalRouteImport.update({
+  id: '/final',
+  path: '/final',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdInterviewPlanRoute =
+  AppCasesCaseIdInterviewPlanRouteImport.update({
+    id: '/interview-plan',
+    path: '/interview-plan',
+    getParentRoute: () => AppCasesCaseIdRoute,
+  } as any)
+const AppCasesCaseIdMaterialsRoute = AppCasesCaseIdMaterialsRouteImport.update({
+  id: '/materials',
+  path: '/materials',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdObjectRoute = AppCasesCaseIdObjectRouteImport.update({
+  id: '/object',
+  path: '/object',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdQuestionsRoute = AppCasesCaseIdQuestionsRouteImport.update({
+  id: '/questions',
+  path: '/questions',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdReviewRoute = AppCasesCaseIdReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdSourcesRoute = AppCasesCaseIdSourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
+const AppCasesCaseIdSufficiencyRoute =
+  AppCasesCaseIdSufficiencyRouteImport.update({
+    id: '/sufficiency',
+    path: '/sufficiency',
+    getParentRoute: () => AppCasesCaseIdRoute,
+  } as any)
+const AppCasesCaseIdTriageRoute = AppCasesCaseIdTriageRouteImport.update({
+  id: '/triage',
+  path: '/triage',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
 const AppCasesDemoCaseMaterialsRoute =
   AppCasesDemoCaseMaterialsRouteImport.update({
     id: '/materials',
@@ -213,12 +287,24 @@ export interface FileRoutesByFullPath {
   '/register/success': typeof RegisterSuccessRoute
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
-  '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
+  '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
+  '/app/cases/$caseId/audit': typeof AppCasesCaseIdAuditRoute
+  '/app/cases/$caseId/draft': typeof AppCasesCaseIdDraftRoute
+  '/app/cases/$caseId/final': typeof AppCasesCaseIdFinalRoute
+  '/app/cases/$caseId/interview-plan': typeof AppCasesCaseIdInterviewPlanRoute
+  '/app/cases/$caseId/materials': typeof AppCasesCaseIdMaterialsRoute
+  '/app/cases/$caseId/object': typeof AppCasesCaseIdObjectRoute
+  '/app/cases/$caseId/questions': typeof AppCasesCaseIdQuestionsRoute
+  '/app/cases/$caseId/review': typeof AppCasesCaseIdReviewRoute
+  '/app/cases/$caseId/sources': typeof AppCasesCaseIdSourcesRoute
+  '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
+  '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
   '/app/cases/demo-case/materials': typeof AppCasesDemoCaseMaterialsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
@@ -242,12 +328,24 @@ export interface FileRoutesByTo {
   '/register/success': typeof RegisterSuccessRoute
   '/app': typeof AppIndexRoute
   '/register': typeof RegisterIndexRoute
-  '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases': typeof AppCasesIndexRoute
+  '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
+  '/app/cases/$caseId/audit': typeof AppCasesCaseIdAuditRoute
+  '/app/cases/$caseId/draft': typeof AppCasesCaseIdDraftRoute
+  '/app/cases/$caseId/final': typeof AppCasesCaseIdFinalRoute
+  '/app/cases/$caseId/interview-plan': typeof AppCasesCaseIdInterviewPlanRoute
+  '/app/cases/$caseId/materials': typeof AppCasesCaseIdMaterialsRoute
+  '/app/cases/$caseId/object': typeof AppCasesCaseIdObjectRoute
+  '/app/cases/$caseId/questions': typeof AppCasesCaseIdQuestionsRoute
+  '/app/cases/$caseId/review': typeof AppCasesCaseIdReviewRoute
+  '/app/cases/$caseId/sources': typeof AppCasesCaseIdSourcesRoute
+  '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
+  '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
   '/app/cases/demo-case/materials': typeof AppCasesDemoCaseMaterialsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
@@ -275,12 +373,24 @@ export interface FileRoutesById {
   '/register/success': typeof RegisterSuccessRoute
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
-  '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
   '/app/cases/': typeof AppCasesIndexRoute
+  '/app/cases/$caseId/approval': typeof AppCasesCaseIdApprovalRoute
+  '/app/cases/$caseId/audit': typeof AppCasesCaseIdAuditRoute
+  '/app/cases/$caseId/draft': typeof AppCasesCaseIdDraftRoute
+  '/app/cases/$caseId/final': typeof AppCasesCaseIdFinalRoute
+  '/app/cases/$caseId/interview-plan': typeof AppCasesCaseIdInterviewPlanRoute
+  '/app/cases/$caseId/materials': typeof AppCasesCaseIdMaterialsRoute
+  '/app/cases/$caseId/object': typeof AppCasesCaseIdObjectRoute
+  '/app/cases/$caseId/questions': typeof AppCasesCaseIdQuestionsRoute
+  '/app/cases/$caseId/review': typeof AppCasesCaseIdReviewRoute
+  '/app/cases/$caseId/sources': typeof AppCasesCaseIdSourcesRoute
+  '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
+  '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
   '/app/cases/demo-case/materials': typeof AppCasesDemoCaseMaterialsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
@@ -315,6 +425,18 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases/'
+    | '/app/cases/$caseId/approval'
+    | '/app/cases/$caseId/audit'
+    | '/app/cases/$caseId/draft'
+    | '/app/cases/$caseId/final'
+    | '/app/cases/$caseId/interview-plan'
+    | '/app/cases/$caseId/materials'
+    | '/app/cases/$caseId/object'
+    | '/app/cases/$caseId/questions'
+    | '/app/cases/$caseId/review'
+    | '/app/cases/$caseId/sources'
+    | '/app/cases/$caseId/sufficiency'
+    | '/app/cases/$caseId/triage'
     | '/app/cases/demo-case/materials'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
@@ -344,6 +466,18 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases'
+    | '/app/cases/$caseId/approval'
+    | '/app/cases/$caseId/audit'
+    | '/app/cases/$caseId/draft'
+    | '/app/cases/$caseId/final'
+    | '/app/cases/$caseId/interview-plan'
+    | '/app/cases/$caseId/materials'
+    | '/app/cases/$caseId/object'
+    | '/app/cases/$caseId/questions'
+    | '/app/cases/$caseId/review'
+    | '/app/cases/$caseId/sources'
+    | '/app/cases/$caseId/sufficiency'
+    | '/app/cases/$caseId/triage'
     | '/app/cases/demo-case/materials'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
@@ -376,6 +510,18 @@ export interface FileRouteTypes {
     | '/app/record/complete'
     | '/app/record/session'
     | '/app/cases/'
+    | '/app/cases/$caseId/approval'
+    | '/app/cases/$caseId/audit'
+    | '/app/cases/$caseId/draft'
+    | '/app/cases/$caseId/final'
+    | '/app/cases/$caseId/interview-plan'
+    | '/app/cases/$caseId/materials'
+    | '/app/cases/$caseId/object'
+    | '/app/cases/$caseId/questions'
+    | '/app/cases/$caseId/review'
+    | '/app/cases/$caseId/sources'
+    | '/app/cases/$caseId/sufficiency'
+    | '/app/cases/$caseId/triage'
     | '/app/cases/demo-case/materials'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
@@ -570,6 +716,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecordSessionRouteImport
       parentRoute: typeof AppRecordRoute
     }
+    '/app/cases/$caseId/approval': {
+      id: '/app/cases/$caseId/approval'
+      path: '/approval'
+      fullPath: '/app/cases/$caseId/approval'
+      preLoaderRoute: typeof AppCasesCaseIdApprovalRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/audit': {
+      id: '/app/cases/$caseId/audit'
+      path: '/audit'
+      fullPath: '/app/cases/$caseId/audit'
+      preLoaderRoute: typeof AppCasesCaseIdAuditRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/draft': {
+      id: '/app/cases/$caseId/draft'
+      path: '/draft'
+      fullPath: '/app/cases/$caseId/draft'
+      preLoaderRoute: typeof AppCasesCaseIdDraftRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/final': {
+      id: '/app/cases/$caseId/final'
+      path: '/final'
+      fullPath: '/app/cases/$caseId/final'
+      preLoaderRoute: typeof AppCasesCaseIdFinalRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/interview-plan': {
+      id: '/app/cases/$caseId/interview-plan'
+      path: '/interview-plan'
+      fullPath: '/app/cases/$caseId/interview-plan'
+      preLoaderRoute: typeof AppCasesCaseIdInterviewPlanRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/materials': {
+      id: '/app/cases/$caseId/materials'
+      path: '/materials'
+      fullPath: '/app/cases/$caseId/materials'
+      preLoaderRoute: typeof AppCasesCaseIdMaterialsRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/object': {
+      id: '/app/cases/$caseId/object'
+      path: '/object'
+      fullPath: '/app/cases/$caseId/object'
+      preLoaderRoute: typeof AppCasesCaseIdObjectRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/questions': {
+      id: '/app/cases/$caseId/questions'
+      path: '/questions'
+      fullPath: '/app/cases/$caseId/questions'
+      preLoaderRoute: typeof AppCasesCaseIdQuestionsRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/review': {
+      id: '/app/cases/$caseId/review'
+      path: '/review'
+      fullPath: '/app/cases/$caseId/review'
+      preLoaderRoute: typeof AppCasesCaseIdReviewRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/sources': {
+      id: '/app/cases/$caseId/sources'
+      path: '/sources'
+      fullPath: '/app/cases/$caseId/sources'
+      preLoaderRoute: typeof AppCasesCaseIdSourcesRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/sufficiency': {
+      id: '/app/cases/$caseId/sufficiency'
+      path: '/sufficiency'
+      fullPath: '/app/cases/$caseId/sufficiency'
+      preLoaderRoute: typeof AppCasesCaseIdSufficiencyRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
+    '/app/cases/$caseId/triage': {
+      id: '/app/cases/$caseId/triage'
+      path: '/triage'
+      fullPath: '/app/cases/$caseId/triage'
+      preLoaderRoute: typeof AppCasesCaseIdTriageRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
     '/app/cases/demo-case/materials': {
       id: '/app/cases/demo-case/materials'
       path: '/materials'
@@ -608,6 +838,40 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppCasesCaseIdRouteChildren {
+  AppCasesCaseIdApprovalRoute: typeof AppCasesCaseIdApprovalRoute
+  AppCasesCaseIdAuditRoute: typeof AppCasesCaseIdAuditRoute
+  AppCasesCaseIdDraftRoute: typeof AppCasesCaseIdDraftRoute
+  AppCasesCaseIdFinalRoute: typeof AppCasesCaseIdFinalRoute
+  AppCasesCaseIdInterviewPlanRoute: typeof AppCasesCaseIdInterviewPlanRoute
+  AppCasesCaseIdMaterialsRoute: typeof AppCasesCaseIdMaterialsRoute
+  AppCasesCaseIdObjectRoute: typeof AppCasesCaseIdObjectRoute
+  AppCasesCaseIdQuestionsRoute: typeof AppCasesCaseIdQuestionsRoute
+  AppCasesCaseIdReviewRoute: typeof AppCasesCaseIdReviewRoute
+  AppCasesCaseIdSourcesRoute: typeof AppCasesCaseIdSourcesRoute
+  AppCasesCaseIdSufficiencyRoute: typeof AppCasesCaseIdSufficiencyRoute
+  AppCasesCaseIdTriageRoute: typeof AppCasesCaseIdTriageRoute
+}
+
+const AppCasesCaseIdRouteChildren: AppCasesCaseIdRouteChildren = {
+  AppCasesCaseIdApprovalRoute: AppCasesCaseIdApprovalRoute,
+  AppCasesCaseIdAuditRoute: AppCasesCaseIdAuditRoute,
+  AppCasesCaseIdDraftRoute: AppCasesCaseIdDraftRoute,
+  AppCasesCaseIdFinalRoute: AppCasesCaseIdFinalRoute,
+  AppCasesCaseIdInterviewPlanRoute: AppCasesCaseIdInterviewPlanRoute,
+  AppCasesCaseIdMaterialsRoute: AppCasesCaseIdMaterialsRoute,
+  AppCasesCaseIdObjectRoute: AppCasesCaseIdObjectRoute,
+  AppCasesCaseIdQuestionsRoute: AppCasesCaseIdQuestionsRoute,
+  AppCasesCaseIdReviewRoute: AppCasesCaseIdReviewRoute,
+  AppCasesCaseIdSourcesRoute: AppCasesCaseIdSourcesRoute,
+  AppCasesCaseIdSufficiencyRoute: AppCasesCaseIdSufficiencyRoute,
+  AppCasesCaseIdTriageRoute: AppCasesCaseIdTriageRoute,
+}
+
+const AppCasesCaseIdRouteWithChildren = AppCasesCaseIdRoute._addFileChildren(
+  AppCasesCaseIdRouteChildren,
+)
+
 interface AppCasesDemoCaseRouteChildren {
   AppCasesDemoCaseMaterialsRoute: typeof AppCasesDemoCaseMaterialsRoute
 }
@@ -620,7 +884,7 @@ const AppCasesDemoCaseRouteWithChildren =
   AppCasesDemoCaseRoute._addFileChildren(AppCasesDemoCaseRouteChildren)
 
 interface AppCasesRouteChildren {
-  AppCasesCaseIdRoute: typeof AppCasesCaseIdRoute
+  AppCasesCaseIdRoute: typeof AppCasesCaseIdRouteWithChildren
   AppCasesContinueRoute: typeof AppCasesContinueRoute
   AppCasesDemoCaseRoute: typeof AppCasesDemoCaseRouteWithChildren
   AppCasesIndexRoute: typeof AppCasesIndexRoute
@@ -631,7 +895,7 @@ interface AppCasesRouteChildren {
 }
 
 const AppCasesRouteChildren: AppCasesRouteChildren = {
-  AppCasesCaseIdRoute: AppCasesCaseIdRoute,
+  AppCasesCaseIdRoute: AppCasesCaseIdRouteWithChildren,
   AppCasesContinueRoute: AppCasesContinueRoute,
   AppCasesDemoCaseRoute: AppCasesDemoCaseRouteWithChildren,
   AppCasesIndexRoute: AppCasesIndexRoute,
