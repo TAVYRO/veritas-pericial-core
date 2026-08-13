@@ -11,10 +11,10 @@ import { PROFESSIONALS } from "@/features/cases/mock-professionals";
 
 export const Route = createFileRoute("/app/cases/new/document-type")({
   validateSearch: (search) => z.object({
-    mode: z.enum(["automatic", "guided"]).optional(),
-    caseNumber: z.string().optional(),
-    professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema.optional(),
+    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+    caseNumber: z.string().optional().catch(undefined),
+    professionals: z.array(z.string()).optional().catch(undefined),
+    docType: documentTypeIdSchema.optional().catch(undefined),
   }).parse(search),
   component: DocumentTypePage,
 });
