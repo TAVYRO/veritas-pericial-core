@@ -52,11 +52,11 @@ const mockCases = [
   {
     id: "0009842-15.2025.8.16.0000",
     type: "Interdição e Curatela",
-    specialty: "Perícia Médica",
+    specialty: "Estudo Social",
     status: "Finalizados",
     court: "Vara Cível de Maringá",
     deadline: "10/05/2026",
-    lastActivity: "Laudo protocolado",
+    lastActivity: "Versão final aprovada",
     statusColor: "bg-green-500/20 text-green-400 border-green-500/30",
   },
   {
@@ -66,13 +66,13 @@ const mockCases = [
     status: "Revisão",
     court: "1ª Vara de Família de Cascavel",
     deadline: "05/09/2026",
-    lastActivity: "Análise Veritas concluída",
+    lastActivity: "Processamento Veritas concluído",
     statusColor: "bg-purple-500/20 text-purple-400 border-purple-500/30",
   },
   {
     id: "0007733-44.2025.8.16.0030",
     type: "Indenização por Danos Morais",
-    specialty: "Perícia Grafotécnica",
+    specialty: "Parecer Social",
     status: "Análise",
     court: "Vara Cível de Foz do Iguaçu",
     deadline: "12/09/2026",
@@ -90,7 +90,7 @@ function CasesPage() {
     : mockCases.filter(c => c.status === activeFilter || (activeFilter === "Ativos" && c.status !== "Finalizados"));
 
   return (
-    <div className="min-h-screen veritas-hero-gradient pb-24 text-white">
+    <div className="min-h-screen veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)]">
       {/* Header */}
       <header className="px-6 pt-6 flex flex-col gap-6 mb-6">
         <div className="flex items-center justify-between">
