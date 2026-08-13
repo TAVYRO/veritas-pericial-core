@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { CheckCircle2, ShieldAlert, Signature, UserCheck } from "lucide-react";
+import { CheckCircle2, ShieldAlert, UserCheck } from "lucide-react";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { cn } from "@/lib/utils";
 

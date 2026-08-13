@@ -6,12 +6,7 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import {
-	type CaseData,
-	type CaseWorkflowState,
-	DocumentTypeId,
-	SignatureAuthorization,
-} from "./case-types";
+import type { CaseData, CaseWorkflowState } from "./case-types";
 import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 
 interface CaseWorkflowContextType {
