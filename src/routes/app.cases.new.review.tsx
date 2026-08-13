@@ -5,7 +5,7 @@ import { ChevronRight, FileText, User, Scale, Activity, AlertCircle, Layout } fr
 import { Button } from "@/components/ui/button";
 import { getDocumentTypeById } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
-import { useCaseWorkflow } from "@/features/cases/useCaseWorkflow";
+import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
