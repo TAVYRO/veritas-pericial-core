@@ -110,7 +110,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         /^SEC(\d+)$/
       );
 
-      let currentParagraphsIds = doc.sections.flatMap(s => s.paragraphs.map(p => p.id));
+      const currentParagraphsIds = doc.sections.flatMap(s => s.paragraphs.map(p => p.id));
       const normalizedParagraphs: CaseDocumentParagraph[] = [];
 
       input.paragraphs.forEach(p => {
@@ -161,9 +161,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        id: section.id,
-        title: newTitle,
-        paragraphs: section.paragraphs
+        ...section,
+        title: newTitle
       };
 
       return {
@@ -215,8 +214,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        id: section.id,
-        title: section.title,
+        ...section,
         paragraphs: [...section.paragraphs, newParagraph]
       };
 
@@ -272,14 +270,13 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedSections = [...doc.sections];
       const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
-        id: currentParagraph.id,
+        ...currentParagraph,
         text: newText,
         traceability: newTraceability,
         editorialMarker: newEditorialMarker
       };
       updatedSections[targetSectionIndex] = {
-        id: section.id,
-        title: section.title,
+        ...section,
         paragraphs: updatedParagraphs
       };
 
@@ -302,8 +299,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         if (nextParagraphs.length !== s.paragraphs.length) {
           found = true;
           return {
-            id: s.id,
-            title: s.title,
+            ...s,
             paragraphs: nextParagraphs
           };
         }
