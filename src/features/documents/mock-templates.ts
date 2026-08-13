@@ -1,3 +1,4 @@
+import type { DocumentTypeId } from "../cases/case-types";
 import { DocumentTemplate } from "./template-types";
 
 export const MOCK_TEMPLATES: DocumentTemplate[] = [
