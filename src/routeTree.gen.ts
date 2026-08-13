@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OfflineRouteImport } from './routes/offline'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppCasesRouteImport } from './routes/app.cases'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
@@ -62,6 +63,11 @@ const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppCasesRoute = AppCasesRouteImport.update({
   id: '/cases',
@@ -136,12 +142,12 @@ export interface FileRoutesByFullPath {
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app/': typeof AppIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/offline': typeof OfflineRoute
@@ -156,6 +162,7 @@ export interface FileRoutesByTo {
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app': typeof AppIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -177,6 +184,7 @@ export interface FileRoutesById {
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app/': typeof AppIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -199,12 +207,12 @@ export interface FileRouteTypes {
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app/'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/forgot-password'
     | '/login'
     | '/offline'
@@ -219,6 +227,7 @@ export interface FileRouteTypes {
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   id:
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app/'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   fileRoutesById: FileRoutesById
@@ -303,6 +313,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/app/cases': {
       id: '/app/cases'
@@ -405,6 +422,7 @@ interface AppRouteChildren {
   AppRecordRoute: typeof AppRecordRoute
   AppSearchRoute: typeof AppSearchRoute
   AppVeritasRoute: typeof AppVeritasRoute
+  AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -414,6 +432,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppRecordRoute: AppRecordRoute,
   AppSearchRoute: AppSearchRoute,
   AppVeritasRoute: AppVeritasRoute,
+  AppIndexRoute: AppIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
