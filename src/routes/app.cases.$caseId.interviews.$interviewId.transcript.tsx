@@ -4,9 +4,7 @@ import {
   Pause, 
   SkipBack, 
   SkipForward, 
-  MessageSquare, 
   Clock, 
-  User,
   AlertCircle,
   CheckCircle2,
   ChevronLeft
@@ -32,7 +30,6 @@ function TranscriptPage() {
 
   return (
     <div className="flex flex-col h-full bg-[#0A0D14]">
-      {/* Header */}
       <div className="p-4 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link 
@@ -54,7 +51,6 @@ function TranscriptPage() {
         </div>
       </div>
 
-      {/* Transcript Content */}
       <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-32">
         {TRANSCRIPT_DATA.map((entry, index) => (
           <div key={index} className="flex gap-4 group">
@@ -69,10 +65,9 @@ function TranscriptPage() {
             
             <div className="flex-1 space-y-1">
               <div className="flex items-center gap-2">
-                <span className={cn(
-                  "text-[10px] font-bold uppercase tracking-widest",
+                <span className={`text-[10px] font-bold uppercase tracking-widest ${
                   entry.speaker === "Perita" ? "text-veritas-electric" : "text-veritas-violet"
-                )}>
+                }`}>
                   {entry.speaker}
                 </span>
                 {entry.text.includes("[trecho inaudível]") && (
@@ -89,10 +84,8 @@ function TranscriptPage() {
         ))}
       </div>
 
-      {/* Floating Audio Player */}
       <div className="fixed bottom-24 left-6 right-6 p-4 bg-veritas-graphite/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-50">
         <div className="flex flex-col gap-3">
-          {/* Progress Bar */}
           <div className="relative h-1 w-full bg-white/10 rounded-full overflow-hidden">
             <div className="absolute top-0 left-0 h-full w-1/3 bg-veritas-electric shadow-[0_0_10px_rgba(60,130,246,0.5)]" />
           </div>
@@ -124,8 +117,4 @@ function TranscriptPage() {
       </div>
     </div>
   );
-}
-
-function cn(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
 }
