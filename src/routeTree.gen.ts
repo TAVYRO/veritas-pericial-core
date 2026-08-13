@@ -16,6 +16,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RegisterProfessionalRouteImport } from './routes/register.professional'
+import { Route as RegisterProfileRouteImport } from './routes/register.profile'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const RegisterProfessionalRoute = RegisterProfessionalRouteImport.update({
   path: '/professional',
   getParentRoute: () => RegisterRoute,
 } as any)
+const RegisterProfileRoute = RegisterProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => RegisterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
+  '/register/profile': typeof RegisterProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
+  '/register/profile': typeof RegisterProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
+  '/register/profile': typeof RegisterProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/register/professional'
+    | '/register/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/register/professional'
+    | '/register/profile'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/register'
     | '/register/professional'
+    | '/register/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,15 +183,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterProfessionalRouteImport
       parentRoute: typeof RegisterRoute
     }
+    '/register/profile': {
+      id: '/register/profile'
+      path: '/profile'
+      fullPath: '/register/profile'
+      preLoaderRoute: typeof RegisterProfileRouteImport
+      parentRoute: typeof RegisterRoute
+    }
   }
 }
 
 interface RegisterRouteChildren {
   RegisterProfessionalRoute: typeof RegisterProfessionalRoute
+  RegisterProfileRoute: typeof RegisterProfileRoute
 }
 
 const RegisterRouteChildren: RegisterRouteChildren = {
   RegisterProfessionalRoute: RegisterProfessionalRoute,
+  RegisterProfileRoute: RegisterProfileRoute,
 }
 
 const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
