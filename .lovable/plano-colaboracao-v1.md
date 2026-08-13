@@ -448,6 +448,9 @@ Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
 
 Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem ser removidas por microetapas posteriores. Correções devem preservar registros anteriores.
 
+**Regra de concorrência de baseline:** se um commit externo ocorrer entre o baseline declarado e a execução de uma microetapa, a etapa não pode ser fechada pelo diff bruto original. A alteração externa deve ser identificada, isolada e registrada antes do fechamento.
+
+
 | ETAPA | STATUS | BASELINE INICIAL | HEAD VALIDADO | ARQUIVOS | OBSERVAÇÕES |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | C0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | fcc99b4afa977364064353eca56df35ff4493b68 | ZERO | Auditoria read-only |
@@ -461,6 +464,8 @@ Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem se
 | C2.3 | CLOSED | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | src/features/collaboration/case-member-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa técnica aprovada; CaseMember + roles mínimos validados. |
 | C2.3.1 | CLOSED | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; trilha histórica restaurada e regra anti-perda validada. |
 | C2.4 | CLOSED | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | src/features/collaboration/case-permission-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; vocabulário de 14 permissões e formato de política validados; nenhuma matriz concreta criada. |
-| C2.5 | AUDIT_REQUIRED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | PENDENTE | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Contratos Chat/Comment/Activity; pendente de auditoria externa. |
-| C3.1 | BLOCKED | PENDENTE | PENDENTE | - | Gate de infraestrutura depende de C2.5 CLOSED. Não executar C3.1. |
-| C3+ | PLANNED/BLOCKED | - | - | - | Conforme dependência. Gate C3 depende de C2.5 CLOSED. |
+| C2.5 | AUDIT_REQUIRED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | PENDENTE | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Implementação técnica validada isoladamente no intervalo 54aed1ab58aa86efa69e7c5210db609a6bbc0d01 → a20041c01b1a9e1b286796b184fe763407636e74 com somente os quatro arquivos autorizados. O baseline original recebeu commit externo intermediário 54aed1ab58aa86efa69e7c5210db609a6bbc0d01, que alterou apenas src/styles.css. Fechamento formal depende da C2.5.1. |
+| C2.5.1 | AUDIT_REQUIRED | a20041c01b1a9e1b286796b184fe763407636e74 | PENDENTE | .lovable/plano-colaboracao-v1.md | Reconciliação documental de commit externo intermediário entre o baseline original e a implementação da C2.5; pendente de auditoria externa. |
+| C3.1 | BLOCKED | PENDENTE | PENDENTE | - | Gate de infraestrutura depende do fechamento formal de C2.5 e C2.5.1. Não executar C3.1. |
+| C3+ | PLANNED/BLOCKED | - | - | - | Conforme dependência. Gate C3 depende de C2.5 e C2.5.1 CLOSED. |
+
