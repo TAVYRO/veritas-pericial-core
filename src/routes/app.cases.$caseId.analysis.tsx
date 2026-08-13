@@ -1,12 +1,90 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Database, ArrowDown, Share2, AlertCircle, Info, CheckCircle2, FlaskConical, Users, Zap } from "lucide-react";
+import { createFileRoute, useParams, Link } from "@tanstack/react-router";
+import { 
+  Database, 
+  Share2, 
+  AlertCircle, 
+  Info, 
+  CheckCircle2, 
+  FlaskConical, 
+  Users, 
+  Zap,
+  ShieldAlert,
+  ArrowRight
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
+import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
+import { evaluateCaseSufficiency } from "@/features/cases/case-sufficiency";
 
 export const Route = createFileRoute("/app/cases/$caseId/analysis")({
   component: AnalysisPage,
 });
 
 function AnalysisPage() {
+  const { caseId } = useParams({ from: "/app/cases/$caseId/analysis" });
+  const { getDossier } = useCaseDossier();
+  const { getCase } = useCaseWorkflow();
+
+  const dossier = getDossier(caseId);
+  const caseData = getCase(caseId);
+
+  if (!dossier || !caseData) {
+    return (
+      <div className="p-6 flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
+        <AlertCircle className="w-12 h-12 text-white/20" />
+        <p className="text-white/60">Dossiê indisponível para este caso.</p>
+      </div>
+    );
+  }
+
+  const evaluation = evaluateCaseSufficiency(caseData, dossier);
+
+  if (!evaluation.isSufficient) {
+    return (
+      <div className="p-6 space-y-8 animate-fade-in">
+        <header className="space-y-1">
+          <h2 className="text-xl font-bold text-white tracking-tight">Análise indisponível</h2>
+          <p className="text-xs text-white/40">O Gate de Suficiência ainda possui pendências.</p>
+        </header>
+
+        <div className="bg-rose-500/5 border border-rose-500/10 rounded-2xl p-6 flex flex-col items-center text-center space-y-6">
+          <div className="w-16 h-16 rounded-full bg-rose-500/10 flex items-center justify-center">
+            <ShieldAlert className="w-8 h-8 text-rose-500" aria-hidden="true" />
+          </div>
+          
+          <div className="space-y-2">
+            <p className="text-sm font-bold text-white">Requisitos Pendentes</p>
+            <p className="text-xs text-white/60">
+              {evaluation.missingCount} critério(s) requer(em) atenção antes de iniciar a análise.
+            </p>
+          </div>
+
+          <div className="w-full space-y-2">
+            <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-white/40 px-1">
+              <span>Progresso Atual</span>
+              <span>{evaluation.progress}%</span>
+            </div>
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden" role="progressbar" aria-valuenow={evaluation.progress} aria-valuemin={0} aria-valuemax={100} aria-label="Progresso de suficiência">
+              <div 
+                className="h-full bg-rose-500 transition-all duration-500" 
+                style={{ width: `${evaluation.progress}%` }}
+              />
+            </div>
+          </div>
+
+          <Link 
+            to="/app/cases/$caseId/sufficiency" 
+            params={{ caseId }}
+            className="w-full bg-white text-black py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-white/90 transition-colors"
+          >
+            Revisar Gate de Suficiência
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-8 pb-32">
       <header className="space-y-1">
