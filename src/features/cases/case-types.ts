@@ -1,12 +1,7 @@
-export type DocumentTypeId =
-  | "laudo-psicologico"
-  | "relatorio-psicologico"
-  | "parecer-psicologico"
-  | "estudo-laudo-social"
-  | "parecer-social"
-  | "relatorio-psicossocial"
-  | "relatorio-multiprofissional"
-  | "laudo-multiprofissional";
+import type { DocumentTypeId } from "../documents/document-type-ids";
+import type { TemplateId } from "../documents/template-ids";
+
+export type { DocumentTypeId };
 
 export interface CaseProfessional {
 	id: string;

@@ -7,7 +7,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MOCK_TEMPLATES, getTemplatesForDocumentType } from "@/features/documents/mock-templates";
 import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
-import type { TemplateId } from "@/features/documents/template-types";
+import type { TemplateId } from "@/features/documents/template-ids";
 
 export const Route = createFileRoute("/app/cases/new/template")({
   validateSearch: (search) => z.object({

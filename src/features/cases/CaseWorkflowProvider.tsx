@@ -7,7 +7,7 @@ import {
 	useState,
 } from "react";
 import type { CaseData, CaseWorkflowState, DocumentTypeId, DocumentVersionRef, CaseProfessional } from "./case-types";
-import type { TemplateId } from "../documents/template-types";
+import type { TemplateId } from "../documents/template-ids";
 import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 
 interface CaseWorkflowContextType {

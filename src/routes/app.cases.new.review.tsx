@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
-import type { TemplateId } from "@/features/documents/template-types";
+import type { TemplateId } from "@/features/documents/template-ids";
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
