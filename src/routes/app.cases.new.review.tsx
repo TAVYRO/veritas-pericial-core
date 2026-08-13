@@ -13,7 +13,7 @@ export const Route = createFileRoute("/app/cases/new/review")({
     mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema,
+    docType: documentTypeIdSchema.optional(),
     templateId: z.string().optional(),
   }).parse(search),
   component: ReviewPage,
