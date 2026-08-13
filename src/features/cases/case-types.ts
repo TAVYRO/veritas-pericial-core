@@ -47,7 +47,7 @@ export interface SignatureAuthorization {
 export interface CaseWorkflowState {
 	caseId: string;
 	documentType: DocumentTypeId;
-	templateId: string | null;
+	templateId: TemplateId | null;
 	currentVersion: DocumentVersionRef;
 	sufficiencyApproved: boolean;
 	auditApproved: boolean;
