@@ -45,7 +45,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [documents, setDocuments] = useState<Record<string, CaseDocumentVersion>>({});
 
   const getDocument = useCallback((caseId: string, versionId: string) => {
-    return documents[makeDocumentKey(caseId, versionId)];
+    const key = makeDocumentKey(caseId, versionId);
+    return documents[key];
   }, [documents]);
 
   const ensureDocument = useCallback((caseId: string, versionId: string) => {
@@ -160,9 +161,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        id: section.id,
-        title: newTitle,
-        paragraphs: section.paragraphs
+        ...section,
+        title: newTitle
       };
 
       return {
@@ -214,8 +214,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        id: section.id,
-        title: section.title,
+        ...section,
         paragraphs: [...section.paragraphs, newParagraph]
       };
 
@@ -271,14 +270,13 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedSections = [...doc.sections];
       const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
-        id: currentParagraph.id,
+        ...currentParagraph,
         text: newText,
         traceability: newTraceability,
         editorialMarker: newEditorialMarker
       };
       updatedSections[targetSectionIndex] = {
-        id: section.id,
-        title: section.title,
+        ...section,
         paragraphs: updatedParagraphs
       };
 
@@ -301,8 +299,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         if (nextParagraphs.length !== s.paragraphs.length) {
           found = true;
           return {
-            id: s.id,
-            title: s.title,
+            ...s,
             paragraphs: nextParagraphs
           };
         }
@@ -318,7 +315,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   }, []);
 
-  const value = {
+  const value: CaseDocumentContextType = {
     getDocument,
     ensureDocument,
     removeDocument,
