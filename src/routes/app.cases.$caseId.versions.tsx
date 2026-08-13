@@ -21,7 +21,7 @@ export const Route = createFileRoute("/app/cases/$caseId/versions")({
 
 function VersionsCentral() {
   const { caseId } = Route.useParams();
-  const { getCase, getWorkflow, createNextVersion } = useCaseWorkflow();
+  const { getCase, getWorkflow, canCreateNextVersion, createNextVersion } = useCaseWorkflow();
   const caseData = getCase(caseId);
   const workflow = getWorkflow(caseId);
   
@@ -42,13 +42,14 @@ function VersionsCentral() {
   const sortedVersions = [...workflow.versions].sort((a, b) => b.number - a.number);
 
   const handleCreateVersion = () => {
-    const success = createNextVersion(caseId);
-    if (success) {
-      setShowConfirm(false);
-      setError(null);
-    } else {
+    if (!canCreateNextVersion(caseId)) {
       setError("Não foi possível criar uma nova versão com segurança.");
+      return;
     }
+
+    createNextVersion(caseId);
+    setShowConfirm(false);
+    setError(null);
   };
 
   const getStatusLabel = (status: string, isCurrent: boolean, finalReleased: boolean) => {
