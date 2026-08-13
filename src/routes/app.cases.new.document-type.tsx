@@ -3,9 +3,10 @@ import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, Check, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { DOCUMENT_TYPES, getDocumentTypesByDiscipline } from "@/features/documents/document-types";
+import { DOCUMENT_TYPES, getDocumentTypesByDiscipline, documentTypeIdSchema } from "@/features/documents/document-types";
+import type { DocumentTypeId } from "@/features/cases/case-types";
 import { PROFESSIONALS } from "@/features/cases/mock-professionals";
 
 export const Route = createFileRoute("/app/cases/new/document-type")({
@@ -13,13 +14,20 @@ export const Route = createFileRoute("/app/cases/new/document-type")({
     mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
+    docType: documentTypeIdSchema.optional(),
   }).parse(search),
   component: DocumentTypePage,
 });
 
 function DocumentTypePage() {
-  const { mode, caseNumber, professionals: selectedProfIds = [] } = Route.useSearch();
-  const [selectedId, setSelectedId] = useState("");
+  const { mode, caseNumber, professionals: selectedProfIds = [], docType } = Route.useSearch();
+  const [selectedId, setSelectedId] = useState<DocumentTypeId | "">(docType || "");
+
+  useEffect(() => {
+    if (docType) {
+      setSelectedId(docType);
+    }
+  }, [docType]);
 
   const selectedProfs = selectedProfIds.map(id => PROFESSIONALS.find(p => p.id === id)).filter(Boolean);
   const disciplines = new Set(selectedProfs.map(p => p?.discipline));

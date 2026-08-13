@@ -6,24 +6,25 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MOCK_TEMPLATES, getTemplatesForDocumentType } from "@/features/documents/mock-templates";
-import { getDocumentTypeById } from "@/features/documents/document-types";
+import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
+import type { TemplateId } from "@/features/documents/template-types";
 
 export const Route = createFileRoute("/app/cases/new/template")({
   validateSearch: (search) => z.object({
     mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
-    docType: z.string().optional(),
+    docType: documentTypeIdSchema,
   }).parse(search),
   component: SelectTemplatePage,
 });
 
 function SelectTemplatePage() {
   const { mode, caseNumber, professionals = [], docType } = Route.useSearch();
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<TemplateId | "">("");
 
-  const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
-  const compatibleTemplates = docType ? getTemplatesForDocumentType(docType) : [];
+  const docTypeInfo = getDocumentTypeById(docType);
+  const compatibleTemplates = getTemplatesForDocumentType(docType);
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -33,7 +34,7 @@ function SelectTemplatePage() {
         <div className="flex items-center justify-between mb-4">
           <Link 
             to="/app/cases/new/document-type" 
-            search={{ mode, caseNumber, professionals }} 
+            search={{ mode, caseNumber, professionals, docType }} 
             className="text-white/40 hover:text-white transition-colors"
           >
             Voltar
@@ -98,7 +99,7 @@ function SelectTemplatePage() {
 
                 <div className="pt-2 flex flex-wrap gap-2">
                   <span className="text-[9px] uppercase tracking-wider font-bold bg-white/5 px-2 py-1 rounded text-white/40 border border-white/5">
-                    Ref: {template.sourceModel}
+                    Estrutura Veritas
                   </span>
                   <span className="text-[9px] uppercase tracking-wider font-bold bg-veritas-violet/10 px-2 py-1 rounded text-veritas-violet/80 border border-veritas-violet/20">
                     {template.scope === 'multiprofessional' ? 'Multiprofissional' : 'Geral'}

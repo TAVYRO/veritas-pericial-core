@@ -21,6 +21,6 @@ export const MOCK_TEMPLATES: DocumentTemplate[] = [
   }
 ];
 
-export function getTemplatesForDocumentType(documentTypeId: string): DocumentTemplate[] {
-  return MOCK_TEMPLATES.filter(t => t.supportedDocumentTypes.includes(documentTypeId as any));
+export function getTemplatesForDocumentType(documentTypeId: DocumentTypeId): DocumentTemplate[] {
+  return MOCK_TEMPLATES.filter(t => t.supportedDocumentTypes.includes(documentTypeId));
 }

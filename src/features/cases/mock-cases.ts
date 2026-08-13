@@ -38,7 +38,7 @@ export const INITIAL_WORKFLOWS: Record<string, CaseWorkflowState> = {
 	"demo-case": {
 		caseId: "demo-case",
 		documentType: "relatorio-psicossocial",
-		templateId: "mock-template-id",
+		templateId: "veritas-multiprofessional",
 		currentVersion: {
 			id: "v01",
 			number: 1,
