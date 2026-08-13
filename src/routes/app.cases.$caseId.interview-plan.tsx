@@ -388,7 +388,7 @@ function CaseInterviewPlanPage() {
 
                 {interview.questionIds.length > 0 && (
                     <div className="flex items-start gap-3">
-                        <ArrowRight className="w-3.5 h-3.5 text-white/20 mt-0.5" />
+                        <Clock className="w-3.5 h-3.5 text-white/20 mt-0.5" />
                         <div className="space-y-0.5">
                             <p className="text-[9px] text-white/40 uppercase tracking-widest font-bold">Perguntas Vinculadas</p>
                             <p className="text-[10px] text-white/60">
