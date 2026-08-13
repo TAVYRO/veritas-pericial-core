@@ -66,8 +66,8 @@ function FinalPage() {
       <div className="p-6 bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex items-center gap-4">
         <CheckCircle2 className="w-8 h-8 text-emerald-400 shrink-0" />
         <div>
-          <h4 className="text-sm font-bold text-white">Pronto para Protocolo</h4>
-          <p className="text-xs text-white/60 leading-relaxed">Documento validado tecnicamente e assinado pelos profissionais responsáveis.</p>
+          <h4 className="text-sm font-bold text-white">Documento final pronto para entrega</h4>
+          <p className="text-xs text-white/60 leading-relaxed">Versão final aprovada e preparada para utilização pela profissional responsável.</p>
         </div>
       </div>
     </div>
