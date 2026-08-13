@@ -155,7 +155,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const sectionIndex = doc.sections.findIndex(s => s.id === sectionId);
       if (sectionIndex === -1) return prev;
 
-      const section = doc.sections[sectionIndex];
+      const section = doc.sections[sectionIndex]!;
       const newTitle = title !== undefined ? title : section.title;
       if (section.title === newTitle) return prev;
 
