@@ -12,10 +12,10 @@ import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 interface CaseWorkflowContextType {
 	getCase: (caseId: string) => CaseData | undefined;
 	getWorkflow: (caseId: string) => CaseWorkflowState | undefined;
-	updateCase: (caseId: string, patch: Partial<CaseData>) => void;
-	updateWorkflow: (caseId: string, patch: Partial<CaseWorkflowState>) => void;
+	updateCase: (caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "professionals">) => void;
 	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
 	setTemplate: (caseId: string, templateId: string | null) => void;
+	setProfessionals: (caseId: string, professionals: CaseProfessional[]) => void;
 	setCurrentVersion: (caseId: string, version: DocumentVersionRef) => void;
 	setAuditApproved: (caseId: string, approved: boolean) => void;
 	setProfessionalReviewApproved: (caseId: string, approved: boolean) => void;
@@ -67,27 +67,17 @@ export function CaseWorkflowProvider({
 		[workflows],
 	);
 
-	const invalidateFinalIfNecessary = useCallback((caseId: string) => {
-		setWorkflows(prev => {
-			const workflow = prev[caseId];
-			if (!workflow || !workflow.finalReleased) return prev;
-			
-			// We can't easily calculate areRequiredSignaturesAuthorized here without recursion 
-			// or passing more data. We'll handle invalidation inside each setter for simplicity 
-			// and correctness in this phase.
-			return prev;
-		});
-	}, []);
-
-	const updateCase = useCallback((caseId: string, patch: Partial<CaseData>) => {
+	const updateCaseData = useCallback((caseId: string, patch: Partial<CaseData>) => {
 		setCases(prev => {
 			const current = prev[caseId];
 			if (!current) return prev;
 			return { ...prev, [caseId]: { ...current, ...patch } };
 		});
-		// If critical fields change, we should probably invalidate final, 
-		// but CaseData fields are mostly static after creation in this phase.
 	}, []);
+
+	const updateCase = useCallback((caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "professionals">) => {
+		updateCaseData(caseId, patch);
+	}, [updateCaseData]);
 
 	const updateWorkflow = useCallback(
 		(caseId: string, patch: Partial<CaseWorkflowState>) => {
@@ -102,7 +92,9 @@ export function CaseWorkflowProvider({
 					(patch.auditApproved === false && current.auditApproved === true) ||
 					(patch.professionalReviewApproved === false && current.professionalReviewApproved === true) ||
 					(patch.caseIsolationConfirmed === false && current.caseIsolationConfirmed === true) ||
-					(patch.currentVersion && patch.currentVersion.id !== current.currentVersion.id);
+					(patch.currentVersion && patch.currentVersion.id !== current.currentVersion.id) ||
+					(patch.documentType && patch.documentType !== current.documentType) ||
+					(patch.templateId && patch.templateId !== current.templateId);
 
 				if (criticalFieldsChanged && nextWorkflow.finalReleased) {
 					nextWorkflow.finalReleased = false;
@@ -118,12 +110,29 @@ export function CaseWorkflowProvider({
 	);
 
 	const setDocumentType = useCallback((caseId: string, documentType: DocumentTypeId, modality: string) => {
-		updateCase(caseId, { documentType, modality });
+		updateCaseData(caseId, { documentType, modality });
 		updateWorkflow(caseId, { documentType });
-	}, [updateCase, updateWorkflow]);
+	}, [updateCaseData, updateWorkflow]);
 
 	const setTemplate = useCallback((caseId: string, templateId: string | null) => {
 		updateWorkflow(caseId, { templateId });
+	}, [updateWorkflow]);
+
+	const setProfessionals = useCallback((caseId: string, professionals: CaseProfessional[]) => {
+		setCases(prev => {
+			const current = prev[caseId];
+			if (!current) return prev;
+			
+			// Detect changes in required signers to invalidate final
+			const currentRequiredIds = current.professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
+			const nextRequiredIds = professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
+			
+			if (currentRequiredIds !== nextRequiredIds) {
+				updateWorkflow(caseId, { finalReleased: false });
+			}
+			
+			return { ...prev, [caseId]: { ...current, professionals } };
+		});
 	}, [updateWorkflow]);
 
 	const setCurrentVersion = useCallback((caseId: string, version: DocumentVersionRef) => {
@@ -284,9 +293,9 @@ export function CaseWorkflowProvider({
 			getCase,
 			getWorkflow,
 			updateCase,
-			updateWorkflow,
 			setDocumentType,
 			setTemplate,
+			setProfessionals,
 			setCurrentVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
@@ -304,9 +313,9 @@ export function CaseWorkflowProvider({
 			getCase,
 			getWorkflow,
 			updateCase,
-			updateWorkflow,
 			setDocumentType,
 			setTemplate,
+			setProfessionals,
 			setCurrentVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
