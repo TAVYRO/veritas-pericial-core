@@ -2,7 +2,7 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import { AlertCircle, CheckCircle2, Circle, FileText, Info, Lock } from "lucide-react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { Button } from "@/components/ui/button";
-import { TraceabilityMarker } from "@/components/veritas/TraceabilityMarker";
+
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/cases/$caseId/triage")({
