@@ -27,7 +27,7 @@ function DocumentTypePage() {
   const hasPsychology = disciplines.has("psychology");
   const hasSocialWork = disciplines.has("social-work");
 
-  let availableOptions = [];
+  let availableOptions: typeof DOCUMENT_TYPES = [];
   if (hasPsychology && hasSocialWork) {
     availableOptions = [
       ...getDocumentTypesByDiscipline("multiprofessional"),
