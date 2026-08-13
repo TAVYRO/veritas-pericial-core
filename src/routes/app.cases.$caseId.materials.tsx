@@ -130,22 +130,7 @@ function CaseMaterialsPage() {
 
   const handleRegister = () => {
     addDossierItem(caseId, formData);
-    setIsFormOpen(false);
-    setIsReviewMode(false);
-    setFormData({
-      title: "",
-      materialKind: "pdf",
-      traceability: "documento",
-      origin: "",
-      date: null,
-      theme: "",
-      processReference: "",
-      location: "",
-      legibility: "high",
-      duplicateStatus: "no",
-      limitations: [],
-    });
-    setLimitationsText("");
+    resetForm();
   };
 
   if (isFormOpen) {
