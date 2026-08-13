@@ -28,6 +28,7 @@ function ProcessPage() {
       }, 800);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [currentStepIndex]);
 
   return (
