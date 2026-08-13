@@ -155,12 +155,13 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (sectionIndex === -1) return prev;
 
       const section = doc.sections[sectionIndex];
-      if (title !== undefined && section.title === title) return prev;
+      const newTitle = title !== undefined ? title : section.title;
+      if (section.title === newTitle) return prev;
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
         ...section,
-        title: title !== undefined ? title : section.title
+        title: newTitle
       };
 
       return {
@@ -254,10 +255,14 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const section = doc.sections[targetSectionIndex];
       const currentParagraph = section.paragraphs[targetParagraphIndex];
       
+      const newText = text !== undefined ? text : currentParagraph.text;
+      const newTraceability = patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability;
+      const newEditorialMarker = patch.hasOwnProperty("editorialMarker") ? patch.editorialMarker : currentParagraph.editorialMarker;
+
       const hasChanges = 
-        (text !== undefined && currentParagraph.text !== text) ||
-        (patch.hasOwnProperty("traceability") && currentParagraph.traceability !== patch.traceability) ||
-        (patch.hasOwnProperty("editorialMarker") && currentParagraph.editorialMarker !== patch.editorialMarker);
+        currentParagraph.text !== newText ||
+        currentParagraph.traceability !== newTraceability ||
+        currentParagraph.editorialMarker !== newEditorialMarker;
 
       if (!hasChanges) return prev;
 
@@ -265,9 +270,9 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
         id: currentParagraph.id,
-        text: text !== undefined ? text : currentParagraph.text,
-        traceability: patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability,
-        editorialMarker: patch.hasOwnProperty("editorialMarker") ? patch.editorialMarker : currentParagraph.editorialMarker
+        text: newText,
+        traceability: newTraceability,
+        editorialMarker: newEditorialMarker
       };
       updatedSections[targetSectionIndex] = {
         ...section,
