@@ -1,0 +1,104 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { BottomNavigation } from "@/components/veritas/BottomNavigation";
+import { z } from "zod";
+import { ChevronRight, FileText, Check, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+const OPTIONS = {
+  psicologia: ["Laudo Psicológico", "Relatório Psicológico", "Parecer Psicológico"],
+  social: ["Estudo/Laudo Social", "Parecer Social"],
+  multiprofissional: ["Relatório Psicossocial", "Relatório Multiprofissional", "Laudo Multiprofissional"]
+};
+
+export const Route = createFileRoute("/app/cases/new/document-type")({
+  validateSearch: (search) => z.object({
+    mode: z.string().optional(),
+    caseNumber: z.string().optional(),
+    professionals: z.array(z.string()).optional(),
+  }).parse(search),
+  component: DocumentTypePage,
+});
+
+function DocumentTypePage() {
+  const { mode, caseNumber, professionals = [] } = Route.useSearch();
+  const [selected, setSelected] = useState("");
+
+  // Simple mock logic for options based on "professionals" (in a real app this would check roles)
+  const isMulti = professionals.length > 1;
+  const availableOptions = isMulti 
+    ? [...OPTIONS.multiprofissional, ...OPTIONS.psicologia, ...OPTIONS.social]
+    : professionals.includes("p1") || professionals.includes("p3") ? OPTIONS.psicologia : OPTIONS.social;
+
+  return (
+    <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
+      <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
+      
+      <header className="sticky top-0 z-50 px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 bg-[#0A0D14]/80 backdrop-blur-xl border-b border-white/5">
+        <div className="flex items-center justify-between mb-4">
+          <Link to="/app/cases/new/professionals" search={{ mode, caseNumber }} className="text-white/40 hover:text-white transition-colors">
+            Voltar
+          </Link>
+          <div className="flex gap-1">
+            {[1, 2, 3, 4].map((s) => (
+              <div key={s} className={`w-8 h-1 rounded-full ${s === 3 ? "bg-veritas-electric" : s < 3 ? "bg-veritas-electric/40" : "bg-white/10"}`} />
+            ))}
+          </div>
+          <div className="w-12" />
+        </div>
+        <h1 className="text-xl font-semibold tracking-tight">Modalidade Documental</h1>
+        <p className="text-white/40 text-xs mt-1">Defina o tipo de documento final</p>
+      </header>
+
+      <main className="p-6 space-y-6 relative">
+        <div className="space-y-3">
+          {availableOptions.map((opt) => (
+            <button
+              key={opt}
+              onClick={() => setSelected(opt)}
+              className={cn(
+                "w-full flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300 text-left",
+                selected === opt 
+                  ? "bg-veritas-violet/10 border-veritas-violet/40 shadow-[0_0_20px_rgba(139,92,246,0.1)]" 
+                  : "bg-white/5 border-white/5 hover:border-white/10"
+              )}
+            >
+              <div className={cn(
+                "w-10 h-10 rounded-xl flex items-center justify-center border transition-colors",
+                selected === opt ? "bg-veritas-violet border-transparent" : "bg-white/5 border-white/10"
+              )}>
+                <FileText className={cn("w-5 h-5", selected === opt ? "text-white" : "text-white/20")} />
+              </div>
+              <span className="flex-1 text-sm font-medium">{opt}</span>
+              {selected === opt && <Check className="w-5 h-5 text-veritas-violet" />}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex gap-2 p-4 rounded-xl bg-white/5 border border-white/5">
+          <Info className="w-4 h-4 text-veritas-violet shrink-0 mt-0.5" />
+          <p className="text-[11px] leading-relaxed text-white/40">
+            Modalidade provisória — sujeita à confirmação profissional.
+          </p>
+        </div>
+
+        <Button 
+          className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
+          disabled={!selected}
+          asChild
+        >
+          <Link 
+            to="/app/cases/new/review" 
+            search={{ mode, caseNumber, professionals, docType: selected }}
+          >
+            Revisar
+            <ChevronRight className="ml-2 w-5 h-5" />
+          </Link>
+        </Button>
+      </main>
+
+      <BottomNavigation />
+    </div>
+  );
+}
