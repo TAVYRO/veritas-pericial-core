@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, Check, Info } from "lucide-react";

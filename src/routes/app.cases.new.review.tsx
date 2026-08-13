@@ -1,26 +1,28 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, User, Scale, Activity, AlertCircle, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
+import { getDocumentTypeById, documentTypeIdSchema, type DocumentTypeId } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
-import type { TemplateId } from "@/features/documents/template-ids";
+import { templateIdSchema, type TemplateId } from "@/features/documents/template-ids";
+
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
-    mode: z.enum(["automatic", "guided"]).optional(),
-    caseNumber: z.string().optional(),
-    professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema.optional(),
-    templateId: templateIdSchema.optional(),
+    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+    caseNumber: z.string().optional().catch(undefined),
+    professionals: z.array(z.string()).optional().catch(undefined),
+    docType: documentTypeIdSchema.optional().catch(undefined),
+    templateId: templateIdSchema.optional().catch(undefined),
   }).parse(search),
   component: ReviewPage,
 });
 
+
 function ReviewPage() {
-  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
+  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch() as { mode?: "automatic" | "guided", caseNumber?: string, professionals?: string[], docType?: DocumentTypeId, templateId?: TemplateId };
   const { setDocumentType, setTemplate } = useCaseWorkflow();
   const navigate = useNavigate();
 
