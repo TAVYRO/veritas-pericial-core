@@ -342,6 +342,15 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       setTechnicalScopeSources,
       canConfirmTechnicalScope,
       confirmTechnicalScope,
+      reopenTechnicalScope,
+      addCaseQuestion,
+      updateCaseQuestion,
+      removeCaseQuestion,
+      setCaseQuestionResponse,
+      setCaseQuestionInsufficient,
+      clearCaseQuestionResponse
+    }}>
+
       reopenTechnicalScope
     }}>
       {children}
