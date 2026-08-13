@@ -155,7 +155,7 @@ function CasesPage() {
             </button>
           ))}
         </div>
-      </header>
+      </div>
 
       {/* Cases List */}
       <main className="px-6 space-y-4">
