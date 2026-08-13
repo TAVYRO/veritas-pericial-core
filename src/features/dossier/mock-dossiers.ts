@@ -13,6 +13,7 @@ export const INITIAL_DOSSIERS: Record<string, CaseDossierState> = {
       sourceIds: [],
       confirmed: false
     },
+    questions: [],
     items: [
       {
         id: "F01",

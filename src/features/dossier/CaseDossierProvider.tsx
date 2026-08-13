@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem, CaseTechnicalScope } from "./case-dossier-types";
+import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem, CaseTechnicalScope, NewCaseQuestionInput, CaseQuestion } from "./case-dossier-types";
 import { INITIAL_DOSSIERS } from "./mock-dossiers";
 
 interface CaseDossierContextType {
@@ -16,6 +16,12 @@ interface CaseDossierContextType {
   canConfirmTechnicalScope: (caseId: string) => boolean;
   confirmTechnicalScope: (caseId: string) => void;
   reopenTechnicalScope: (caseId: string) => void;
+  addCaseQuestion: (caseId: string, input: NewCaseQuestionInput) => void;
+  updateCaseQuestion: (caseId: string, questionId: string, patch: Partial<Pick<CaseQuestion, "text" | "author" | "sourceIds">>) => void;
+  removeCaseQuestion: (caseId: string, questionId: string) => void;
+  setCaseQuestionResponse: (caseId: string, questionId: string, response: string) => void;
+  setCaseQuestionInsufficient: (caseId: string, questionId: string) => void;
+  clearCaseQuestionResponse: (caseId: string, questionId: string) => void;
 }
 
 const CaseDossierContext = createContext<CaseDossierContextType | undefined>(undefined);
@@ -322,7 +328,185 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const addCaseQuestion = useCallback((caseId: string, input: NewCaseQuestionInput) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+      if (!input.text.trim()) return prev;
+
+      const prefix = input.kind === "official" ? "QO" : input.kind === "complementary" ? "QC" : "QE";
+      const existingIds = dossier.questions
+        .filter(q => q.id.startsWith(prefix))
+        .map(q => q.id);
+
+      let maxNum = 0;
+      const regex = new RegExp(`^${prefix}(\\d+)$`);
+      for (const id of existingIds) {
+        const match = regex.exec(id);
+        if (match && match[1]) {
+          const num = parseInt(match[1], 10);
+          if (!isNaN(num)) maxNum = Math.max(maxNum, num);
+        }
+      }
+
+      const newId = `${prefix}${(maxNum + 1).toString().padStart(2, "0")}`;
+      
+      const normalizedAuthor = input.author && input.author.trim() !== "" ? input.author.trim() : null;
+      
+      const canonicalSourceIds = dossier.items
+        .map(item => item.id)
+        .filter(id => input.sourceIds.includes(id));
+
+      const newQuestion: CaseQuestion = {
+        id: newId,
+        kind: input.kind,
+        text: input.text.trim(),
+        author: input.kind === "interview" ? null : normalizedAuthor,
+        sourceIds: canonicalSourceIds,
+        response: "",
+        responseStatus: "pending"
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: [...dossier.questions, newQuestion]
+        }
+      };
+    });
+  }, []);
+
+  const updateCaseQuestion = useCallback((caseId: string, questionId: string, patch: Partial<Pick<CaseQuestion, "text" | "author" | "sourceIds">>) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+      
+      const question = dossier.questions.find(q => q.id === questionId);
+      if (!question) return prev;
+
+      const normalizedAuthor = patch.author !== undefined 
+        ? (patch.author && patch.author.trim() !== "" ? patch.author.trim() : null)
+        : question.author;
+
+      const canonicalSourceIds = patch.sourceIds !== undefined
+        ? dossier.items.map(item => item.id).filter(id => patch.sourceIds!.includes(id))
+        : question.sourceIds;
+
+      const text = patch.text !== undefined ? patch.text.trim() : question.text;
+      if (patch.text !== undefined && !text) return prev;
+
+      const updatedQuestion: CaseQuestion = {
+        ...question,
+        text,
+        author: question.kind === "interview" ? null : normalizedAuthor,
+        sourceIds: canonicalSourceIds,
+        responseStatus: (question.kind !== "interview" && (question.responseStatus === "answered" || question.responseStatus === "insufficient")) 
+          ? "pending" 
+          : question.responseStatus
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: dossier.questions.map(q => q.id === questionId ? updatedQuestion : q)
+        }
+      };
+    });
+  }, []);
+
+  const removeCaseQuestion = useCallback((caseId: string, questionId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: dossier.questions.filter(q => q.id !== questionId)
+        }
+      };
+    });
+  }, []);
+
+  const setCaseQuestionResponse = useCallback((caseId: string, questionId: string, response: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      const question = dossier.questions.find(q => q.id === questionId);
+      if (!question || question.kind === "interview") return prev;
+
+      if (!response.trim()) return prev;
+
+      const updatedQuestion: CaseQuestion = {
+        ...question,
+        response: response.trim(),
+        responseStatus: "answered"
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: dossier.questions.map(q => q.id === questionId ? updatedQuestion : q)
+        }
+      };
+    });
+  }, []);
+
+  const setCaseQuestionInsufficient = useCallback((caseId: string, questionId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      const question = dossier.questions.find(q => q.id === questionId);
+      if (!question || question.kind === "interview") return prev;
+
+      const updatedQuestion: CaseQuestion = {
+        ...question,
+        response: "",
+        responseStatus: "insufficient"
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: dossier.questions.map(q => q.id === questionId ? updatedQuestion : q)
+        }
+      };
+    });
+  }, []);
+
+  const clearCaseQuestionResponse = useCallback((caseId: string, questionId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      const question = dossier.questions.find(q => q.id === questionId);
+      if (!question) return prev;
+
+      const updatedQuestion: CaseQuestion = {
+        ...question,
+        response: "",
+        responseStatus: "pending"
+      };
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          questions: dossier.questions.map(q => q.id === questionId ? updatedQuestion : q)
+        }
+      };
+    });
+  }, []);
+
   return (
+
     <CaseDossierContext.Provider value={{ 
       getDossier, 
       setMaterialsCollectionComplete, 
@@ -336,8 +520,15 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       setTechnicalScopeSources,
       canConfirmTechnicalScope,
       confirmTechnicalScope,
-      reopenTechnicalScope
+      reopenTechnicalScope,
+      addCaseQuestion,
+      updateCaseQuestion,
+      removeCaseQuestion,
+      setCaseQuestionResponse,
+      setCaseQuestionInsufficient,
+      clearCaseQuestionResponse
     }}>
+
       {children}
     </CaseDossierContext.Provider>
   );

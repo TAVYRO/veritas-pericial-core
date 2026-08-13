@@ -60,4 +60,30 @@ export interface CaseDossierState {
   triageReviews: CaseTriageReview[];
   triageComplete: boolean;
   technicalScope: CaseTechnicalScope;
+  questions: CaseQuestion[];
 }
+
+export type CaseQuestionKind =
+  | "official"
+  | "complementary"
+  | "interview";
+
+export type CaseQuestionResponseStatus =
+  | "pending"
+  | "answered"
+  | "insufficient";
+
+export interface CaseQuestion {
+  id: string;
+  kind: CaseQuestionKind;
+  text: string;
+  author: string | null;
+  sourceIds: string[];
+  response: string;
+  responseStatus: CaseQuestionResponseStatus;
+}
+
+export type NewCaseQuestionInput = Omit<
+  CaseQuestion,
+  "id" | "response" | "responseStatus"
+>;
