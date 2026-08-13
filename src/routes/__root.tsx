@@ -17,12 +17,11 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-veritas-graphite px-6 text-center text-white relative">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+        style={{ 
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: "32px 32px",
-        }}
+          backgroundSize: '32px 32px' 
+        }} 
       />
       <div className="max-w-md relative z-10 animate-fade-in-up">
         <h1 className="text-7xl font-black text-veritas-electric mb-4">404</h1>
@@ -50,12 +49,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-veritas-graphite px-6 text-center text-white relative">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+        style={{ 
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: "32px 32px",
-        }}
+          backgroundSize: '32px 32px' 
+        }} 
       />
       <div className="max-w-md relative z-10 animate-fade-in-up">
         <h1 className="text-xl font-bold text-veritas-silver mb-2">
@@ -92,23 +90,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Veritas Pericial" },
-      {
-        name: "description",
-        content: "Sistema inteligente de apoio à prática pericial profissional.",
-      },
-
+      { name: "description", content: "Sistema inteligente de apoio à prática pericial profissional." },
+      
       { name: "application-name", content: "Veritas Pericial" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Veritas" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "theme-color", content: "#0f172a" },
-
+      
       { property: "og:title", content: "Veritas Pericial" },
-      {
-        property: "og:description",
-        content: "A inteligência técnica a serviço da justiça e do profissional.",
-      },
+      { property: "og:description", content: "A inteligência técnica a serviço da justiça e do profissional." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

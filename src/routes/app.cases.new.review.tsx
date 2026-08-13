@@ -3,28 +3,23 @@ import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, User, Scale, Activity, AlertCircle, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  getDocumentTypeById,
-  documentTypeIdSchema,
-  type DocumentTypeId,
-} from "@/features/documents/document-types";
+import { getDocumentTypeById, documentTypeIdSchema, type DocumentTypeId } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { templateIdSchema, type TemplateId } from "@/features/documents/template-ids";
 
+
 export const Route = createFileRoute("/app/cases/new/review")({
-  validateSearch: (search) =>
-    z
-      .object({
-        mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
-        caseNumber: z.string().optional().catch(undefined),
-        professionals: z.array(z.string()).optional().catch(undefined),
-        docType: documentTypeIdSchema.optional().catch(undefined),
-        templateId: templateIdSchema.optional().catch(undefined),
-      })
-      .parse(search),
+  validateSearch: (search) => z.object({
+    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+    caseNumber: z.string().optional().catch(undefined),
+    professionals: z.array(z.string()).optional().catch(undefined),
+    docType: documentTypeIdSchema.optional().catch(undefined),
+    templateId: templateIdSchema.optional().catch(undefined),
+  }).parse(search),
   component: ReviewPage,
 });
+
 
 function ReviewPage() {
   const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
@@ -32,14 +27,9 @@ function ReviewPage() {
   const navigate = useNavigate();
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
-  const templateInfo = templateId ? MOCK_TEMPLATES.find((t) => t.id === templateId) : undefined;
+  const templateInfo = templateId ? MOCK_TEMPLATES.find(t => t.id === templateId) : undefined;
 
-  const isValid = !!(
-    docType &&
-    docTypeInfo &&
-    templateInfo &&
-    templateInfo.supportedDocumentTypes.includes(docType)
-  );
+  const isValid = !!(docType && docTypeInfo && templateInfo && templateInfo.supportedDocumentTypes.includes(docType));
 
   const handleCreateCase = () => {
     if (!isValid) return;
@@ -54,19 +44,20 @@ function ReviewPage() {
 
     navigate({
       to: "/app/cases/$caseId/materials",
-      params: { caseId: "demo-case" },
+      params: { caseId: "demo-case" }
     });
   };
+
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
-
+      
       <header className="sticky top-0 z-50 px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 bg-[#0A0D14]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex items-center justify-between mb-4">
-          <Link
-            to="/app/cases/new/template"
-            search={{ mode, caseNumber, professionals, docType }}
+          <Link 
+            to="/app/cases/new/template" 
+            search={{ mode, caseNumber, professionals, docType }} 
             className="text-white/40 hover:text-white transition-colors"
           >
             Voltar
@@ -92,11 +83,7 @@ function ReviewPage() {
                 A combinação de modalidade e modelo selecionada não é compatível ou está incompleta.
               </p>
             </div>
-            <Button
-              variant="outline"
-              className="border-red-500/20 text-red-500 hover:bg-red-500/10"
-              asChild
-            >
+            <Button variant="outline" className="border-red-500/20 text-red-500 hover:bg-red-500/10" asChild>
               <Link to="/app/cases/new/document-type" search={{ mode, caseNumber, professionals }}>
                 Corrigir Seleção
               </Link>
@@ -108,9 +95,7 @@ function ReviewPage() {
               <div className="flex items-start gap-3">
                 <Scale className="w-5 h-5 text-veritas-electric shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">
-                    Processo
-                  </p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Processo</p>
                   <p className="text-sm font-medium">{caseNumber || "0000000-00.2024.8.26.0000"}</p>
                 </div>
               </div>
@@ -118,21 +103,15 @@ function ReviewPage() {
               <div className="flex items-start gap-3">
                 <Activity className="w-5 h-5 text-veritas-violet shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">
-                    Modo de Operação
-                  </p>
-                  <p className="text-sm font-medium capitalize">
-                    {mode === "automatic" ? "Totalmente Automatizado" : "Modo Guiado"}
-                  </p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Modo de Operação</p>
+                  <p className="text-sm font-medium capitalize">{mode === 'automatic' ? 'Totalmente Automatizado' : 'Modo Guiado'}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
                 <User className="w-5 h-5 text-veritas-electric shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">
-                    Profissionais
-                  </p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Profissionais</p>
                   <p className="text-sm font-medium">{professionals.length} selecionado(s)</p>
                 </div>
               </div>
@@ -140,9 +119,7 @@ function ReviewPage() {
               <div className="flex items-start gap-3">
                 <FileText className="w-5 h-5 text-veritas-violet shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">
-                    Modalidade Documental
-                  </p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Modalidade Documental</p>
                   <p className="text-sm font-medium">{docTypeInfo?.label}</p>
                 </div>
               </div>
@@ -150,9 +127,7 @@ function ReviewPage() {
               <div className="flex items-start gap-3">
                 <Layout className="w-5 h-5 text-veritas-electric shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">
-                    Modelo Selecionado
-                  </p>
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-white/30">Modelo Selecionado</p>
                   <p className="text-sm font-medium">{templateInfo?.name}</p>
                 </div>
               </div>
@@ -160,7 +135,7 @@ function ReviewPage() {
           </div>
         )}
 
-        <Button
+        <Button 
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg shadow-xl shadow-veritas-electric/20 disabled:opacity-50"
           disabled={!isValid}
           onClick={handleCreateCase}
@@ -168,6 +143,7 @@ function ReviewPage() {
           Criar ambiente do caso
           <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
 
         <p className="text-[10px] text-white/20 text-center px-4">
           Ao criar o ambiente, a Veritas iniciará o processamento preliminar dos dados fornecidos.

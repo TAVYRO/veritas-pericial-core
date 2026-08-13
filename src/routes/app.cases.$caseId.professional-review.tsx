@@ -1,13 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  CheckCircle2,
-  Circle,
-  Edit3,
-  MessageSquare,
-  Search,
-  ChevronRight,
-  FileText,
-} from "lucide-react";
+import { CheckCircle2, Circle, Edit3, MessageSquare, Search, ChevronRight, FileText } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/app/cases/$caseId/professional-review")({
@@ -30,7 +22,7 @@ const SECTIONS = [
 ];
 
 function ProfessionalReviewPage() {
-  const reviewedCount = SECTIONS.filter((s) => s.status === "Aprovada").length;
+  const reviewedCount = SECTIONS.filter(s => s.status === "Aprovada").length;
   const totalCount = SECTIONS.length;
   const percentage = (reviewedCount / totalCount) * 100;
 
@@ -41,15 +33,11 @@ function ProfessionalReviewPage() {
           <h2 className="text-xl font-bold text-white tracking-tight">Revisão Profissional</h2>
           <p className="text-xs text-white/40">Validação seção por seção do conteúdo técnico.</p>
         </div>
-
+        
         <div className="bg-white/5 border border-white/5 rounded-2xl p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
-              Progresso da Revisão
-            </span>
-            <span className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest">
-              {reviewedCount} de {totalCount} seções
-            </span>
+            <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Progresso da Revisão</span>
+            <span className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest">{reviewedCount} de {totalCount} seções</span>
           </div>
           <Progress value={percentage} className="h-1.5 bg-white/5" />
         </div>
@@ -57,34 +45,23 @@ function ProfessionalReviewPage() {
 
       <div className="grid gap-4">
         {SECTIONS.map((section) => (
-          <div
-            key={section.id}
-            className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4 hover:bg-white/[0.07] transition-all group"
-          >
+          <div key={section.id} className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4 hover:bg-white/[0.07] transition-all group">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "w-2 h-2 rounded-full",
-                    section.status === "Aprovada"
-                      ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
-                      : section.status === "Pendência"
-                        ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"
-                        : "bg-white/20",
-                  )}
-                />
+                <div className={cn(
+                  "w-2 h-2 rounded-full",
+                  section.status === "Aprovada" ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" :
+                  section.status === "Pendência" ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]" :
+                  "bg-white/20"
+                )} />
                 <h3 className="text-sm font-bold text-white/90">{section.name}</h3>
               </div>
-              <span
-                className={cn(
-                  "text-[9px] font-bold uppercase tracking-widest",
-                  section.status === "Aprovada"
-                    ? "text-emerald-400"
-                    : section.status === "Pendência"
-                      ? "text-amber-400"
-                      : "text-white/40",
-                )}
-              >
+              <span className={cn(
+                "text-[9px] font-bold uppercase tracking-widest",
+                section.status === "Aprovada" ? "text-emerald-400" :
+                section.status === "Pendência" ? "text-amber-400" :
+                "text-white/40"
+              )}>
                 {section.status}
               </span>
             </div>
@@ -103,24 +80,12 @@ function ProfessionalReviewPage() {
   );
 }
 
-function ControlButton({
-  icon: Icon,
-  label,
-  highlight,
-}: {
-  icon: any;
-  label: string;
-  highlight?: boolean;
-}) {
+function ControlButton({ icon: Icon, label, highlight }: { icon: any, label: string, highlight?: boolean }) {
   return (
-    <button
-      className={cn(
-        "flex flex-col items-center justify-center gap-1.5 py-2.5 rounded-xl border border-white/5 transition-all",
-        highlight
-          ? "bg-veritas-electric/10 border-veritas-electric/20 text-veritas-electric"
-          : "bg-white/5 text-white/40 hover:text-white/60 hover:border-white/10",
-      )}
-    >
+    <button className={cn(
+      "flex flex-col items-center justify-center gap-1.5 py-2.5 rounded-xl border border-white/5 transition-all",
+      highlight ? "bg-veritas-electric/10 border-veritas-electric/20 text-veritas-electric" : "bg-white/5 text-white/40 hover:text-white/60 hover:border-white/10"
+    )}>
       <Icon className="w-3.5 h-3.5" />
       <span className="text-[7px] font-bold uppercase tracking-widest">{label}</span>
     </button>

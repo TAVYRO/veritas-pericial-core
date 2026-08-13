@@ -27,8 +27,12 @@ function RegisterSuccess() {
 
       {/* Main Message */}
       <div className="space-y-3 max-w-sm mb-10">
-        <h1 className="text-4xl font-bold text-white tracking-tight">Tudo pronto!</h1>
-        <p className="text-veritas-silver text-lg">Seu ambiente Veritas está preparado.</p>
+        <h1 className="text-4xl font-bold text-white tracking-tight">
+          Tudo pronto!
+        </h1>
+        <p className="text-veritas-silver text-lg">
+          Seu ambiente Veritas está preparado.
+        </p>
       </div>
 
       {/* Demo Profile Card */}
@@ -61,3 +65,4 @@ function RegisterSuccess() {
     </div>
   );
 }
+

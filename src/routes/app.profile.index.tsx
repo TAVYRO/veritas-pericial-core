@@ -1,15 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import {
-  User,
-  Settings,
-  ShieldCheck,
-  Download,
-  Info,
-  LogOut,
-  ChevronRight,
+import { 
+  User, 
+  Settings, 
+  ShieldCheck, 
+  Download, 
+  Info, 
+  LogOut, 
+  ChevronRight, 
   MapPin,
   Camera,
-  Signature,
+  Signature
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -28,53 +28,49 @@ function ProfilePage() {
   const scrolled = useScroll(10);
 
   const menuItems = [
-    {
-      label: "Editar perfil",
-      icon: User,
+    { 
+      label: "Editar perfil", 
+      icon: User, 
       route: "/app/profile/edit",
       color: "text-blue-400",
-      bg: "bg-blue-400/10",
+      bg: "bg-blue-400/10"
     },
-    {
-      label: "Segurança",
-      icon: ShieldCheck,
+    { 
+      label: "Segurança", 
+      icon: ShieldCheck, 
       route: "/app/profile/security",
       color: "text-purple-400",
-      bg: "bg-purple-400/10",
+      bg: "bg-purple-400/10"
     },
-    {
-      label: "Preferências",
-      icon: Settings,
+    { 
+      label: "Preferências", 
+      icon: Settings, 
       route: "/app/profile/preferences",
       color: "text-veritas-electric",
-      bg: "bg-veritas-electric/10",
+      bg: "bg-veritas-electric/10"
     },
-    {
-      label: "Instalar Veritas / PWA",
-      icon: Download,
+    { 
+      label: "Instalar Veritas / PWA", 
+      icon: Download, 
       action: () => alert("Informações da PWA"),
       color: "text-green-400",
-      bg: "bg-green-400/10",
+      bg: "bg-green-400/10"
     },
-    {
-      label: "Sobre",
-      icon: Info,
+    { 
+      label: "Sobre", 
+      icon: Info, 
       action: () => alert("Veritas Pericial v1.0.0"),
       color: "text-veritas-silver",
-      bg: "bg-veritas-silver/10",
+      bg: "bg-veritas-silver/10"
     },
   ];
 
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
-      <header
-        className={cn(
-          "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
-          scrolled
-            ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg"
-            : "bg-transparent",
-        )}
-      >
+      <header className={cn(
+        "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
+        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
+      )}>
         <h2 className="text-xl font-bold tracking-tight">Meu Perfil</h2>
       </header>
 
@@ -82,12 +78,10 @@ function ProfilePage() {
         <div className="relative mb-4">
           <Avatar className="w-24 h-24 border-4 border-veritas-electric/20 shadow-2xl">
             <AvatarImage src="" />
-            <AvatarFallback className="bg-veritas-graphite text-3xl text-veritas-silver">
-              MH
-            </AvatarFallback>
+            <AvatarFallback className="bg-veritas-graphite text-3xl text-veritas-silver">MH</AvatarFallback>
           </Avatar>
-          <Button
-            size="icon"
+          <Button 
+            size="icon" 
             className="absolute bottom-0 right-0 rounded-full w-8 h-8 bg-veritas-electric hover:bg-veritas-electric-glow p-0 shadow-lg"
           >
             <Camera className="w-4 h-4" />
@@ -96,16 +90,8 @@ function ProfilePage() {
         <h3 className="text-xl font-bold">Dra. Mônica Hazama</h3>
         <p className="text-veritas-silver/60 text-sm mb-2">Psicóloga Perita</p>
         <div className="flex flex-wrap justify-center gap-2 mb-4">
-          <Badge
-            variant="outline"
-            className="bg-white/5 border-white/10 text-[10px] text-veritas-silver/60"
-          >
-            CRP 00/00000
-          </Badge>
-          <Badge
-            variant="outline"
-            className="bg-white/5 border-white/10 text-[10px] text-veritas-silver/60 flex items-center gap-1"
-          >
+          <Badge variant="outline" className="bg-white/5 border-white/10 text-[10px] text-veritas-silver/60">CRP 00/00000</Badge>
+          <Badge variant="outline" className="bg-white/5 border-white/10 text-[10px] text-veritas-silver/60 flex items-center gap-1">
             <MapPin className="w-3 h-3" /> Curitiba - PR
           </Badge>
         </div>
@@ -134,15 +120,13 @@ function ProfilePage() {
             key={item.label}
             variant="ghost"
             className="w-full h-auto py-4 px-4 justify-between bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 rounded-2xl transition-all group"
-            onClick={() => (item.route ? navigate({ to: item.route as any }) : item.action?.())}
+            onClick={() => item.route ? navigate({ to: item.route as any }) : item.action?.()}
           >
             <div className="flex items-center gap-4">
               <div className={cn("p-2 rounded-xl", item.bg, item.color)}>
                 <item.icon className="w-5 h-5" />
               </div>
-              <span className="font-bold text-veritas-silver group-hover:text-white transition-colors">
-                {item.label}
-              </span>
+              <span className="font-bold text-veritas-silver group-hover:text-white transition-colors">{item.label}</span>
             </div>
             <ChevronRight className="w-5 h-5 text-veritas-silver/20" />
           </Button>
