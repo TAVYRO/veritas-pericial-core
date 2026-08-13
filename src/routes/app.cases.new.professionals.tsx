@@ -14,7 +14,7 @@ const PROFESSIONALS = [
 
 export const Route = createFileRoute("/app/cases/new/professionals")({
   validateSearch: (search) => z.object({
-    mode: z.string().optional(),
+    mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
   }).parse(search),
   component: ProfessionalsPage,

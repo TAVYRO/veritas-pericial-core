@@ -1,18 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { CaseShell } from "@/components/veritas/CaseShell";
 
 export const Route = createFileRoute("/app/cases/$caseId")({
-  component: CaseDetailsPage,
+  loader: ({ params }) => {
+    // If we land exactly on the case ID, redirect to materials
+    if (window.location.pathname === `/app/cases/${params.caseId}`) {
+      throw redirect({
+        to: "/app/cases/$caseId/materials",
+        params: { caseId: params.caseId },
+      });
+    }
+  },
+  component: CaseShell,
 });
-
-function CaseDetailsPage() {
-  const { caseId } = Route.useParams();
-  return (
-    <div className="p-6 text-white">
-      <h1 className="text-2xl font-bold">Detalhes do Caso</h1>
-      <p className="mt-4 text-veritas-silver">Visualizando processo: {caseId}</p>
-      <div className="mt-8 p-4 bg-veritas-graphite/40 border border-white/5 rounded-xl">
-        <p>Esta é uma rota dinâmica preparada para o ID do caso.</p>
-      </div>
-    </div>
-  );
-}
