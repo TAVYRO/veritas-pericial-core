@@ -38,7 +38,7 @@ export interface CaseDocumentVersion {
   caseId: string;
   versionId: string;
   sections: CaseDocumentSection[];
-  footerNote?: string;
+  footerNote?: string | undefined;
 }
 
 /**
