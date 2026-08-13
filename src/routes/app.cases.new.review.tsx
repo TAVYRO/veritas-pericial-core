@@ -22,7 +22,7 @@ export const Route = createFileRoute("/app/cases/new/review")({
 
 
 function ReviewPage() {
-  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch() as { mode?: "automatic" | "guided", caseNumber?: string, professionals?: string[], docType?: DocumentTypeId, templateId?: TemplateId };
+  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
   const { setDocumentType, setTemplate } = useCaseWorkflow();
   const navigate = useNavigate();
 
