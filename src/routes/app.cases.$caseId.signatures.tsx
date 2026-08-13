@@ -1,23 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Signature, UserCheck, ShieldAlert, CheckCircle2, Info } from "lucide-react";
-import { useState } from "react";
+import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/cases/$caseId/signatures")({
   component: SignaturesPage,
 });
 
-const PROFESSIONALS = [
-  { id: 1, name: "Dra. Mônica Hazama", role: "Psicóloga Perita", reg: "CRP 06/123456", authorized: false },
-  { id: 2, name: "Dr. Roberto Silva", role: "Assistente Social", reg: "CRESS 12.345", authorized: false },
-];
-
 function SignaturesPage() {
-  const [authStatus, setAuthStatus] = useState<Record<number, boolean>>({});
+  const { caseId } = useParams({ from: "/app/cases/$caseId/signatures" });
+  const { getCase, getWorkflow, authorizeSignature, revokeSignature, isSignatureApproved } = useCaseWorkflow();
+  
+  const caseData = getCase(caseId);
+  const workflow = getWorkflow(caseId);
 
-  const toggleAuth = (id: number) => {
-    setAuthStatus(prev => ({ ...prev, [id]: !prev[id] }));
+  if (!caseData || !workflow) return null;
+
+  const toggleAuth = (proId: string) => {
+    const isAuth = isSignatureApproved(caseId, proId, workflow.currentVersion.id);
+    if (isAuth) {
+      revokeSignature(caseId, proId, workflow.currentVersion.id);
+    } else {
+      authorizeSignature(caseId, proId, workflow.currentVersion.id);
+    }
   };
+
 
   return (
     <div className="p-6 space-y-6 pb-32">
@@ -27,7 +34,9 @@ function SignaturesPage() {
       </header>
 
       <div className="grid gap-6">
-        {PROFESSIONALS.map((pro) => (
+        {caseData.professionals.map((pro) => {
+          const isAuthorized = isSignatureApproved(caseId, pro.id, workflow.currentVersion.id);
+          return (
           <div key={pro.id} className="bg-white/5 border border-white/5 rounded-2xl p-6 space-y-6">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
@@ -36,10 +45,10 @@ function SignaturesPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-white">{pro.name}</h3>
-                  <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">{pro.role} • {pro.reg}</p>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">{pro.profession} • {pro.registration}</p>
                 </div>
               </div>
-              {authStatus[pro.id] && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
+              {isAuthorized && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
             </div>
 
             <div className="space-y-4 pt-6 border-t border-white/5">
@@ -49,7 +58,7 @@ function SignaturesPage() {
                   onClick={() => toggleAuth(pro.id)}
                   className={cn(
                     "w-12 h-6 rounded-full relative transition-all duration-300",
-                    authStatus[pro.id] ? "bg-veritas-electric" : "bg-white/10"
+                    isAuthorized ? "bg-veritas-electric" : "bg-white/10"
                   )}
                 >
                   <div className={cn(
@@ -59,7 +68,7 @@ function SignaturesPage() {
                 </button>
               </div>
 
-              {authStatus[pro.id] && (
+              {isAuthorized && (
                 <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex flex-col items-center justify-center gap-3 animate-fade-in-up">
                   <div className="font-cursive text-2xl text-white/60 select-none opacity-40 italic">
                     {pro.name.split(' ').pop()}

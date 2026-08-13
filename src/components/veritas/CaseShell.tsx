@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation, useParams } from "@tanstack/react-router";
+import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { BottomNavigation } from "./BottomNavigation";
 import { 
   FileText, 
@@ -57,15 +58,26 @@ export function CaseShell() {
   const { caseId } = useParams({ from: "/app/cases/$caseId" });
   const location = useLocation();
   const currentPath = location.pathname.split("/").pop();
+  const { getCase } = useCaseWorkflow();
 
-  // Mock case data
-  const caseData = {
-    number: "0000000-00.2024.8.26.0000",
-    court: "1ª Vara Cível - São Paulo/SP",
-    modality: "Relatório Psicossocial",
-    professionals: "Dra. Mônica Hazama, Dr. Roberto Silva",
-    stage: FLOW_STEPS.find(s => s.path === currentPath)?.label || "Materiais"
-  };
+  const caseData = getCase(caseId);
+
+  if (!caseData) {
+    return (
+      <div className="min-h-screen bg-[#0A0D14] text-white flex flex-col items-center justify-center p-6 text-center space-y-4">
+        <Scale className="w-12 h-12 text-veritas-electric/40" />
+        <h1 className="text-xl font-bold">Caso não encontrado</h1>
+        <p className="text-white/40 text-sm">O processo {caseId} não existe ou você não tem permissão para acessá-lo.</p>
+        <Link to="/app/cases" className="text-veritas-electric text-sm font-bold uppercase tracking-widest">
+          Voltar para Meus Casos
+        </Link>
+      </div>
+    );
+  }
+
+  const courtDisplay = `${caseData.court} - ${caseData.district}/${caseData.state}`;
+  const professionalsDisplay = caseData.professionals.map(p => p.name).join(", ");
+
 
   return (
     <div className="min-h-screen bg-[#0A0D14] text-white flex flex-col">
@@ -83,12 +95,12 @@ export function CaseShell() {
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Scale className="w-4 h-4 text-veritas-electric" />
-            <h1 className="text-sm font-semibold tracking-tight truncate">{caseData.number}</h1>
+            <h1 className="text-sm font-semibold tracking-tight truncate">{caseData.caseNumber}</h1>
           </div>
           <div className="flex flex-wrap gap-x-4 gap-y-1">
             <div className="flex items-center gap-1.5 text-[10px] text-white/40">
               <Building2 className="w-3 h-3" />
-              {caseData.court}
+              {courtDisplay}
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-white/40">
               <FileText className="w-3 h-3" />
@@ -96,7 +108,7 @@ export function CaseShell() {
             </div>
             <div className="flex items-center gap-1.5 text-[10px] text-white/40">
               <Users className="w-3 h-3" />
-              {caseData.professionals}
+              {professionalsDisplay}
             </div>
           </div>
         </div>
