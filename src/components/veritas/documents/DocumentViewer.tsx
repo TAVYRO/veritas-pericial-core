@@ -1,5 +1,8 @@
 import type { CaseData, CaseWorkflowState } from "@/features/cases/case-types";
-import type { DocumentPreviewData, DocumentViewerMode } from "@/features/documents/document-preview-types";
+import type {
+  DocumentPreviewData,
+  DocumentViewerMode,
+} from "@/features/documents/document-preview-types";
 import { getDocumentTypeById } from "@/features/documents/document-types";
 import { getTemplateById } from "@/features/documents/mock-templates";
 import { TraceabilityMarker } from "./TraceabilityMarker";
@@ -26,25 +29,26 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
       {/* Notice Header */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center space-y-2">
         <p className="text-[10px] text-white/40 leading-relaxed">
-          Pré-visualização documental. A paginação definitiva será verificada na etapa de geração dos arquivos finais.
+          Pré-visualização documental. A paginação definitiva será verificada na etapa de geração
+          dos arquivos finais.
         </p>
-        
+
         {isDraft && (
           <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">
             Rascunho — não finalizado
           </p>
         )}
-        
+
         {isReview && (
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-veritas-violet uppercase tracking-widest">
               Documento/Word para revisão
             </p>
-            <p className="text-[9px] text-white/40">
-              Versão de revisão — sem assinatura
-            </p>
+            <p className="text-[9px] text-white/40">Versão de revisão — sem assinatura</p>
             <p className="text-[9px] text-white/30 italic">
-              Esta é uma pré-visualização da etapa de revisão. Nenhum arquivo Word foi gerado nesta fase. Esta visualização corresponde à etapa de revisão profissional e não à versão final liberada.
+              Esta é uma pré-visualização da etapa de revisão. Nenhum arquivo Word foi gerado nesta
+              fase. Esta visualização corresponde à etapa de revisão profissional e não à versão
+              final liberada.
             </p>
           </div>
         )}
@@ -77,8 +81,12 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
         <header className="space-y-8 mb-12">
           {/* Official Header Simulation */}
           <div className="text-center space-y-1">
-            <p className="font-bold uppercase text-xs sm:text-sm">Tribunal de Justiça do Estado de {caseData.state}</p>
-            <p className="uppercase text-[10px] sm:text-xs">{caseData.court} - {caseData.district}</p>
+            <p className="font-bold uppercase text-xs sm:text-sm">
+              Tribunal de Justiça do Estado de {caseData.state}
+            </p>
+            <p className="uppercase text-[10px] sm:text-xs">
+              {caseData.court} - {caseData.district}
+            </p>
             <p className="text-[10px] italic">Processo nº {caseData.caseNumber}</p>
           </div>
 
@@ -96,7 +104,9 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
             {caseData.professionals.map((p) => (
               <div key={p.id} className="text-[10px] sm:text-xs">
                 <p className="font-bold">{p.name}</p>
-                <p className="text-black/60">{p.profession} • {p.registration}</p>
+                <p className="text-black/60">
+                  {p.profession} • {p.registration}
+                </p>
               </div>
             ))}
             <div className="text-[10px] sm:text-xs sm:text-right">
@@ -115,13 +125,19 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
                 {section.paragraphs.map((p) => (
                   <div key={p.id} className="relative">
                     <p>
-                      {p.traceability && !isInspection && <TraceabilityMarker kind={p.traceability} />}
+                      {p.traceability && !isInspection && (
+                        <TraceabilityMarker kind={p.traceability} />
+                      )}
                       {p.text}
                       {p.editorialMarker && !isInspection && (
-                        <span className={cn(
-                          "ml-2 inline-flex items-center px-1 rounded-[4px] text-[9px] font-bold uppercase",
-                          p.editorialMarker === "confirmar" ? "bg-rose-100 text-rose-700" : "bg-amber-100 text-amber-700"
-                        )}>
+                        <span
+                          className={cn(
+                            "ml-2 inline-flex items-center px-1 rounded-[4px] text-[9px] font-bold uppercase",
+                            p.editorialMarker === "confirmar"
+                              ? "bg-rose-100 text-rose-700"
+                              : "bg-amber-100 text-amber-700",
+                          )}
+                        >
                           [{p.editorialMarker.toUpperCase()}]
                         </span>
                       )}
@@ -138,7 +154,9 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
           <div className="mt-12 bg-veritas-electric/[0.03] border border-veritas-electric/10 rounded-lg p-5 space-y-3">
             <div className="flex items-center gap-2 text-veritas-electric">
               <Sparkles className="w-4 h-4" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Sugestão Assistida Veritas</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">
+                Sugestão Assistida Veritas
+              </span>
             </div>
             <p className="text-xs italic text-black/70 leading-relaxed">
               "{preview.assistedSuggestion.text}"
@@ -155,7 +173,6 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
           </footer>
         )}
       </div>
-
     </article>
   );
 }
