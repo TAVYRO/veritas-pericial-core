@@ -14,14 +14,14 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
-	let foundGroup: NavGroup | undefined;
-	let foundStepId = "";
+	let activeGroup: NavGroup = CASE_NAVIGATION_GROUPS[0];
+	let activeStepId = "";
 
 	for (const group of CASE_NAVIGATION_GROUPS) {
 		const exactMatch = group.steps.find((s) => s.path === relativePath);
 		if (exactMatch) {
-			foundGroup = group;
-			foundStepId = exactMatch.id;
+			activeGroup = group;
+			activeStepId = exactMatch.id;
 			break;
 		}
 
@@ -29,8 +29,8 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			(s) => s.matchPrefix && relativePath.startsWith(s.matchPrefix),
 		);
 		if (prefixMatch) {
-			foundGroup = group;
-			foundStepId = prefixMatch.id;
+			activeGroup = group;
+			activeStepId = prefixMatch.id;
 			break;
 		}
 
@@ -38,14 +38,15 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			(s) => relativePath.startsWith(s.path) && s.path !== "",
 		);
 		if (startsWithMatch) {
-			foundGroup = group;
-			foundStepId = startsWithMatch.id;
+			activeGroup = group;
+			activeStepId = startsWithMatch.id;
 			break;
 		}
 	}
 
-	const activeGroup: NavGroup = foundGroup || CASE_NAVIGATION_GROUPS[0] as NavGroup;
-	const activeStepId: string = foundStepId || (activeGroup.steps[0]?.id || "");
+	if (!activeStepId) {
+		activeStepId = activeGroup.steps[0].id;
+	}
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
