@@ -11,8 +11,8 @@ export const Route = createFileRoute("/app/templates/")({
 function TemplatesListPage() {
   const templates = getActiveTemplates();
   
-  const generalTemplates = templates.filter(t => t.scope === "general");
-  const multiprofessionalTemplates = templates.filter(t => t.scope === "multiprofessional");
+  const generalTemplates = templates.filter((t) => t.scope === "general");
+  const multiprofessionalTemplates = templates.filter((t) => t.scope === "multiprofessional");
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -38,7 +38,7 @@ function TemplatesListPage() {
           <section className="space-y-4">
             <h2 className="text-xs font-bold text-veritas-electric uppercase tracking-widest px-1">Geral</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {generalTemplates.map(template => (
+              {generalTemplates.map((template) => (
                 <TemplateCard key={template.id} template={template} />
               ))}
             </div>
@@ -49,7 +49,7 @@ function TemplatesListPage() {
           <section className="space-y-4">
             <h2 className="text-xs font-bold text-veritas-violet uppercase tracking-widest px-1">Multiprofissional</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {multiprofessionalTemplates.map(template => (
+              {multiprofessionalTemplates.map((template) => (
                 <TemplateCard key={template.id} template={template} />
               ))}
             </div>

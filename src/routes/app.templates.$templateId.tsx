@@ -83,7 +83,7 @@ function TemplateDetailPage() {
             <h3 className="text-xs font-bold text-white uppercase tracking-widest">Modalidades Compatíveis</h3>
           </div>
           <div className="space-y-2">
-            {template.supportedDocumentTypes.map(docTypeId => {
+            {template.supportedDocumentTypes.map((docTypeId) => {
               const docType = getDocumentTypeById(docTypeId);
               return (
                 <div key={docTypeId} className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between">
