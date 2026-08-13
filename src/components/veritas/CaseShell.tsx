@@ -13,7 +13,11 @@ import {
   Flag,
   Scale,
   Building2,
-  ChevronRight
+  ChevronRight,
+  Cpu,
+  LineChart,
+  Share2,
+  PenLine
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +29,10 @@ const FLOW_STEPS = [
   { label: "Quesitos", path: "questions", icon: HelpCircle },
   { label: "Entrevistas", path: "interviews", icon: Users },
   { label: "Suficiência", path: "sufficiency", icon: CheckCircle2 },
+  { label: "Processamento", path: "process", icon: Cpu },
+  { label: "Análise", path: "analysis", icon: LineChart },
+  { label: "Rastreabilidade", path: "traceability", icon: Share2 },
+  { label: "Rascunho", path: "draft", icon: PenLine },
   { label: "Contradições", path: "contradictions", icon: ShieldCheck },
   { label: "Notas", path: "notes", icon: PenTool },
   { label: "Lacunas", path: "critical-gaps", icon: Flag },
