@@ -388,7 +388,7 @@ function CaseMaterialsPage() {
             <Button 
               type="button"
               variant="ghost"
-              onClick={() => setIsFormOpen(false)}
+              onClick={resetForm}
               className="w-full h-12 text-white/40 font-medium"
             >
               Cancelar
