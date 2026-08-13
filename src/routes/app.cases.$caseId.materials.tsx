@@ -64,11 +64,7 @@ function CaseMaterialsPage() {
   const { getDossier, setMaterialsCollectionComplete, addDossierItem } = useCaseDossier();
   const dossier = getDossier(caseId);
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isReviewMode, setIsReviewMode] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const [formData, setFormData] = useState<NewCaseDossierItemInput>({
+  const INITIAL_FORM_DATA: NewCaseDossierItemInput = {
     title: "",
     materialKind: "pdf",
     traceability: "documento",
@@ -80,9 +76,21 @@ function CaseMaterialsPage() {
     legibility: "high",
     duplicateStatus: "no",
     limitations: [],
-  });
+  };
 
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<NewCaseDossierItemInput>(INITIAL_FORM_DATA);
   const [limitationsText, setLimitationsText] = useState("");
+
+  const resetForm = () => {
+    setIsFormOpen(false);
+    setIsReviewMode(false);
+    setError(null);
+    setLimitationsText("");
+    setFormData(INITIAL_FORM_DATA);
+  };
 
   if (!dossier) {
     return (
