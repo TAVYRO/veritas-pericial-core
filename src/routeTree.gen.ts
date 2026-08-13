@@ -38,6 +38,7 @@ import { Route as AppProfileSecurityRouteImport } from './routes/app.profile.sec
 import { Route as AppRecordCompleteRouteImport } from './routes/app.record.complete'
 import { Route as AppRecordSessionRouteImport } from './routes/app.record.session'
 import { Route as AppReviewIndexRouteImport } from './routes/app.review_.index'
+import { Route as AppCasesCaseIdIndexRouteImport } from './routes/app.cases.$caseId.index'
 import { Route as AppCasesCaseIdAnalysisRouteImport } from './routes/app.cases.$caseId.analysis'
 import { Route as AppCasesCaseIdApprovalRouteImport } from './routes/app.cases.$caseId.approval'
 import { Route as AppCasesCaseIdApprovalsRouteImport } from './routes/app.cases.$caseId.approvals'
@@ -220,6 +221,11 @@ const AppReviewIndexRoute = AppReviewIndexRouteImport.update({
   id: '/review_/',
   path: '/review/',
   getParentRoute: () => AppRoute,
+} as any)
+const AppCasesCaseIdIndexRoute = AppCasesCaseIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppCasesCaseIdRoute,
 } as any)
 const AppCasesCaseIdAnalysisRoute = AppCasesCaseIdAnalysisRouteImport.update({
   id: '/analysis',
@@ -483,6 +489,7 @@ export interface FileRoutesByFullPath {
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
   '/app/review/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review/$reviewId/result': typeof AppReviewReviewIdResultRoute
+  '/app/cases/$caseId/': typeof AppCasesCaseIdIndexRoute
   '/app/cases/$caseId/draft/edit': typeof AppCasesCaseIdDraftEditRoute
   '/app/cases/$caseId/draft/questions': typeof AppCasesCaseIdDraftQuestionsRoute
   '/app/cases/$caseId/final/inspection': typeof AppCasesCaseIdFinalInspectionRoute
@@ -505,7 +512,6 @@ export interface FileRoutesByTo {
   '/register/success': typeof RegisterSuccessRoute
   '/app': typeof AppIndexRoute
   '/register': typeof RegisterIndexRoute
-  '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/profile/edit': typeof AppProfileEditRoute
   '/app/profile/preferences': typeof AppProfilePreferencesRoute
@@ -546,6 +552,7 @@ export interface FileRoutesByTo {
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
   '/app/review/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review/$reviewId/result': typeof AppReviewReviewIdResultRoute
+  '/app/cases/$caseId': typeof AppCasesCaseIdIndexRoute
   '/app/cases/$caseId/draft/edit': typeof AppCasesCaseIdDraftEditRoute
   '/app/cases/$caseId/draft/questions': typeof AppCasesCaseIdDraftQuestionsRoute
   '/app/cases/$caseId/final/inspection': typeof AppCasesCaseIdFinalInspectionRoute
@@ -615,6 +622,7 @@ export interface FileRoutesById {
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
   '/app/review_/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review_/$reviewId/result': typeof AppReviewReviewIdResultRoute
+  '/app/cases/$caseId/': typeof AppCasesCaseIdIndexRoute
   '/app/cases/$caseId/draft/edit': typeof AppCasesCaseIdDraftEditRoute
   '/app/cases/$caseId/draft/questions': typeof AppCasesCaseIdDraftQuestionsRoute
   '/app/cases/$caseId/final/inspection': typeof AppCasesCaseIdFinalInspectionRoute
@@ -685,6 +693,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/review'
     | '/app/review/$reviewId/check'
     | '/app/review/$reviewId/result'
+    | '/app/cases/$caseId/'
     | '/app/cases/$caseId/draft/edit'
     | '/app/cases/$caseId/draft/questions'
     | '/app/cases/$caseId/final/inspection'
@@ -707,7 +716,6 @@ export interface FileRouteTypes {
     | '/register/success'
     | '/app'
     | '/register'
-    | '/app/cases/$caseId'
     | '/app/cases/continue'
     | '/app/profile/edit'
     | '/app/profile/preferences'
@@ -748,6 +756,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/review'
     | '/app/review/$reviewId/check'
     | '/app/review/$reviewId/result'
+    | '/app/cases/$caseId'
     | '/app/cases/$caseId/draft/edit'
     | '/app/cases/$caseId/draft/questions'
     | '/app/cases/$caseId/final/inspection'
@@ -816,6 +825,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/review'
     | '/app/review_/$reviewId/check'
     | '/app/review_/$reviewId/result'
+    | '/app/cases/$caseId/'
     | '/app/cases/$caseId/draft/edit'
     | '/app/cases/$caseId/draft/questions'
     | '/app/cases/$caseId/final/inspection'
@@ -1037,6 +1047,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/review/'
       preLoaderRoute: typeof AppReviewIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/app/cases/$caseId/': {
+      id: '/app/cases/$caseId/'
+      path: '/'
+      fullPath: '/app/cases/$caseId/'
+      preLoaderRoute: typeof AppCasesCaseIdIndexRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
     }
     '/app/cases/$caseId/analysis': {
       id: '/app/cases/$caseId/analysis'
@@ -1369,6 +1386,7 @@ interface AppCasesCaseIdRouteChildren {
   AppCasesCaseIdSufficiencyRoute: typeof AppCasesCaseIdSufficiencyRoute
   AppCasesCaseIdTraceabilityRoute: typeof AppCasesCaseIdTraceabilityRoute
   AppCasesCaseIdTriageRoute: typeof AppCasesCaseIdTriageRoute
+  AppCasesCaseIdIndexRoute: typeof AppCasesCaseIdIndexRoute
 }
 
 const AppCasesCaseIdRouteChildren: AppCasesCaseIdRouteChildren = {
@@ -1398,6 +1416,7 @@ const AppCasesCaseIdRouteChildren: AppCasesCaseIdRouteChildren = {
   AppCasesCaseIdSufficiencyRoute: AppCasesCaseIdSufficiencyRoute,
   AppCasesCaseIdTraceabilityRoute: AppCasesCaseIdTraceabilityRoute,
   AppCasesCaseIdTriageRoute: AppCasesCaseIdTriageRoute,
+  AppCasesCaseIdIndexRoute: AppCasesCaseIdIndexRoute,
 }
 
 const AppCasesCaseIdRouteWithChildren = AppCasesCaseIdRoute._addFileChildren(
