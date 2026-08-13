@@ -58,7 +58,6 @@ const slides: Slide[] = [
 function OnboardingPage() {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slide = slides[currentSlide];
 
   const next = () => {
     if (currentSlide < slides.length - 1) {
@@ -77,6 +76,9 @@ function OnboardingPage() {
   const skip = () => {
     navigate({ to: "/login" });
   };
+
+  const slide = slides[currentSlide];
+  if (!slide) return null;
 
   return (
     <div className="min-h-screen veritas-hero-gradient flex flex-col p-6 text-white relative overflow-hidden">
