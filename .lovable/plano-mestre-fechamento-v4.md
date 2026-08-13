@@ -1,334 +1,313 @@
 VERITAS PERICIAL
-PLANO MESTRE DE FECHAMENTO PONTA A PONTA — V4.1
-REVISÃO DE AUDITORIA COMPLETA (SEM OMISSÕES)
+PLANO MESTRE DE FECHAMENTO — CORREÇÃO FINAL V4.2
 
 REPOSITÓRIO:
 TAVYRO/veritas-pericial-core
 
-BASELINE DE AUDITORIA:
-4fee67a13d3ab07e18478d4538a9199b114f6259
+BRANCH:
+main
+
+BASELINE IMUTÁVEL:
+4b80a462c7d5ac9f38faea30b834e570cd24c13d
 
 ==================================================
-DIAGNÓSTICO EXECUTIVO
+MISSÃO
 ==================================================
 
-O sistema Veritas Pericial atingiu maturidade estrutural no frontend (Mobile-first). A fundação do Dossiê e Quesitos está tecnicamente sólida e tipada. No entanto, as rotas de fechamento (Suficiência, Auditoria, Revisão) ainda operam como Mocks visuais desconectados do estado real do caso.
+Esta é a ÚLTIMA revisão arquitetural do Plano Mestre.
+
+NÃO criar uma nova auditoria genérica.
+NÃO recomeçar o trabalho do zero.
+
+USAR a V4.1 existente como base e corrigir somente:
+1. Contradições de ordem;
+2. Roadmap inconsistente;
+3. Prioridades P0/P1 sem prova;
+4. Percentual sem metodologia defensável;
+5. Escolha prematura de fornecedor de backend;
+6. Arquitetura incompleta de backend/permissões;
+7. Ausência de critérios detalhados nas microetapas;
+8. Relação Entrevistas -> Suficiência;
+9. Inconsistências entre números de etapas e fases futuras.
+
+O resultado deve ser um documento EXECUTÁVEL e CONGELÁVEL como:
+CHECKLIST OFICIAL DE FECHAMENTO DO VERITAS.
 
 ==================================================
-PARTE 1: ARQUITETURA DE ESTADO (OWNERSHIP)
-==================================================
-- **CaseWorkflowProvider:** Gerencia o ciclo de vida (Gates, Versões, Signatárias).
-- **CaseDossierProvider:** Gerencia a substância técnica (Materiais, Quesitos, Escopo).
-- **Consistência:** A separação está correta, mas a Suficiência (Workflow) não consome dados do Dossier.
-
-==================================================
-PARTE 2: FLUXO DE QUESITOS E RESPOSTAS
-==================================================
-- Status: FECHADO FUNCIONAL.
-- Verificado: IDs QO/QC/QE, reset de status "pending" em edições, vínculo com fontes.
-- Observação: A UI de rascunho (draft) já consome este estado.
-
-==================================================
-PARTE 3: GATE DE SUFICIÊNCIA
-==================================================
-- Status: MOCK — UI.
-- Local: `src/routes/app.cases.$caseId.sufficiency.tsx`.
-- Evidência: `SUFFICIENCY_ITEMS` é uma constante local. Progresso de 60% é fixo ("hardcoded").
-- Correção: Deve derivar o status de `materials`, `triage`, `object` e `questions`.
-
-==================================================
-PARTE 4: REVISÃO PROFISSIONAL
-==================================================
-- Status: MOCK — UI.
-- Local: `src/routes/app.cases.$caseId.professional-review.tsx`.
-- Evidência: `SECTIONS` locais estáticos. Sem ações nos botões.
-- Integração Necessária: Deve ler as seções reais do rascunho gerado.
-
-==================================================
-PARTE 5: AUDITORIA FORENSE
-==================================================
-- Status: DESCONECTADO (MOCK).
-- Local: `src/routes/app.cases.$caseId.audit.tsx`.
-- Evidência: `AUDIT_DIMENSIONS` é local. Todas as 10 dimensões nascem como "APROVADA".
-- Relação: Não reflete falhas na cadeia de custódia ou quesitos pendentes.
-
-==================================================
-PARTE 6: NOVO CASO E MULTI-CASE
-==================================================
-- Status: PARCIAL — ESTRUTURAL.
-- Local: `src/routes/app.cases.new.review.tsx`.
-- Evidência: Uso explícito de `"demo-case"` no `navigate`.
-- Limitação: O sistema suporta múltiplos casos no Provider, mas a navegação força o demo.
-
-==================================================
-PARTE 7: EQUIPE E COLABORAÇÃO
-==================================================
-- Status: PARCIAL (LOCAL).
-- CaseProfessional[]: Existe no domínio do caso (Assinantes).
-- Colaboração Realtime: FUTURO. Não existem usuários reais, convites ou permissões granulares.
-
-==================================================
-PARTE 8: DOMÍNIO DE ENTREVISTAS
-==================================================
-- A. O plano de entrevistas DEVE existir antes do Gate de Suficiência (Define se a prova está completa).
-- B. Registro de entrevistas DEVE preceder o Gate.
-- C. Gravação: Necessita Browser Media API (Frontend) + Lovable Cloud (Persistência).
-- D. Transcrição: Fase futura (IA/API externa).
-- E. O Gate pode considerar "NÃO SE APLICA" se o perito marcar no Escopo.
-- F. O Gate sabe via `CaseTechnicalScope` (Finalidade/Objeto).
-
-==================================================
-PARTE 9: LACUNAS CRÍTICAS (CRITICAL GAPS)
-==================================================
-- Status: MOCK — UI.
-- Local: `src/routes/app.cases.$caseId.critical-gaps.tsx`.
-- Regra: Máximo 5 itens. Hoje são 3 itens estáticos.
-- Lógica: Devem ser geradas quando um Quesito é marcado como "Insuficiente".
-
-==================================================
-PARTE 10: DEFINIÇÃO DE "FECHADO"
-==================================================
-- Critério: Zero dados mockados na lógica principal + Provider integrado + Ações funcionais.
-- Atualmente apenas PWA e Dossiê (Materiais/Quesitos) atendem parcialmente a este critério.
-
-==================================================
-PARTE 11: FRONTEND VS PRODUÇÃO
-==================================================
-- Login/Cadastro: Visuais apenas. Sem Auth JWT/Supabase.
-- Notificações: UI de lista mockada. Sem Push/Backend.
-- Busca: Filtro local em array. Sem indexação.
-
-==================================================
-PARTE 12: METODOLOGIA DE CÁLCULO (85%)
-==================================================
-Fórmula: `(Σ Domínios * Peso) / Total`.
-- Fechados: 2 (Dossiê, Quesitos) -> 20%
-- Estruturais (PWA, Shell, Nav): 3 -> 30%
-- Parciais (Workflow, Materiais, Signatárias): 5 -> 25%
-- Mocks/Futuro (Audit, Review, Auth, Chat): 5 -> 10%
-- **Total Corrigido: 85% do Core Frontend V1.**
-
-==================================================
-PARTE 13: ARQUITETURA DE SIGNATÁRIAS
-==================================================
-- Local: `CaseWorkflowProvider.tsx`.
-- Lógica: `authorizeSignature` e `revokeSignature` já invalidam `finalReleased`.
-- Tipagem: `SignatureAuthorization` vinculada a `professionalId` e `versionId`.
-
-==================================================
-PARTE 14: ARQUITETURA DE VERSÕES
-==================================================
-- Status: FECHADO ESTRUTURAL.
-- Lógica: `createNextVersion` arquiva a anterior e reseta gates de aprovação.
-- Local: `src/routes/app.cases.$caseId.versions.tsx`.
-
-==================================================
-PARTE 15: ARQUITETURA DE MATERIAIS
-==================================================
-- Status: FECHADO FUNCIONAL (LOCAL).
-- Suporta: Upload (simulado), Categorias (F01...), Metadados técnicos.
-- Local: `src/routes/app.cases.$caseId.materials.tsx`.
-
-==================================================
-PARTE 16: ARQUITETURA DE TRIAGEM (TRIAGE)
-==================================================
-- Regra: Fonte aceita, rejeitada ou pendente.
-- Impacto: Fontes rejeitadas não podem ser vinculadas a quesitos.
-- Status: FECHADO FUNCIONAL.
-
-==================================================
-PARTE 17: ARQUITETURA DE ESCOPO (OBJECT)
-==================================================
-- Regra: Definição de Objeto, Finalidade e Limites.
-- Status: FECHADO FUNCIONAL.
-
-==================================================
-PARTE 18: ARQUITETURA DE ANÁLISE (ANALYSIS)
-==================================================
-- Status: PARCIAL — UI.
-- Objetivo: Vínculo entre Fatos (Entrevistas/Materiais) e Quesitos.
-- Local: `src/routes/app.cases.$caseId.analysis.tsx`.
-
-==================================================
-PARTE 19: ARQUITETURA DE DOCUMENTO (DRAFT)
-==================================================
-- Editor: UI funcional.
-- Marca d'água: Baseada em `workflow.finalReleased`.
-- Status: FECHADO ESTRUTURAL.
-
-==================================================
-PARTE 20: ARQUITETURA DE RASTREABILIDADE
-==================================================
-- Objetivo: Exibir cadeia de custódia de cada conclusão.
-- Status: PARCIAL — UI.
-- Local: `src/routes/app.cases.$caseId.traceability.tsx`.
-
-==================================================
-PARTE 21: ARQUITETURA DE HISTÓRICO
-==================================================
-- Objetivo: Log de eventos do caso.
-- Status: PARCIAL — UI.
-- Local: `src/routes/app.cases.$caseId.history.tsx`.
-
-==================================================
-PARTE 22: ARQUITETURA DE NOTIFICAÇÕES
-==================================================
-- Status: MOCK — UI.
-- Local: `src/routes/app.notifications.tsx`.
-
-==================================================
-PARTE 23: ARQUITETURA DE PERFIL
-==================================================
-- Status: FECHADO ESTRUTURAL.
-- Telas: Edit, Preferences, Security.
-
-==================================================
-PARTE 24: PWA E OFFLINE
-==================================================
-- Status: FECHADO.
-- Manifest, Service Worker e Rota Offline (`/offline`) configurados.
-
-==================================================
-PARTE 25: WEB / DESKTOP
-==================================================
-- Mobile: Mantém Bottom Nav (5 ícones).
-- Desktop: Sidebar lateral automática (Vite/Tailwind lg:).
-- Editor: Layout expandido para 2 colunas (Documento / Referências).
-- Colaboração: Painel flutuante à direita.
-
-==================================================
-PARTE 26: PARCEIROS (MODELO CONCEITUAL)
-==================================================
-- Entidades: `ProfessionalProfile`, `PartnerRelationship`.
-- Fluxo: Convite -> Aceite -> Lista "Meus Parceiros".
-- Regra: Parceria é um vínculo profissional, não um acesso a dados.
-
-==================================================
-PARTE 27: EQUIPE DO CASO (MODELO CONCEITUAL)
-==================================================
-- Entidade: `CaseMember`.
-- Papéis: Responsável, Co-perito, Revisor, Assinante.
-- Escopo: Restrito ao `caseId`.
-
-==================================================
-PARTE 28: ROADMAP COMPLETO (32 MICROETAPAS)
-==================================================
-- ETAPA 01: Splash e Onboarding. (FECHADO)
-- ETAPA 02: Login e Recuperação. (FECHADO)
-- ETAPA 03: Cadastro Profissional. (FECHADO)
-- ETAPA 04: Dashboard e Navegação. (FECHADO)
-- ETAPA 05: Lista de Casos. (PARCIAL)
-- ETAPA 06: Dossiê e Materiais. (FECHADO)
-- ETAPA 07: Triage e Escopo. (FECHADO)
-- ETAPA 08: Quesitos Forenses (QO/QC/QE). (FECHADO)
-- ETAPA 09: Domínio de Respostas e Vínculos. (FECHADO)
-- ETAPA 10: Interface de Entrevistas. (PARCIAL)
-- ETAPA 11: Gate de Suficiência Dinâmico. (PRÓXIMA)
-- ETAPA 12: Lacunas Críticas e Pendências.
-- ETAPA 13: Análise Técnica e Evidências.
-- ETAPA 14: Cadeia de Rastreabilidade.
-- ETAPA 15: Editor de Rascunho Assistido.
-- ETAPA 16: Sistema de Versões Documentais.
-- ETAPA 17: Revisão Profissional Funcional.
-- ETAPA 18: Auditoria de 10 Dimensões.
-- ETAPA 19: Autorização de Assinaturas.
-- ETAPA 20: Liberação e Marca d'água.
-- ETAPA 21: PWA e Cache Offline.
-- ETAPA 22: Ajustes Desktop (Sidebar).
-- ETAPA 23: Dashboard Administrativo.
-- ETAPA 24: Gestão de Modelos (Templates).
-- ETAPA 25: Perfil e Configurações.
-- ETAPA 26: Notificações em Tempo Real.
-- ETAPA 27: Busca Global Indexada.
-- ETAPA 28: Central Skill Veritas (IA Mock).
-- ETAPA 29: Integração Supabase (Auth).
-- ETAPA 30: Banco de Dados Relacional.
-- ETAPA 31: Storage de Materiais Sensíveis.
-- ETAPA 32: Audit Log de Segurança.
-
-==================================================
-PARTE 29: CAMINHO CRÍTICO
-==================================================
-Dossiê (6A) -> Suficiência (6B) -> Análise (6C) -> Rascunho (6D) -> Revisão (7A) -> Auditoria (7B) -> Signatárias (7C) -> Final (8).
-
-==================================================
-PARTE 30: BACKEND (MODELO CONCEITUAL)
-==================================================
-- Cases (UUID, Status, Type).
-- CaseItems (F01, Metadata, Version).
-- Questions (Deterministic ID, Text, Status).
-- Workflows (Gates, ApprovalCount).
-- Signatures (ProfessionalID, Timestamp, Hash).
-
-==================================================
-PARTE 31: SEGURANÇA E PERMISSÕES
-==================================================
-- Isolamento por `caseId` no RLS.
-- Audit Log de todas as alterações em quesitos e conclusões.
-- Assinaturas digitais obrigatórias para liberação final.
-
-==================================================
-PARTE 32: FAKE ACTIONS (LISTA DE RISCO)
-==================================================
-- `/app/cases/$caseId/sufficiency`: Botão "Gerar Rascunho" (Navega mas não gera).
-- `/app/cases/$caseId/audit`: Itens de auditoria (Aparecem aprovados, não auditam).
-- `/app/cases/$caseId/professional-review`: Botão "Aprovar Seção" (Não persiste).
-
-==================================================
-PARTE 33: CHAT E COMENTÁRIOS
-==================================================
-- `CaseMessage`: Chat assíncrono para equipe.
-- `DocumentComment`: Ancorado a seções do rascunho.
-
-==================================================
-PARTE 34: REALTIME (ESTRATÉGIA)
-==================================================
-- V1: Colaboração assíncrona (Polling/Refresh).
-- Beta: Presença online (Supabase Realtime).
-
-==================================================
-PARTE 35: DEAD / LEGACY CODE
-==================================================
-- Candidatos: Nenhum identificado como seguro para remoção imediata.
-
-==================================================
-PARTE 36: RELATÓRIO DE TESTES
-==================================================
-- **bunx tsc --noEmit:** EXIT CODE 0
-- **bun run build:** EXIT CODE 0
-- **bun run lint:** EXIT CODE 1 (Prettier errors em UI components).
-
-==================================================
-PARTE 37: PRÓXIMA MICROETAPA
-==================================================
-- ESCOLHA: **[6B] Integração do Gate de Suficiência Forense.**
-- RAZÃO: A suficiência bloqueia a geração do rascunho. Integrar o frontend de suficiência ao `CaseDossierProvider` é o passo lógico para desbloquear a produção documental.
-
-==================================================
-ENCERRAMENTO
+REGRA ABSOLUTA DE ESCOPO
 ==================================================
 
-PLANO MESTRE V4.1 CONCLUÍDO
+SOMENTE LEITURA DO CÓDIGO.
+ÚNICO arquivo autorizado para alteração: `.lovable/plano-mestre-fechamento-v4.md`.
 
-Número de domínios: 15
-Fechados estruturais: 5
-Parciais: 5
-Mocks: 3
-Desconectados: 2
-Futuros/backend: 2
-Percentual: 85% do Core Frontend V1
-P0: 4
-P1: 8
-Total de microetapas: 32
-Próxima microetapa: [6B] Integração do Gate de Suficiência Forense
-Razão: Dependência lógica para desbloqueio da Análise e Rascunho.
-Core V1 termina na etapa: 20
-Web/Desktop começa na etapa: 22
-Multi-case começa na etapa: 29
-Backend começa na etapa: 29
-Parceiros começam na etapa: 26
-Chat começa na etapa: 31
-Produção começa na etapa: 32
+NÃO alterar src/, public/, package.json ou qualquer outro arquivo do projeto.
+NÃO implementar funcionalidade, refatorar código ou executar lint --fix.
+
+==================================================
+1 — PRESERVAR O QUE JÁ FOI VALIDADO
+==================================================
+
+Preservar na V4.2:
+- Quesitos/Respostas como domínio funcional fechado (Micro-estágio 6A.1 concluído);
+- Dossiê, Materiais, Triagem, Escopo Técnico (Fase 5 concluída);
+- Versions, Proteção de Final, Assinaturas por profissional;
+- Ausência de P0 comprovado (P0 = 0);
+- Bottom Navigation Mobile: Início | Casos | Gravar | Veritas | Perfil.
+
+NÃO reabrir domínio fechado sem prova objetiva.
+
+==================================================
+2 — CORREÇÃO DE ORDEM: ENTREVISTAS E SUFICIÊNCIA
+==================================================
+
+A V4.1 continha uma contradição lógica. O Gate de Suficiência avalia se a coleta foi suficiente, logo as Entrevistas (fontes orais) devem estar planejadas/registradas ANTES.
+
+CADEIA ARQUITETURAL REAL:
+Escopo Técnico 
+→ Quesitos 
+→ Plano/Registro de Entrevistas (Nova 6B) 
+→ Gate de Suficiência (Nova 6C) 
+→ Lacunas Críticas (Nova 6D) 
+→ Análise 
+→ Documento.
+
+==================================================
+3 — NOVA PRÓXIMA MICROETAPA: [6B]
+==================================================
+
+ID: 6B
+NOME: Fundação do Domínio de Entrevistas
+
+OBJETIVO: Criar o estado de domínio para planejamento e registro de entrevistas no Case Dossier.
+
+POR QUE VEM NESTE MOMENTO: O Gate de Suficiência precisa saber quais entrevistas eram necessárias e se foram realizadas para validar a completude da coleta.
+
+DEPENDÊNCIAS: 6A.1 (Quesitos).
+
+ARQUIVOS PROVÁVEIS:
+- `src/features/dossier/case-dossier-types.ts` (Novos tipos)
+- `src/features/dossier/CaseDossierProvider.tsx` (Novas ações)
+- `src/routes/app.cases.$caseId.interviews.tsx` (Consumir estado)
+
+O QUE NÃO TOCAR: Gravação real, upload de áudio, transcrição IA, backend. Apenas frontend/domain state.
+
+ESTADO/DOMÍNIO CONCEITUAL:
+`CaseInterview`:
+- `id`: UUID ou determinístico.
+- `personName`: string.
+- `relation`: string (ex: Genitor, Testemunha).
+- `professionalIds`: string[] (vínculo com signatários).
+- `purpose`: string.
+- `status`: 'planned' | 'scheduled' | 'completed' | 'not-applicable' | 'cancelled'.
+- `scheduledAt`: string | null.
+- `completedAt`: string | null.
+- `notes`: string.
+- `sourceIds`: string[] (vínculo com itens do dossiê, ex: áudios Fxx).
+
+CRITÉRIO DE ACEITE: `CaseDossierProvider` permite adicionar/remover/atualizar entrevistas e a tela de entrevistas lista os dados reais do estado.
+
+==================================================
+4 — RELAÇÃO ENTREVISTAS → QUESITOS
+==================================================
+
+- Quesitos do tipo `kind: "interview"` (QE) podem ser criados antes do agendamento da pessoa.
+- Uma entrevista "concluída" não exige obrigatoriamente todas as QE respondidas se o perito justificar.
+- QE pendentes BLOQUEIAM a Suficiência se forem marcadas como essenciais no plano.
+
+==================================================
+5 — GATE DE SUFICIÊNCIA REAL [6C]
+==================================================
+
+O Gate (6C) deixará de ser um mock fixo de 60%.
+Candidatos a validação real:
+- `materialsCollectionComplete`: true.
+- `triageComplete`: true.
+- `technicalScope.confirmed`: true.
+- `questions`: Nenhum "Official" ou "Complementary" com status "pending".
+- `interviews`: Nenhuma entrevista com status "planned" ou "scheduled" (deve ser 'completed', 'not-applicable' ou 'cancelled').
+
+O Gate de Suficiência controla a progressão para a FASE DE ANÁLISE.
+
+==================================================
+6 — LACUNAS CRÍTICAS [6D]
+==================================================
+
+Lacunas serão geradas quando:
+- Um Quesito for marcado como "insufficient".
+- Uma entrevista necessária for cancelada.
+- Uma fonte material for rejeitada na triagem mas exigida no escopo.
+
+Regra: Máximo de 5 lacunas críticas apresentadas por vez.
+
+==================================================
+7 — MULTI-CASE E ISOLAMENTO [FASE D]
+==================================================
+
+Multi-case frontend deve ocorrer ANTES do backend para remover a dependência do "demo-case".
+Etapas:
+1. Criar `newCaseId` real.
+2. Navegar para o ID gerado.
+3. Garantir que `CaseDossierProvider` e `CaseWorkflowProvider` isolam dados por chave.
+4. Listar casos existentes na Dashboard.
+
+==================================================
+8 — MODELO CONCEITUAL DE BACKEND (PROVIDER A DEFINIR)
+==================================================
+
+Removida escolha prematura de Supabase/Lovable Cloud. O projeto usará "BACKEND PROVIDER — A DEFINIR".
+
+Entidades Mínimas:
+- `User` / `ProfessionalProfile`.
+- `Case` (Dono: Criador, Isolamento: UUID).
+- `CaseMember` (Papéis: Owner, Expert, Reviewer, Signer).
+- `CaseDossierItem` (F01...).
+- `CaseQuestion` / `CaseInterview`.
+- `Document` / `DocumentVersion`.
+- `SignatureAuthorization`.
+- `PartnerRelationship` (Vínculo entre perfis, NÃO concede acesso a casos).
+- `CaseInvitation` (Convite explícito para um `caseId`).
+
+==================================================
+9 — CAMINHO CRÍTICO CORRIGIDO (ROADMAP)
+==================================================
+
+FASES:
+FASE A: Domínio Pericial (Dossiê, Quesitos, Entrevistas, Suficiência, Lacunas).
+FASE B: Produção Documental (Draft, Review, Audit, Signatures, Final).
+FASE C: UX Web/Desktop (Responsividade, Sidebar, Layouts expandidos).
+FASE D: Multi-case Frontend (Isolamento de memória).
+FASE E: Persistência & Auth (Backend Provider, Sessions, RLS).
+FASE F: Colaboração & Rede (Parceiros, Convites, Equipe, Chat do Caso).
+FASE G: Integrações & IA (Arquivos reais, Transcrição, Veritas AI).
+
+==================================================
+10 — TABELA MESTRE DE MICROETAPAS (FUTURO)
+==================================================
+
+| ID | MICROETAPA | STATUS | DEPENDE DE | FASE |
+|---|---|---|---|---|
+| 6A.1 | Saneamento de Quesitos | CONCLUÍDO | - | A |
+| 6B | Domínio de Entrevistas | PRÓXIMA | 6A.1 | A |
+| 6C | Gate de Suficiência Real | PENDENTE | 6B | A |
+| 6D | Lacunas Críticas Reais | PENDENTE | 6C | A |
+| 7A | Fonte Única Documental | PENDENTE | 6D | B |
+| 7B | Revisão Profissional Real | PENDENTE | 7A | B |
+| 7C | Auditoria Forense Real | PENDENTE | 7B | B |
+| 8A | Web/Desktop App Shell | PENDENTE | 4C | C |
+| 9A | Multi-case em Memória | PENDENTE | 6D | D |
+| 10A | Autenticação & Perfil Real | PENDENTE | 9A | E |
+
+==================================================
+11 — DIAGNÓSTICO DE RISCO (P0/P1)
+==================================================
+
+P0 (Bloqueantes/Segurança): 0
+(Não foram encontradas evidências de mistura de casos ou bypass de segurança real no código atual, dado que tudo opera em memória isolada por Provider).
+
+P1 (Críticos Operacionais): 6
+- P1-01: Suficiência fixa em 60% (Resolvido em 6C).
+- P1-02: Auditoria aprovada por padrão (Resolvido em 7C).
+- P1-03: Navegação forçada para demo-case (Resolvido em 9A).
+- P1-04: Falta de domínio de entrevistas (Resolvido em 6B).
+- P1-05: Rascunho assistido sem fonte documental (Resolvido em 7A).
+- P1-06: Assinaturas sem validação de versão (Mock atual).
+
+==================================================
+12 — PERCENTUAL DO CORE FRONTEND V1
+==================================================
+
+Metodologia: Microetapas Core concluídas (8) / Total Core planejado (20) = 40%.
+(Considerando o marco "Core Frontend V1" até a etapa 20 - Final Released).
+
+PERCENTUAL: 40%
+
+==================================================
+13 — CHECKLIST CORE FRONTEND V1
+==================================================
+[X] Domínio de Quesitos
+[ ] Domínio de Entrevistas
+[ ] Suficiência Real
+[ ] Critical Gaps Reais
+[ ] Fonte única documental
+[ ] Revisão profissional real
+[ ] Auditoria real
+[ ] Assinaturas vinculadas a Versão
+[ ] Final Released bloqueado por Gates
+
+==================================================
+14 — TESTES E INTEGRIDADE
+==================================================
+- TSC EXIT CODE: 0
+- BUILD EXIT CODE: 0
+- LINT EXIT CODE: 1 (Mantido para preservar escopo).
+
+==================================================
+15 — PRÓXIMA MICROETAPA DEFINIDA
+==================================================
+
+PRÓXIMA: 6B — Fundação do Domínio de Entrevistas.
+RAZÃO: O Gate de Suficiência (6C) depende de dados reais de entrevistas para validar a completude da coleta de provas. Sem 6B, 6C permanece mock.
+
+PLANO MESTRE V4.2 CONCLUÍDO
+
+Baseline:
+4b80a462c7d5ac9f38faea30b834e570cd24c13d
+
+P0:
+0
+
+P1:
+6
+
+Percentual do Core:
+40%
+
+Total de microetapas futuras:
+24
+
+Próxima microetapa:
+6B — Fundação do Domínio de Entrevistas
+
+Razão:
+Dependência do Gate de Suficiência (6C) por dados reais de entrevistas.
+
+Core Frontend V1 encerra em:
+20
+
+Web/Desktop começa em:
+8A
+
+Multi-case começa em:
+9A
+
+Backend começa em:
+10A
+
+Rede de Peritos começa em:
+11A
+
+Equipe colaborativa começa em:
+12A
+
+Chat começa em:
+12B
+
+Comentários começam em:
+12C
+
+Realtime começa em:
+13A
+
+Produção começa em:
+15A
+
+BOTTOM NAV MOBILE:
+Início | Casos | Gravar | Veritas | Perfil
+
+STATUS DO PLANO:
+PRONTO PARA EXECUÇÃO
 
 PARE.
+
 NÃO IMPLEMENTE NADA.
+
