@@ -1,27 +1,30 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, User, Scale, Activity, AlertCircle, Layout } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
+import { getDocumentTypeById, documentTypeIdSchema, type DocumentTypeId } from "@/features/documents/document-types";
 import { MOCK_TEMPLATES } from "@/features/documents/mock-templates";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
-import type { TemplateId } from "@/features/documents/template-types";
+import { templateIdSchema, type TemplateId } from "@/features/documents/template-ids";
+
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
-    mode: z.enum(["automatic", "guided"]).optional(),
-    caseNumber: z.string().optional(),
-    professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema.optional(),
-    templateId: z.string().optional(),
+    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+    caseNumber: z.string().optional().catch(undefined),
+    professionals: z.array(z.string()).optional().catch(undefined),
+    docType: documentTypeIdSchema.optional().catch(undefined),
+    templateId: templateIdSchema.optional().catch(undefined),
   }).parse(search),
   component: ReviewPage,
 });
 
+
 function ReviewPage() {
-  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
+  const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch() as { mode?: "automatic" | "guided", caseNumber?: string, professionals?: string[], docType?: DocumentTypeId, templateId?: TemplateId };
   const { setDocumentType, setTemplate } = useCaseWorkflow();
+  const navigate = useNavigate();
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const templateInfo = templateId ? MOCK_TEMPLATES.find(t => t.id === templateId) : undefined;
@@ -35,10 +38,16 @@ function ReviewPage() {
     if (docType && docTypeInfo) {
       setDocumentType("demo-case", docType, docTypeInfo.label);
       if (templateId) {
-        setTemplate("demo-case", templateId as TemplateId);
+        setTemplate("demo-case", templateId);
       }
     }
+
+    navigate({
+      to: "/app/cases/$caseId/materials",
+      params: { caseId: "demo-case" }
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -130,13 +139,11 @@ function ReviewPage() {
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg shadow-xl shadow-veritas-electric/20 disabled:opacity-50"
           disabled={!isValid}
           onClick={handleCreateCase}
-          asChild
         >
-          <Link to="/app/cases/$caseId/materials" params={{ caseId: "demo-case" }}>
-            Criar ambiente do caso
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Link>
+          Criar ambiente do caso
+          <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
 
         <p className="text-[10px] text-white/20 text-center px-4">
           Ao criar o ambiente, a Veritas iniciará o processamento preliminar dos dados fornecidos.

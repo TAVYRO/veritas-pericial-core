@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
 import { ChevronRight, FileText, Check, Info } from "lucide-react";
@@ -7,14 +7,14 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MOCK_TEMPLATES, getTemplatesForDocumentType } from "@/features/documents/mock-templates";
 import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/document-types";
-import type { TemplateId } from "@/features/documents/template-types";
+import type { TemplateId } from "@/features/documents/template-ids";
 
 export const Route = createFileRoute("/app/cases/new/template")({
   validateSearch: (search) => z.object({
-    mode: z.enum(["automatic", "guided"]).optional(),
-    caseNumber: z.string().optional(),
-    professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema.optional(),
+    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+    caseNumber: z.string().optional().catch(undefined),
+    professionals: z.array(z.string()).optional().catch(undefined),
+    docType: documentTypeIdSchema.optional().catch(undefined),
   }).parse(search),
   component: SelectTemplatePage,
 });
@@ -22,6 +22,16 @@ export const Route = createFileRoute("/app/cases/new/template")({
 function SelectTemplatePage() {
   const { mode, caseNumber, professionals = [], docType } = Route.useSearch();
   const [selectedId, setSelectedId] = useState<TemplateId | "">("");
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    if (!selectedId) return;
+    navigate({
+      to: "/app/cases/new/review",
+      search: { mode, caseNumber, professionals, docType, templateId: selectedId }
+    });
+  };
+
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const compatibleTemplates = docType ? getTemplatesForDocumentType(docType) : [];
@@ -120,16 +130,12 @@ function SelectTemplatePage() {
         <Button 
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
           disabled={!selectedId}
-          asChild
+          onClick={handleContinue}
         >
-          <Link 
-            to="/app/cases/new/review" 
-            search={{ mode, caseNumber, professionals, docType, templateId: selectedId }}
-          >
-            Continuar
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Link>
+          Continuar
+          <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
       </main>
 
       <BottomNavigation />

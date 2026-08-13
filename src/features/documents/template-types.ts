@@ -1,8 +1,10 @@
-import { DocumentTypeId } from "../cases/case-types";
+import type { DocumentTypeId } from "../documents/document-type-ids";
+import type { TemplateId } from "./template-ids";
 
 export type TemplateStatus = "active" | "draft" | "deprecated";
 export type TemplateScope = "general" | "psychology" | "social-work" | "multiprofessional";
-export type TemplateId = "veritas-standard" | "veritas-multiprofessional";
+export type { TemplateId };
+
 
 export interface DocumentTemplate {
   id: TemplateId;

@@ -1,18 +1,9 @@
 import { z } from "zod";
-import type { DocumentTypeId } from "../cases/case-types";
+import { DOCUMENT_TYPE_IDS, documentTypeIdSchema, type DocumentTypeId } from "./document-type-ids";
 
-export const DOCUMENT_TYPE_IDS = [
-  "laudo-psicologico",
-  "relatorio-psicologico",
-  "parecer-psicologico",
-  "estudo-laudo-social",
-  "parecer-social",
-  "relatorio-psicossocial",
-  "relatorio-multiprofissional",
-  "laudo-multiprofissional",
-] as const;
+export { DOCUMENT_TYPE_IDS, documentTypeIdSchema };
+export type { DocumentTypeId };
 
-export const documentTypeIdSchema = z.enum(DOCUMENT_TYPE_IDS);
 
 export type Discipline = "psychology" | "social-work" | "multiprofessional";
 
@@ -77,7 +68,7 @@ export const DOCUMENT_TYPES: DocumentTypeDefinition[] = [
   }
 ];
 
-export function getDocumentTypeById(id: DocumentTypeId | string): DocumentTypeDefinition | undefined {
+export function getDocumentTypeById(id: DocumentTypeId): DocumentTypeDefinition | undefined {
   return DOCUMENT_TYPES.find(dt => dt.id === id);
 }
 

@@ -1,12 +1,7 @@
-export type DocumentTypeId =
-  | "laudo-psicologico"
-  | "relatorio-psicologico"
-  | "parecer-psicologico"
-  | "estudo-laudo-social"
-  | "parecer-social"
-  | "relatorio-psicossocial"
-  | "relatorio-multiprofissional"
-  | "laudo-multiprofissional";
+import type { DocumentTypeId } from "../documents/document-type-ids";
+import type { TemplateId } from "../documents/template-ids";
+
+export type { DocumentTypeId };
 
 export interface CaseProfessional {
 	id: string;
@@ -47,7 +42,7 @@ export interface SignatureAuthorization {
 export interface CaseWorkflowState {
 	caseId: string;
 	documentType: DocumentTypeId;
-	templateId: string | null;
+	templateId: TemplateId | null;
 	currentVersion: DocumentVersionRef;
 	sufficiencyApproved: boolean;
 	auditApproved: boolean;
