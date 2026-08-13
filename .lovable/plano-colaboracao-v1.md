@@ -444,7 +444,7 @@ Resultado futuro:
 PASS / FAIL por item.
 Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
 
-## 20. REGISTRO DE BASELINES
+## 21. REGISTRO DE BASELINES
 
 | ETAPA | STATUS | BASELINE INICIAL | HEAD VALIDADO | ARQUIVOS | OBSERVAÇÕES |
 | :--- | :--- | :--- | :--- | :--- | :--- |
