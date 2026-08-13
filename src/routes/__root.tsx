@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { PWAUpdater, useOnlineStatus } from "@/components/veritas/PWAHandlers";
+import { PWABrowserNotice } from "@/components/veritas/PWABrowserNotice";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -139,6 +140,7 @@ function RootComponent() {
       <Outlet />
       <Toaster position="top-center" expand={false} richColors />
       <PWAUpdater />
+      <PWABrowserNotice />
     </QueryClientProvider>
   );
 }
