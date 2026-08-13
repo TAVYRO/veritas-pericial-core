@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, Eye, EyeOff, Check, User, Mail, Phone, Lock } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Check, User, Mail, Phone, Lock, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/register/")({
@@ -191,7 +191,7 @@ function RegisterIndexPage() {
               Confirmar senha
             </Label>
             <div className="relative group">
-              <Shield className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-veritas-silver-dim group-focus-within:text-veritas-electric transition-colors" />
+              <ShieldAlert className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-veritas-silver-dim group-focus-within:text-veritas-electric transition-colors" />
               <Input
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}

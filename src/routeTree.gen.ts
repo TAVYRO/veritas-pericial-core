@@ -23,6 +23,7 @@ import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppRecordRouteImport } from './routes/app.record'
 import { Route as AppSearchRouteImport } from './routes/app.search'
 import { Route as AppVeritasRouteImport } from './routes/app.veritas'
+import { Route as RegisterIndexRouteImport } from './routes/register.index'
 import { Route as RegisterProfessionalRouteImport } from './routes/register.professional'
 import { Route as RegisterProfileRouteImport } from './routes/register.profile'
 import { Route as RegisterSuccessRouteImport } from './routes/register.success'
@@ -99,6 +100,11 @@ const AppVeritasRoute = AppVeritasRouteImport.update({
   path: '/veritas',
   getParentRoute: () => AppRoute,
 } as any)
+const RegisterIndexRoute = RegisterIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RegisterRoute,
+} as any)
 const RegisterProfessionalRoute = RegisterProfessionalRouteImport.update({
   id: '/professional',
   path: '/professional',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
   '/app/': typeof AppIndexRoute
+  '/register/': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -152,7 +159,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/offline': typeof OfflineRoute
   '/onboarding': typeof OnboardingRoute
-  '/register': typeof RegisterRouteWithChildren
   '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
@@ -163,6 +169,7 @@ export interface FileRoutesByTo {
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
   '/app': typeof AppIndexRoute
+  '/register': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -185,6 +192,7 @@ export interface FileRoutesById {
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
   '/app/': typeof AppIndexRoute
+  '/register/': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
@@ -208,6 +216,7 @@ export interface FileRouteTypes {
     | '/register/profile'
     | '/register/success'
     | '/app/'
+    | '/register/'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   fileRoutesByTo: FileRoutesByTo
@@ -217,7 +226,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/offline'
     | '/onboarding'
-    | '/register'
     | '/app/cases'
     | '/app/notifications'
     | '/app/profile'
@@ -228,6 +236,7 @@ export interface FileRouteTypes {
     | '/register/profile'
     | '/register/success'
     | '/app'
+    | '/register'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   id:
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/register/profile'
     | '/register/success'
     | '/app/'
+    | '/register/'
     | '/app/cases/demo-case'
     | '/app/cases/new/process'
   fileRoutesById: FileRoutesById
@@ -363,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppVeritasRouteImport
       parentRoute: typeof AppRoute
     }
+    '/register/': {
+      id: '/register/'
+      path: '/'
+      fullPath: '/register/'
+      preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof RegisterRoute
+    }
     '/register/professional': {
       id: '/register/professional'
       path: '/professional'
@@ -441,12 +458,14 @@ interface RegisterRouteChildren {
   RegisterProfessionalRoute: typeof RegisterProfessionalRoute
   RegisterProfileRoute: typeof RegisterProfileRoute
   RegisterSuccessRoute: typeof RegisterSuccessRoute
+  RegisterIndexRoute: typeof RegisterIndexRoute
 }
 
 const RegisterRouteChildren: RegisterRouteChildren = {
   RegisterProfessionalRoute: RegisterProfessionalRoute,
   RegisterProfileRoute: RegisterProfileRoute,
   RegisterSuccessRoute: RegisterSuccessRoute,
+  RegisterIndexRoute: RegisterIndexRoute,
 }
 
 const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
