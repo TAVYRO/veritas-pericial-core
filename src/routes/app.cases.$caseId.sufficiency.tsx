@@ -1,10 +1,11 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, useParams, Link } from "@tanstack/react-router";
 import { 
   CheckCircle2, 
   MinusCircle, 
   AlertCircle,
   ShieldCheck,
-  ShieldAlert
+  ShieldAlert,
+  ArrowRight
 } from "lucide-react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
@@ -121,6 +122,26 @@ function SufficiencyPage() {
           )}
         </div>
       </div>
+
+      {/* Navigation to Analysis (Only when sufficient) */}
+      {evaluation.isSufficient && (
+        <div className="pt-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <Link
+            to="/app/cases/$caseId/analysis"
+            params={{ caseId }}
+            className="group w-full flex flex-col items-center justify-center gap-2 p-6 rounded-2xl bg-veritas-electric text-white font-semibold shadow-lg shadow-veritas-electric/20 hover:bg-veritas-electric/90 active:scale-[0.98] transition-all"
+            aria-label="Avançar para Análise"
+          >
+            <div className="flex items-center gap-2">
+              <span>Avançar para Análise</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <span className="text-xs font-normal text-white/70">
+              Os critérios aplicáveis estão atendidos.
+            </span>
+          </Link>
+        </div>
+      )}
 
       {/* Criteria Groups */}
       <div className="space-y-8">
