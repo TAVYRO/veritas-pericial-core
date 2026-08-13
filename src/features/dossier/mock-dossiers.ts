@@ -4,6 +4,8 @@ export const INITIAL_DOSSIERS: Record<string, CaseDossierState> = {
   "demo-case": {
     caseId: "demo-case",
     materialsCollectionComplete: false,
+    triageReviews: [],
+    triageComplete: false,
     items: [
       {
         id: "F01",

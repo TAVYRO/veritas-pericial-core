@@ -6,6 +6,11 @@ interface CaseDossierContextType {
   getDossier: (caseId: string) => CaseDossierState | undefined;
   setMaterialsCollectionComplete: (caseId: string, complete: boolean) => void;
   addDossierItem: (caseId: string, input: NewCaseDossierItemInput) => void;
+  setTriageReviewed: (caseId: string, sourceId: string, reviewed: boolean) => void;
+  setTriageNote: (caseId: string, sourceId: string, note: string) => void;
+  canCompleteTriage: (caseId: string) => boolean;
+  completeTriage: (caseId: string) => void;
+  reopenTriage: (caseId: string) => void;
 }
 
 const CaseDossierContext = createContext<CaseDossierContextType | undefined>(undefined);
@@ -26,7 +31,8 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
         ...prev,
         [caseId]: {
           ...dossier,
-          materialsCollectionComplete: complete
+          materialsCollectionComplete: complete,
+          triageComplete: complete === false ? false : dossier.triageComplete
         }
       };
     });
@@ -68,14 +74,133 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
         [caseId]: {
           ...dossier,
           items: [...dossier.items, newItem],
-          materialsCollectionComplete: false
+          materialsCollectionComplete: false,
+          triageComplete: false
+        }
+      };
+    });
+  }, []);
+
+  const setTriageReviewed = useCallback((caseId: string, sourceId: string, reviewed: boolean) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier || !dossier.items.some(item => item.id === sourceId)) return prev;
+
+      const existingReview = dossier.triageReviews.find(r => r.sourceId === sourceId);
+      
+      if (existingReview && existingReview.reviewed === reviewed) return prev;
+
+      let newReviews;
+      if (existingReview) {
+        newReviews = dossier.triageReviews.map(r => 
+          r.sourceId === sourceId ? { ...r, reviewed } : r
+        );
+      } else {
+        newReviews = [...dossier.triageReviews, { sourceId, reviewed, note: "" }];
+      }
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          triageReviews: newReviews,
+          triageComplete: false
+        }
+      };
+    });
+  }, []);
+
+  const setTriageNote = useCallback((caseId: string, sourceId: string, note: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier || !dossier.items.some(item => item.id === sourceId)) return prev;
+
+      const existingReview = dossier.triageReviews.find(r => r.sourceId === sourceId);
+      
+      if (existingReview && existingReview.note === note) return prev;
+
+      let newReviews;
+      if (existingReview) {
+        newReviews = dossier.triageReviews.map(r => 
+          r.sourceId === sourceId ? { ...r, note } : r
+        );
+      } else {
+        newReviews = [...dossier.triageReviews, { sourceId, reviewed: false, note }];
+      }
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          triageReviews: newReviews,
+          triageComplete: false
+        }
+      };
+    });
+  }, []);
+
+  const canCompleteTriage = useCallback((caseId: string) => {
+    const dossier = dossiers[caseId];
+    if (!dossier) return false;
+    if (!dossier.materialsCollectionComplete) return false;
+    if (dossier.items.length === 0) return false;
+    
+    return dossier.items.every(item => {
+      const review = dossier.triageReviews.find(r => r.sourceId === item.id);
+      return review?.reviewed === true;
+    });
+  }, [dossiers]);
+
+  const completeTriage = useCallback((caseId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+      
+      const canComplete = dossier.materialsCollectionComplete && 
+                          dossier.items.length > 0 && 
+                          dossier.items.every(item => {
+                            const review = dossier.triageReviews.find(r => r.sourceId === item.id);
+                            return review?.reviewed === true;
+                          });
+      
+      if (!canComplete) return prev;
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          triageComplete: true
+        }
+      };
+    });
+  }, []);
+
+  const reopenTriage = useCallback((caseId: string) => {
+    setDossiers(prev => {
+      const dossier = prev[caseId];
+      if (!dossier) return prev;
+
+      return {
+        ...prev,
+        [caseId]: {
+          ...dossier,
+          triageComplete: false
         }
       };
     });
   }, []);
 
   return (
-    <CaseDossierContext.Provider value={{ getDossier, setMaterialsCollectionComplete, addDossierItem }}>
+    <CaseDossierContext.Provider value={{ 
+      getDossier, 
+      setMaterialsCollectionComplete, 
+      addDossierItem,
+      setTriageReviewed,
+      setTriageNote,
+      canCompleteTriage,
+      completeTriage,
+      reopenTriage
+    }}>
       {children}
     </CaseDossierContext.Provider>
   );
