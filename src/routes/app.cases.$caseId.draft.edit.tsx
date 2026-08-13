@@ -41,16 +41,12 @@ function DraftEditPage() {
 
   // Local states for UI management
   const [newSectionTitle, setNewSectionTitle] = useState("");
-  const [newParagraphTexts, setNewParagraphTexts] = useState<
-    Record<string, string>
-  >({});
+  const [newParagraphTexts, setNewParagraphTexts] = useState<Record<string, string>>({});
 
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
   const [sectionTitleDraft, setSectionTitleDraft] = useState("");
 
-  const [editingParagraphId, setEditingParagraphId] = useState<string | null>(
-    null,
-  );
+  const [editingParagraphId, setEditingParagraphId] = useState<string | null>(null);
   const [paragraphTextDraft, setParagraphTextDraft] = useState("");
 
   const [confirmDelete, setConfirmDelete] = useState<{
@@ -161,9 +157,7 @@ function DraftEditPage() {
               <FileText className="w-10 h-10 text-white/20" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-lg font-bold">
-                Nenhum rascunho foi iniciado nesta versão.
-              </h3>
+              <h3 className="text-lg font-bold">Nenhum rascunho foi iniciado nesta versão.</h3>
               <p className="text-sm text-white/40">
                 Inicie um rascunho vazio para começar a estruturar o documento.
               </p>
@@ -199,13 +193,8 @@ function DraftEditPage() {
                             autoFocus
                             className="flex-1 bg-white/10 border border-white/20 rounded px-3 py-1 text-sm focus:ring-1 focus:ring-veritas-electric outline-none"
                             value={sectionTitleDraft}
-                            onChange={(e) =>
-                              setSectionTitleDraft(e.target.value)
-                            }
-                            onKeyDown={(e) =>
-                              e.key === "Enter" &&
-                              handleUpdateSection(section.id)
-                            }
+                            onChange={(e) => setSectionTitleDraft(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleUpdateSection(section.id)}
                           />
                           <button
                             onClick={() => handleUpdateSection(section.id)}
@@ -226,9 +215,7 @@ function DraftEditPage() {
                             <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest">
                               {section.id}
                             </span>
-                            <h3 className="font-bold text-sm tracking-tight">
-                              {section.title}
-                            </h3>
+                            <h3 className="font-bold text-sm tracking-tight">{section.title}</h3>
                           </div>
                           <div className="flex gap-2">
                             <button
@@ -315,9 +302,7 @@ function DraftEditPage() {
                                 autoFocus
                                 className="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-sm leading-relaxed focus:ring-1 focus:ring-veritas-electric outline-none min-h-[100px] resize-none"
                                 value={paragraphTextDraft}
-                                onChange={(e) =>
-                                  setParagraphTextDraft(e.target.value)
-                                }
+                                onChange={(e) => setParagraphTextDraft(e.target.value)}
                               />
                               <div className="flex justify-end gap-2">
                                 <button
@@ -327,9 +312,7 @@ function DraftEditPage() {
                                   Cancelar
                                 </button>
                                 <button
-                                  onClick={() =>
-                                    handleUpdateParagraph(para.id)
-                                  }
+                                  onClick={() => handleUpdateParagraph(para.id)}
                                   className="px-3 py-1.5 bg-veritas-electric text-white text-xs font-bold rounded-lg hover:bg-veritas-electric/90 transition-colors"
                                 >
                                   Salvar alteração
@@ -408,9 +391,7 @@ function DraftEditPage() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-veritas-ink/80 backdrop-blur-sm animate-fade-in">
           <div className="bg-veritas-graphite border border-white/10 p-8 rounded-2xl max-w-sm w-full space-y-6 shadow-2xl">
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-white">
-                Confirmar exclusão?
-              </h3>
+              <h3 className="text-xl font-bold text-white">Confirmar exclusão?</h3>
               <p className="text-sm text-white/60">
                 {confirmDelete.type === "section"
                   ? "Esta ação removerá permanentemente esta seção e todos os seus parágrafos."
