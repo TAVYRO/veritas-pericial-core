@@ -37,12 +37,22 @@ function SignaturesPage() {
 
 	return (
 		<div className="p-6 space-y-6 pb-32">
-			<header className="space-y-1">
-				<h2 className="text-xl font-bold text-white tracking-tight">
-					Assinaturas e Autorizações
-				</h2>
-				<p className="text-xs text-white/40">
-					Gestão das credenciais profissionais no documento final.
+			<header className="space-y-2">
+				<div className="flex items-center justify-between">
+					<h2 className="text-xl font-bold text-white tracking-tight">
+						Assinaturas e Autorizações
+					</h2>
+					<div className="bg-veritas-electric/10 border border-veritas-electric/20 px-3 py-1 rounded-full">
+						<span className="text-[10px] font-black text-veritas-electric uppercase tracking-widest">
+							Versão atual: {workflow.currentVersion.label}
+						</span>
+					</div>
+				</div>
+				<p className="text-xs text-white/60 leading-relaxed">
+					Gerencie as autorizações de uso de assinatura vinculadas à versão documental atual.
+				</p>
+				<p className="text-[10px] text-white/40 font-medium italic">
+					Nenhuma assinatura é aplicada ao documento nesta etapa.
 				</p>
 			</header>
 
@@ -64,7 +74,14 @@ function SignaturesPage() {
 										<UserCheck className="w-6 h-6 text-white/40" />
 									</div>
 									<div>
-										<h3 className="text-sm font-bold text-white">{pro.name}</h3>
+										<div className="flex items-center gap-2">
+											<h3 className="text-sm font-bold text-white">{pro.name}</h3>
+											{pro.isRequiredSigner && (
+												<span className="px-1.5 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded text-[8px] font-bold text-amber-500 uppercase tracking-tighter">
+													Assinante obrigatório
+												</span>
+											)}
+										</div>
 										<p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
 											{pro.profession} • {pro.registration}
 										</p>
@@ -77,14 +94,21 @@ function SignaturesPage() {
 
 							<div className="space-y-4 pt-6 border-t border-white/5">
 								<div className="flex items-center justify-between">
-									<p className="text-xs text-white/80 font-medium">
-										Autorizar assinatura para este caso e esta versão.
+									<p className="text-xs text-white/80 font-medium pr-4">
+										Autorizar o uso da assinatura para este caso e para a versão {workflow.currentVersion.label}.
 									</p>
 									<button
 										type="button"
+										role="switch"
+										aria-checked={isAuthorized}
+										aria-label={
+											isAuthorized 
+												? `Revogar autorização de assinatura de ${pro.name} para ${workflow.currentVersion.label}` 
+												: `Autorizar assinatura de ${pro.name} para ${workflow.currentVersion.label}`
+										}
 										onClick={() => toggleAuth(pro.id)}
 										className={cn(
-											"w-12 h-6 rounded-full relative transition-all duration-300",
+											"w-12 h-6 rounded-full relative transition-all duration-300 shrink-0",
 											isAuthorized ? "bg-veritas-electric" : "bg-white/10",
 										)}
 									>
@@ -98,12 +122,10 @@ function SignaturesPage() {
 								</div>
 
 								{isAuthorized && (
-									<div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex flex-col items-center justify-center gap-3 animate-fade-in-up">
-										<div className="font-cursive text-2xl text-white/60 select-none opacity-40 italic">
-											{pro.name.split(" ").pop()}
-										</div>
-										<span className="text-[8px] text-emerald-400 font-bold uppercase tracking-widest">
-											Assinatura Habilitada
+									<div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl flex items-center justify-center gap-3 animate-fade-in-up">
+										<CheckCircle2 className="w-4 h-4 text-emerald-400" />
+										<span className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">
+											Autorização registrada para {workflow.currentVersion.label}
 										</span>
 									</div>
 								)}
@@ -117,13 +139,10 @@ function SignaturesPage() {
 				<ShieldAlert className="w-5 h-5 text-amber-500 shrink-0" />
 				<div className="space-y-1">
 					<p className="text-[10px] text-amber-500/80 font-bold uppercase tracking-widest">
-						Aviso Legal
+						Aviso técnico
 					</p>
 					<p className="text-xs text-amber-500/60 leading-relaxed">
-						Assinatura digitalizada não constitui certificado digital
-						ICP-Brasil. Para validade jurídica plena em processos eletrônicos, o
-						arquivo exportado deverá ser assinado individualmente pelo
-						profissional via portal do Tribunal ou assinador certificado.
+						Esta etapa registra somente a autorização de uso da assinatura para o caso e a versão indicados. Nenhuma assinatura é aplicada ao arquivo nesta fase. Uma imagem de assinatura não equivale automaticamente a uma assinatura eletrônica qualificada ICP-Brasil.
 					</p>
 				</div>
 			</div>
