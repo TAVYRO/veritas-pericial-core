@@ -16,7 +16,7 @@ import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { MaterialKind } from "@/features/dossier/case-dossier-types";
 import { cn } from "@/lib/utils";
 
-const VISUAL_CATALOG: { kind: MaterialKind; label: string; icon: any }[] = [
+const VISUAL_CATALOG: { kind: MaterialKind; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { kind: "pdf", label: "PDF", icon: FileText },
   { kind: "docx", label: "DOCX", icon: FileText },
   { kind: "image", label: "Imagens", icon: ImageIcon },
