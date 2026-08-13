@@ -10,4 +10,3 @@ export function isTemplateId(id: string | null | undefined): id is TemplateId {
   if (!id) return false;
   return TEMPLATE_IDS.includes(id as any);
 }
-

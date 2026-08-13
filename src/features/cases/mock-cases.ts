@@ -1,4 +1,6 @@
 import type { CaseData, CaseWorkflowState } from "./case-types";
+import type { TemplateId } from "../documents/template-ids";
+
 
 export const MOCK_CASES: Record<string, CaseData> = {
 	"demo-case": {
