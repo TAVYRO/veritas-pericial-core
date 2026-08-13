@@ -410,6 +410,7 @@ function CaseMaterialsPage() {
           type="button"
           onClick={() => setIsFormOpen(true)}
           className="h-10 w-10 rounded-full bg-veritas-electric hover:bg-veritas-electric/90 text-white shadow-lg p-0 flex items-center justify-center shrink-0"
+          aria-label="Registrar item no inventário"
         >
           <Plus className="w-5 h-5" />
         </Button>
