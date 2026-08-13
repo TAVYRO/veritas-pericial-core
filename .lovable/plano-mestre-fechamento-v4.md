@@ -180,6 +180,31 @@ RAZÃO: Dependência do Gate de Suficiência (6C) por dados reais de entrevistas
 
 PLANO MESTRE V4.2.1 SANEADO
 
+==================================================
+12 — VÍNCULO COM PLANO DE COLABORAÇÃO MULTIUSUÁRIO
+==================================================
+
+O planejamento detalhado de colaboração multiusuário passa a ser governado por:
+`.lovable/plano-colaboracao-v1.md`
+
+O roadmap de alto nível já existente neste Plano Mestre:
+10A, 11A, 12A, 12B, 12C, 13A
+permanece válido como referência macro. Entretanto, ele NÃO autoriza implementação direta. A execução granular é controlada pelas microetapas C1-C18 do Plano de Colaboração V1.
+
+MAPA MACRO → PLANO COLABORAÇÃO (Planejamento):
+- 10A — Autenticação & Perfil Real → C3.x + C4.x
+- 11A — Rede de Peritos (Vínculos) → C5.x
+- 12A — Equipe do Caso → C6.x + C11.x
+- 12B — Chat do Caso → C12.x
+- 12C — Comentários no Documento → C13.x
+- 13A — Colaboração Realtime → C12.3 + C14.x
+
+REGRA DE PRECEDÊNCIA:
+Para qualquer funcionalidade de colaboração multiusuário, o Plano de Colaboração V1 é a fonte detalhada de: ordem de execução, dependências, protocolo anti-pulo, requisitos de segurança, gates de infraestrutura, critérios de testes e baselines. O Plano Mestre Geral continua sendo a referência macro do projeto. Se existir aparente conflito de granularidade: NÃO implementar. Primeiro reconciliar documentalmente em microetapa própria.
+
+INFRAESTRUTURA (GATE C3):
+As entradas macro 10A, 11A, 12A, 12B, 12C, 13A NÃO autorizam instalar backend, auth ou realtime antecipadamente. Antes de qualquer infraestrutura multiusuário, C3.1, C3.2 e C3.3 devem estar CLOSED. C3.3 exige DECISÃO HUMANA.
+
 P0:
 0
 
