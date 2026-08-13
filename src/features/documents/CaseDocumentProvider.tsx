@@ -159,7 +159,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
         ...section,
-        ...(title !== undefined ? { title } : {})
+        title: title !== undefined ? title : section.title
       };
 
       return {
@@ -263,7 +263,6 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedSections = [...doc.sections];
       const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
-        ...currentParagraph,
         id: currentParagraph.id,
         text: text !== undefined ? text : currentParagraph.text,
         traceability: patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability,
