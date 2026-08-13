@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { CASE_NAVIGATION_GROUPS, type NavGroup } from "./case-navigation-config";
 
@@ -7,7 +7,6 @@ interface CaseNavigationProps {
 }
 
 export function CaseNavigation({ caseId }: CaseNavigationProps) {
-	const navigate = useNavigate();
 	const location = useLocation();
 	const path = location.pathname;
 
@@ -54,10 +53,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 					const isActive = activeGroup.id === group.id;
 					const targetRoute = `/app/cases/${caseId}/${group.defaultPath}`;
 					return (
-						<button
+						<Link
 							key={group.id}
-							type="button"
-							onClick={() => navigate({ to: targetRoute as any })}
+							to={targetRoute as any}
 							className={cn(
 								"flex flex-col items-center py-3 px-1 gap-1 transition-all duration-300 relative outline-none",
 								isActive ? "text-veritas-electric" : "text-white/20 hover:text-white/40",
@@ -70,7 +68,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 							{isActive && (
 								<div className="absolute -bottom-px w-full h-0.5 bg-veritas-electric rounded-full shadow-[0_0_8px_rgba(0,229,255,0.5)]" />
 							)}
-						</button>
+						</Link>
 					);
 				})}
 			</div>
@@ -83,10 +81,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 						const targetRoute = `/app/cases/${caseId}/${step.path}`;
 
 						return (
-							<button
+							<Link
 								key={step.id}
-								type="button"
-								onClick={() => navigate({ to: targetRoute as any })}
+								to={targetRoute as any}
 								className={cn(
 									"flex items-center gap-2 transition-all duration-300 px-2 py-1 rounded-full whitespace-nowrap outline-none",
 									isActive ? "text-veritas-electric bg-veritas-electric/5" : "text-white/30 hover:text-white/50",
@@ -97,7 +94,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 								<span className="text-[9px] uppercase tracking-widest font-bold">
 									{step.label}
 								</span>
-							</button>
+							</Link>
 						);
 					})}
 				</div>
