@@ -16,8 +16,8 @@ export interface CaseDocumentKey {
 export interface CaseDocumentParagraph {
   id: string;
   text: string;
-  traceability?: TraceabilityKind | undefined;
-  editorialMarker?: EditorialMarker | undefined;
+  traceability?: TraceabilityKind;
+  editorialMarker?: EditorialMarker;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface CaseDocumentVersion {
   caseId: string;
   versionId: string;
   sections: CaseDocumentSection[];
-  footerNote?: string | undefined;
+  footerNote?: string;
 }
 
 /**

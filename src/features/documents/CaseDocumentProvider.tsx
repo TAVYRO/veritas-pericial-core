@@ -6,6 +6,17 @@ import type {
   NewCaseDocumentSectionInput, 
   NewCaseDocumentParagraphInput 
 } from "./case-document-types";
+import type { TraceabilityKind, EditorialMarker } from "./document-preview-types";
+
+/**
+ * Patch específico para comandos de atualização de parágrafo.
+ * Permite explicitamente passar 'undefined' para remover propriedades opcionais.
+ */
+interface CaseDocumentParagraphPatch {
+  text?: string;
+  traceability?: TraceabilityKind | undefined;
+  editorialMarker?: EditorialMarker | undefined;
+}
 
 interface CaseDocumentContextType {
   getDocument: (caseId: string, versionId: string) => CaseDocumentVersion | undefined;
@@ -20,7 +31,7 @@ interface CaseDocumentContextType {
     caseId: string, 
     versionId: string, 
     paragraphId: string, 
-    patch: Partial<Pick<CaseDocumentParagraph, "text" | "traceability" | "editorialMarker">>
+    patch: CaseDocumentParagraphPatch
   ) => void;
   removeParagraph: (caseId: string, versionId: string, paragraphId: string) => void;
 }
@@ -87,10 +98,20 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setDocuments(prev => {
       const doc = prev[key];
       if (!doc) return prev;
-      if (doc.footerNote === finalNote) return prev;
+      
+      const currentNote = doc.footerNote;
+      if (currentNote === finalNote) return prev;
+
+      const nextDoc = { ...doc };
+      if (finalNote === undefined) {
+        delete nextDoc.footerNote;
+      } else {
+        nextDoc.footerNote = finalNote;
+      }
+
       return {
         ...prev,
-        [key]: { ...doc, footerNote: finalNote }
+        [key]: nextDoc
       };
     });
   }, []);
@@ -119,12 +140,20 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
         const pId = generateNextId(currentParagraphsIds, "PAR", /^PAR(\d+)$/);
         currentParagraphsIds.push(pId);
-        normalizedParagraphs.push({
+        
+        const newP: CaseDocumentParagraph = {
           id: pId,
-          text,
-          traceability: p.traceability,
-          editorialMarker: p.editorialMarker
-        });
+          text
+        };
+        
+        if (p.traceability !== undefined) {
+          newP.traceability = p.traceability;
+        }
+        if (p.editorialMarker !== undefined) {
+          newP.editorialMarker = p.editorialMarker;
+        }
+
+        normalizedParagraphs.push(newP);
       });
 
       const newSection: CaseDocumentSection = {
@@ -208,10 +237,15 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const newParagraph: CaseDocumentParagraph = {
         id: pId,
-        text,
-        traceability: input.traceability,
-        editorialMarker: input.editorialMarker
+        text
       };
+
+      if (input.traceability !== undefined) {
+        newParagraph.traceability = input.traceability;
+      }
+      if (input.editorialMarker !== undefined) {
+        newParagraph.editorialMarker = input.editorialMarker;
+      }
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
@@ -231,7 +265,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
     caseId: string, 
     versionId: string, 
     paragraphId: string, 
-    patch: Partial<Pick<CaseDocumentParagraph, "text" | "traceability" | "editorialMarker">>
+    patch: CaseDocumentParagraphPatch
   ) => {
     const key = makeDocumentKey(caseId, versionId);
     const text = patch.text?.trim();
@@ -258,28 +292,44 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const section = doc.sections[targetSectionIndex]!;
       const currentParagraph = section.paragraphs[targetParagraphIndex]!;
       
-      const newText = text !== undefined ? text : currentParagraph.text;
-      const newTraceability = patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability;
-      const newEditorialMarker = patch.hasOwnProperty("editorialMarker") ? patch.editorialMarker : currentParagraph.editorialMarker;
+      const nextP: CaseDocumentParagraph = {
+        id: currentParagraph.id,
+        text: text !== undefined ? text : currentParagraph.text
+      };
 
-      const hasChanges = 
-        currentParagraph.text !== newText ||
-        currentParagraph.traceability !== newTraceability ||
-        currentParagraph.editorialMarker !== newEditorialMarker;
+      // Traceability logic
+      if (patch.hasOwnProperty("traceability")) {
+        if (patch.traceability !== undefined) {
+          nextP.traceability = patch.traceability;
+        }
+      } else if (currentParagraph.traceability !== undefined) {
+        nextP.traceability = currentParagraph.traceability;
+      }
 
-      if (!hasChanges) return prev;
+      // Editorial Marker logic
+      if (patch.hasOwnProperty("editorialMarker")) {
+        if (patch.editorialMarker !== undefined) {
+          nextP.editorialMarker = patch.editorialMarker;
+        }
+      } else if (currentParagraph.editorialMarker !== undefined) {
+        nextP.editorialMarker = currentParagraph.editorialMarker;
+      }
+
+      // Check semantic equivalence to avoid unnecessary updates
+      const keysCurrent = Object.keys(currentParagraph).sort();
+      const keysNext = Object.keys(nextP).sort();
+      
+      if (keysCurrent.length === keysNext.length && 
+          keysCurrent.every((k, i) => k === keysNext[i] && (currentParagraph as any)[k] === (nextP as any)[k])) {
+        return prev;
+      }
 
       const updatedSections = [...doc.sections];
       const updatedParagraphs = [...section.paragraphs];
-      updatedParagraphs[targetParagraphIndex] = {
-        id: currentParagraph.id,
-        text: newText,
-        traceability: newTraceability,
-        editorialMarker: newEditorialMarker
-      };
+      updatedParagraphs[targetParagraphIndex] = nextP;
+      
       updatedSections[targetSectionIndex] = {
-        id: section.id,
-        title: section.title,
+        ...section,
         paragraphs: updatedParagraphs
       };
 
