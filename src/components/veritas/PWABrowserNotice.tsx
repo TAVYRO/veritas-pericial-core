@@ -14,7 +14,7 @@ export function PWABrowserNotice() {
         const timer = setTimeout(() => setIsVisible(true), 2000);
         return () => clearTimeout(timer);
       }
-    }
+    return undefined;
   }, [displayMode]);
 
   const handleDismiss = () => {
