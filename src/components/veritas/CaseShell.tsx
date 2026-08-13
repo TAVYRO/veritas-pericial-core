@@ -85,10 +85,14 @@ export function CaseShell() {
           {FLOW_STEPS.map((step) => {
             const isActive = currentPath === step.path;
             const Icon = step.icon;
+            
+            // Type-safe link destination
+            const to = `/app/cases/$caseId/${step.path}` as any;
+
             return (
               <Link
                 key={step.path}
-                to={`/app/cases/$caseId/${step.path}`}
+                to={to}
                 params={{ caseId }}
                 className={cn(
                   "flex flex-col items-center gap-1.5 transition-all duration-300 relative",
