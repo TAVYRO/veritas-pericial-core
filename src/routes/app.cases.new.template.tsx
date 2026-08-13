@@ -22,6 +22,16 @@ export const Route = createFileRoute("/app/cases/new/template")({
 function SelectTemplatePage() {
   const { mode, caseNumber, professionals = [], docType } = Route.useSearch();
   const [selectedId, setSelectedId] = useState<TemplateId | "">("");
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    if (!selectedId) return;
+    navigate({
+      to: "/app/cases/new/review",
+      search: { mode, caseNumber, professionals, docType, templateId: selectedId }
+    });
+  };
+
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const compatibleTemplates = docType ? getTemplatesForDocumentType(docType) : [];
@@ -120,16 +130,12 @@ function SelectTemplatePage() {
         <Button 
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
           disabled={!selectedId}
-          asChild
+          onClick={handleContinue}
         >
-          <Link 
-            to="/app/cases/new/review" 
-            search={{ mode, caseNumber, professionals, docType, templateId: selectedId }}
-          >
-            Continuar
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Link>
+          Continuar
+          <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
       </main>
 
       <BottomNavigation />

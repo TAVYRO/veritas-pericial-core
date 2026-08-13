@@ -14,7 +14,7 @@ export const Route = createFileRoute("/app/cases/new/review")({
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
     docType: documentTypeIdSchema.optional(),
-    templateId: z.string().optional(),
+    templateId: templateIdSchema.optional(),
   }).parse(search),
   component: ReviewPage,
 });
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/app/cases/new/review")({
 function ReviewPage() {
   const { mode, caseNumber, professionals = [], docType, templateId } = Route.useSearch();
   const { setDocumentType, setTemplate } = useCaseWorkflow();
+  const navigate = useNavigate();
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const templateInfo = templateId ? MOCK_TEMPLATES.find(t => t.id === templateId) : undefined;
@@ -35,10 +36,16 @@ function ReviewPage() {
     if (docType && docTypeInfo) {
       setDocumentType("demo-case", docType, docTypeInfo.label);
       if (templateId) {
-        setTemplate("demo-case", templateId as TemplateId);
+        setTemplate("demo-case", templateId);
       }
     }
+
+    navigate({
+      to: "/app/cases/$caseId/materials",
+      params: { caseId: "demo-case" }
+    });
   };
+
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -130,13 +137,11 @@ function ReviewPage() {
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg shadow-xl shadow-veritas-electric/20 disabled:opacity-50"
           disabled={!isValid}
           onClick={handleCreateCase}
-          asChild
         >
-          <Link to="/app/cases/$caseId/materials" params={{ caseId: "demo-case" }}>
-            Criar ambiente do caso
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Link>
+          Criar ambiente do caso
+          <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
 
         <p className="text-[10px] text-white/20 text-center px-4">
           Ao criar o ambiente, a Veritas iniciará o processamento preliminar dos dados fornecidos.

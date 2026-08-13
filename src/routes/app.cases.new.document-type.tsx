@@ -21,14 +21,8 @@ export const Route = createFileRoute("/app/cases/new/document-type")({
 
 function DocumentTypePage() {
   const { mode, caseNumber, professionals: selectedProfIds = [], docType } = Route.useSearch();
-  const [selectedId, setSelectedId] = useState<DocumentTypeId | "">(docType || "");
-
-  useEffect(() => {
-    if (docType) {
-      setSelectedId(docType);
-    }
-  }, [docType]);
-
+  const navigate = useNavigate();
+  
   const selectedProfs = selectedProfIds.map(id => PROFESSIONALS.find(p => p.id === id)).filter(Boolean);
   const disciplines = new Set(selectedProfs.map(p => p?.discipline));
   
@@ -47,6 +41,32 @@ function DocumentTypePage() {
   } else if (hasSocialWork) {
     availableOptions = getDocumentTypesByDiscipline("social-work");
   }
+
+  const [selectedId, setSelectedId] = useState<DocumentTypeId | "">(() => {
+    if (docType && availableOptions.some(opt => opt.id === docType)) {
+      return docType;
+    }
+    return "";
+  });
+
+  useEffect(() => {
+    if (docType) {
+      if (availableOptions.some(opt => opt.id === docType)) {
+        setSelectedId(docType);
+      } else {
+        setSelectedId("");
+      }
+    }
+  }, [docType, availableOptions]);
+
+  const handleContinue = () => {
+    if (!selectedId) return;
+    navigate({
+      to: "/app/cases/new/template",
+      search: { mode, caseNumber, professionals: selectedProfIds, docType: selectedId }
+    });
+  };
+
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -108,16 +128,12 @@ function DocumentTypePage() {
         <Button 
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
           disabled={!selectedId}
-          asChild
+          onClick={handleContinue}
         >
-          <Link 
-            to="/app/cases/new/template" 
-            search={{ mode, caseNumber, professionals: selectedProfIds, docType: selectedId || undefined }}
-          >
-            Continuar
-            <ChevronRight className="ml-2 w-5 h-5" />
-          </Link>
+          Continuar
+          <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
+
       </main>
 
       <BottomNavigation />
