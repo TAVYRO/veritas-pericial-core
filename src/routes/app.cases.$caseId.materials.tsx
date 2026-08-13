@@ -225,8 +225,9 @@ function CaseMaterialsPage() {
             type="button"
             variant="ghost" 
             size="icon" 
-            onClick={() => setIsFormOpen(false)}
+            onClick={resetForm}
             className="rounded-full bg-white/5"
+            aria-label="Cancelar registro"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
