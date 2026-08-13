@@ -351,8 +351,6 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       clearCaseQuestionResponse
     }}>
 
-      reopenTechnicalScope
-    }}>
       {children}
     </CaseDossierContext.Provider>
   );
