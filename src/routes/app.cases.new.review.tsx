@@ -32,9 +32,11 @@ function ReviewPage() {
     if (!isValid) return;
 
     // Apply configuration to demo-case for demonstration purposes
-    setDocumentType("demo-case", docType, docTypeInfo.label);
-    if (templateId) {
-      setTemplate("demo-case", templateId as TemplateId);
+    if (docType && docTypeInfo) {
+      setDocumentType("demo-case", docType, docTypeInfo.label);
+      if (templateId) {
+        setTemplate("demo-case", templateId as TemplateId);
+      }
     }
   };
 
