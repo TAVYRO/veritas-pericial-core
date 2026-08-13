@@ -35,7 +35,8 @@ function InspectionPage() {
     setChecked(prev => ({ ...prev, [item]: !prev[item] }));
   };
 
-  const allChecked = INSPECTION_ITEMS.every(item => checked[item]);
+  const checkedCount = INSPECTION_ITEMS.filter(item => checked[item] === true).length;
+  const allChecked = checkedCount === INSPECTION_ITEMS.length;
 
   if (!caseData || !workflow) {
     return (
@@ -68,7 +69,7 @@ function InspectionPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 order-2 lg:order-1">
+        <div className="lg:col-span-2 order-1">
           {!preview ? (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center space-y-4">
               <p className="text-sm text-white/40">Pré-visualização documental indisponível.</p>
@@ -83,7 +84,7 @@ function InspectionPage() {
           )}
         </div>
 
-        <div className="space-y-6 order-1 lg:order-2 sticky top-6">
+        <div className="space-y-6 order-2 lg:sticky lg:top-6">
           <div className="bg-veritas-graphite border border-white/5 p-6 rounded-2xl space-y-6">
             <h3 className="text-xs font-black uppercase tracking-widest text-white/40">Itens de Inspeção</h3>
             <div className="grid gap-2">
@@ -123,14 +124,14 @@ function InspectionPage() {
                 <>
                   <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                   <div>
-                    <h3 className="text-[10px] font-black uppercase tracking-widest text-white">Checklist visual concluído</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-white">Checklist visual concluído para esta pré-visualização.</h3>
                     <p className="text-[10px] text-white/40 mt-1 leading-relaxed">Verificação da estrutura atual finalizada.</p>
                   </div>
                 </>
               ) : (
                 <>
                   <Inspect className="w-8 h-8 text-white/10" />
-                  <p className="text-[10px] text-white/20 font-black uppercase tracking-widest">Aguardando Inspeção ({Object.keys(checked).length}/{INSPECTION_ITEMS.length})</p>
+                  <p className="text-[10px] text-white/20 font-black uppercase tracking-widest">Aguardando Inspeção ({checkedCount}/{INSPECTION_ITEMS.length})</p>
                 </>
               )}
             </div>

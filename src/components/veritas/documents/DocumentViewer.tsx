@@ -4,7 +4,7 @@ import { getDocumentTypeById } from "@/features/documents/document-types";
 import { getTemplateById } from "@/features/documents/mock-templates";
 import { TraceabilityMarker } from "./TraceabilityMarker";
 import { cn } from "@/lib/utils";
-import { FileText, Sparkles, AlertTriangle } from "lucide-react";
+import { Sparkles, AlertTriangle } from "lucide-react";
 
 interface DocumentViewerProps {
   caseData: CaseData;
@@ -24,11 +24,36 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
   return (
     <article className="w-full max-w-3xl mx-auto space-y-8 pb-12">
       {/* Notice Header */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center space-y-2">
         <p className="text-[10px] text-white/40 leading-relaxed">
           Pré-visualização documental. A paginação definitiva será verificada na etapa de geração dos arquivos finais.
-          {isReview && " Esta é uma pré-visualização da etapa de revisão. Nenhum arquivo Word foi gerado nesta fase."}
         </p>
+        
+        {isDraft && (
+          <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">
+            Rascunho — não finalizado
+          </p>
+        )}
+        
+        {isReview && (
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-veritas-violet uppercase tracking-widest">
+              Documento/Word para revisão
+            </p>
+            <p className="text-[9px] text-white/40">
+              Versão de revisão — sem assinatura
+            </p>
+            <p className="text-[9px] text-white/30 italic">
+              Esta é uma pré-visualização da etapa de revisão. Nenhum arquivo Word foi gerado nesta fase. Esta visualização corresponde à etapa de revisão profissional e não à versão final liberada.
+            </p>
+          </div>
+        )}
+
+        {isInspection && (
+          <p className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest">
+            Pré-visualização para inspeção
+          </p>
+        )}
       </div>
 
       <div className="bg-white shadow-2xl rounded-sm p-6 sm:p-12 text-black font-serif relative overflow-hidden min-h-[800px]">
@@ -59,7 +84,7 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
 
           <div className="text-center pt-4">
             <h1 className="text-base sm:text-lg font-bold uppercase underline decoration-1 underline-offset-4">
-              {docType?.label || caseData.documentType}
+              {docType?.label || "Tipo documental não identificado"}
             </h1>
             <p className="text-[10px] text-black/40 mt-1 uppercase tracking-widest font-sans">
               {template ? template.name : "Modelo documental não definido"}
@@ -108,8 +133,8 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
           ))}
         </div>
 
-        {/* AI Suggestion - Only in Draft and Review if present */}
-        {preview.assistedSuggestion && !isInspection && (
+        {/* AI Suggestion - Only in Draft */}
+        {preview.assistedSuggestion && isDraft && (
           <div className="mt-12 bg-veritas-electric/[0.03] border border-veritas-electric/10 rounded-lg p-5 space-y-3">
             <div className="flex items-center gap-2 text-veritas-electric">
               <Sparkles className="w-4 h-4" />
@@ -131,22 +156,6 @@ export function DocumentViewer({ caseData, workflow, preview, mode }: DocumentVi
         )}
       </div>
 
-      {/* Mode Specific Footers */}
-      {isDraft && (
-        <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-xl flex items-center gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-500" />
-          <p className="text-xs font-bold text-amber-600 uppercase tracking-wide">Rascunho — não finalizado</p>
-        </div>
-      )}
-      {isReview && (
-        <div className="space-y-4">
-          <div className="p-4 bg-veritas-violet/5 border border-veritas-violet/10 rounded-xl">
-            <p className="text-xs text-center text-white/60">
-              Esta visualização corresponde à etapa de revisão profissional e não à versão final liberada.
-            </p>
-          </div>
-        </div>
-      )}
     </article>
   );
 }
