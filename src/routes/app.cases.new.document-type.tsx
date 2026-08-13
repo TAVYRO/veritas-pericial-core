@@ -14,7 +14,7 @@ const OPTIONS = {
 
 export const Route = createFileRoute("/app/cases/new/document-type")({
   validateSearch: (search) => z.object({
-    mode: z.string().optional(),
+    mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
   }).parse(search),

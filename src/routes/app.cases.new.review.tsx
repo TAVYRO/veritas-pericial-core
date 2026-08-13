@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/app/cases/new/review")({
   validateSearch: (search) => z.object({
-    mode: z.string().optional(),
+    mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
     docType: z.string().optional(),
