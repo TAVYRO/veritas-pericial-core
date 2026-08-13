@@ -15,9 +15,16 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AppCasesRouteImport } from './routes/app.cases'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppRecordRouteImport } from './routes/app.record'
+import { Route as AppSearchRouteImport } from './routes/app.search'
+import { Route as AppVeritasRouteImport } from './routes/app.veritas'
 import { Route as RegisterProfessionalRouteImport } from './routes/register.professional'
 import { Route as RegisterProfileRouteImport } from './routes/register.profile'
 import { Route as RegisterSuccessRouteImport } from './routes/register.success'
+import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,6 +56,36 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppCasesRoute = AppCasesRouteImport.update({
+  id: '/cases',
+  path: '/cases',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRecordRoute = AppRecordRouteImport.update({
+  id: '/record',
+  path: '/record',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSearchRoute = AppSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppVeritasRoute = AppVeritasRouteImport.update({
+  id: '/veritas',
+  path: '/veritas',
+  getParentRoute: () => AppRoute,
+} as any)
 const RegisterProfessionalRoute = RegisterProfessionalRouteImport.update({
   id: '/professional',
   path: '/professional',
@@ -64,40 +101,66 @@ const RegisterSuccessRoute = RegisterSuccessRouteImport.update({
   path: '/success',
   getParentRoute: () => RegisterRoute,
 } as any)
+const AppCasesNewProcessRoute = AppCasesNewProcessRouteImport.update({
+  id: '/new/process',
+  path: '/new/process',
+  getParentRoute: () => AppCasesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
+  '/app/cases': typeof AppCasesRouteWithChildren
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/record': typeof AppRecordRoute
+  '/app/search': typeof AppSearchRoute
+  '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
+  '/app/cases': typeof AppCasesRouteWithChildren
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/record': typeof AppRecordRoute
+  '/app/search': typeof AppSearchRoute
+  '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/register': typeof RegisterRouteWithChildren
+  '/app/cases': typeof AppCasesRouteWithChildren
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/record': typeof AppRecordRoute
+  '/app/search': typeof AppSearchRoute
+  '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
   '/register/success': typeof RegisterSuccessRoute
+  '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,9 +171,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/app/cases'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/record'
+    | '/app/search'
+    | '/app/veritas'
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app/cases/new/process'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,9 +189,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/app/cases'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/record'
+    | '/app/search'
+    | '/app/veritas'
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app/cases/new/process'
   id:
     | '__root__'
     | '/'
@@ -130,14 +207,21 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/register'
+    | '/app/cases'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/record'
+    | '/app/search'
+    | '/app/veritas'
     | '/register/professional'
     | '/register/profile'
     | '/register/success'
+    | '/app/cases/new/process'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -188,6 +272,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/cases': {
+      id: '/app/cases'
+      path: '/cases'
+      fullPath: '/app/cases'
+      preLoaderRoute: typeof AppCasesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/record': {
+      id: '/app/record'
+      path: '/record'
+      fullPath: '/app/record'
+      preLoaderRoute: typeof AppRecordRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/search': {
+      id: '/app/search'
+      path: '/search'
+      fullPath: '/app/search'
+      preLoaderRoute: typeof AppSearchRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/veritas': {
+      id: '/app/veritas'
+      path: '/veritas'
+      fullPath: '/app/veritas'
+      preLoaderRoute: typeof AppVeritasRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/register/professional': {
       id: '/register/professional'
       path: '/professional'
@@ -209,8 +335,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterSuccessRouteImport
       parentRoute: typeof RegisterRoute
     }
+    '/app/cases/new/process': {
+      id: '/app/cases/new/process'
+      path: '/new/process'
+      fullPath: '/app/cases/new/process'
+      preLoaderRoute: typeof AppCasesNewProcessRouteImport
+      parentRoute: typeof AppCasesRoute
+    }
   }
 }
+
+interface AppCasesRouteChildren {
+  AppCasesNewProcessRoute: typeof AppCasesNewProcessRoute
+}
+
+const AppCasesRouteChildren: AppCasesRouteChildren = {
+  AppCasesNewProcessRoute: AppCasesNewProcessRoute,
+}
+
+const AppCasesRouteWithChildren = AppCasesRoute._addFileChildren(
+  AppCasesRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppCasesRoute: typeof AppCasesRouteWithChildren
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppRecordRoute: typeof AppRecordRoute
+  AppSearchRoute: typeof AppSearchRoute
+  AppVeritasRoute: typeof AppVeritasRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppCasesRoute: AppCasesRouteWithChildren,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppRecordRoute: AppRecordRoute,
+  AppSearchRoute: AppSearchRoute,
+  AppVeritasRoute: AppVeritasRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface RegisterRouteChildren {
   RegisterProfessionalRoute: typeof RegisterProfessionalRoute
@@ -230,7 +395,7 @@ const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
