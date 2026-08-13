@@ -11,19 +11,20 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const path = location.pathname;
 
 	// Improved resolver to find current group and step
-	// The path structure is /app/cases/:caseId/:relativePath
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
 	let activeGroup = CASE_NAVIGATION_GROUPS[0];
 	let activeStepId = "";
 
+	let found = false;
 	for (const group of CASE_NAVIGATION_GROUPS) {
 		// First, try exact matches
 		const exactMatch = group.steps.find((s) => s.path === relativePath);
 		if (exactMatch) {
 			activeGroup = group;
 			activeStepId = exactMatch.id;
+			found = true;
 			break;
 		}
 
@@ -34,20 +35,28 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		if (prefixMatch) {
 			activeGroup = group;
 			activeStepId = prefixMatch.id;
+			found = true;
 			break;
 		}
 
-		// Fallback for sub-routes that don't have explicit prefixes defined 
-		// but belong to the step whose path is their start
+		// Fallback for sub-routes
 		const startsWithMatch = group.steps.find(
 			(s) => relativePath.startsWith(s.path) && s.path !== "",
 		);
 		if (startsWithMatch) {
 			activeGroup = group;
 			activeStepId = startsWithMatch.id;
+			found = true;
 			break;
 		}
 	}
+
+	// Double check we have an active group (TS safety)
+	if (!found || !activeGroup) {
+		activeGroup = CASE_NAVIGATION_GROUPS[0];
+		activeStepId = activeGroup.steps[0].id;
+	}
+
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
