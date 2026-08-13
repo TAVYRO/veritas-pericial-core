@@ -146,7 +146,7 @@ function DashboardPage() {
       <div className="px-6 mb-8">
         <Button 
           className="w-full h-14 text-lg font-bold veritas-button-glow veritas-button-scale gap-2 shadow-2xl shadow-veritas-electric/20"
-          onClick={() => navigate({ to: "/app/cases/new/process" })}
+          onClick={() => navigate({ to: "/app/veritas" })}
         >
           <Plus className="w-6 h-6" />
           Novo Caso
