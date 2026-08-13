@@ -15,6 +15,8 @@ export const MOCK_CASES: Record<string, CaseData> = {
 				name: "Dra. Mônica Hazama",
 				profession: "Psicóloga Perita",
 				registration: "CRP 06/123456",
+				discipline: "psychology",
+				initials: "MH",
 				isRequiredSigner: true,
 			},
 			{
@@ -22,6 +24,8 @@ export const MOCK_CASES: Record<string, CaseData> = {
 				name: "Dr. Roberto Silva",
 				profession: "Assistente Social",
 				registration: "CRESS 12.345",
+				discipline: "social-work",
+				initials: "RS",
 				isRequiredSigner: true,
 			},
 		],

@@ -1,16 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { z } from "zod";
-import { ChevronRight, User, Check, Building2, Briefcase } from "lucide-react";
+import { ChevronRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
-const PROFESSIONALS = [
-  { id: "p1", name: "Dra. Mônica Hazama", role: "Psicóloga", reg: "CRP 06/12345", initials: "MH" },
-  { id: "p2", name: "Dr. Roberto Silva", role: "Assistente Social", reg: "CRESS 12345", initials: "RS" },
-  { id: "p3", name: "Dra. Ana Paula", role: "Psicóloga", reg: "CRP 06/54321", initials: "AP" },
-];
+import { PROFESSIONALS } from "@/features/cases/mock-professionals";
 
 export const Route = createFileRoute("/app/cases/new/professionals")({
   validateSearch: (search) => z.object({
@@ -40,7 +35,7 @@ function ProfessionalsPage() {
             Voltar
           </Link>
           <div className="flex gap-1">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4, 5].map((s) => (
               <div key={s} className={`w-8 h-1 rounded-full ${s === 2 ? "bg-veritas-electric" : s < 2 ? "bg-veritas-electric/40" : "bg-white/10"}`} />
             ))}
           </div>
@@ -71,7 +66,7 @@ function ProfessionalsPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-sm font-medium truncate">{prof.name}</h3>
-                <p className="text-[11px] text-white/40">{prof.role} • {prof.reg}</p>
+                <p className="text-[11px] text-white/40">{prof.profession} • {prof.registration}</p>
               </div>
             </button>
           ))}

@@ -68,6 +68,7 @@ import { Route as AppCasesNewDocumentTypeRouteImport } from './routes/app.cases.
 import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
 import { Route as AppCasesNewProfessionalsRouteImport } from './routes/app.cases.new.professionals'
 import { Route as AppCasesNewReviewRouteImport } from './routes/app.cases.new.review'
+import { Route as AppCasesNewTemplateRouteImport } from './routes/app.cases.new.template'
 import { Route as AppReviewReviewIdCheckRouteImport } from './routes/app.review_.$reviewId.check'
 import { Route as AppReviewReviewIdResultRouteImport } from './routes/app.review_.$reviewId.result'
 import { Route as AppCasesCaseIdDraftEditRouteImport } from './routes/app.cases.$caseId.draft.edit'
@@ -381,6 +382,11 @@ const AppCasesNewReviewRoute = AppCasesNewReviewRouteImport.update({
   path: '/new/review',
   getParentRoute: () => AppCasesRoute,
 } as any)
+const AppCasesNewTemplateRoute = AppCasesNewTemplateRouteImport.update({
+  id: '/new/template',
+  path: '/new/template',
+  getParentRoute: () => AppCasesRoute,
+} as any)
 const AppReviewReviewIdCheckRoute = AppReviewReviewIdCheckRouteImport.update({
   id: '/review_/$reviewId/check',
   path: '/review/$reviewId/check',
@@ -480,6 +486,7 @@ export interface FileRoutesByFullPath {
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
+  '/app/cases/new/template': typeof AppCasesNewTemplateRoute
   '/app/review/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review/$reviewId/result': typeof AppReviewReviewIdResultRoute
   '/app/cases/$caseId/': typeof AppCasesCaseIdIndexRoute
@@ -543,6 +550,7 @@ export interface FileRoutesByTo {
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
+  '/app/cases/new/template': typeof AppCasesNewTemplateRoute
   '/app/review/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review/$reviewId/result': typeof AppReviewReviewIdResultRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdIndexRoute
@@ -612,6 +620,7 @@ export interface FileRoutesById {
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
   '/app/cases/new/review': typeof AppCasesNewReviewRoute
+  '/app/cases/new/template': typeof AppCasesNewTemplateRoute
   '/app/review_/$reviewId/check': typeof AppReviewReviewIdCheckRoute
   '/app/review_/$reviewId/result': typeof AppReviewReviewIdResultRoute
   '/app/cases/$caseId/': typeof AppCasesCaseIdIndexRoute
@@ -682,6 +691,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
     | '/app/cases/new/review'
+    | '/app/cases/new/template'
     | '/app/review/$reviewId/check'
     | '/app/review/$reviewId/result'
     | '/app/cases/$caseId/'
@@ -745,6 +755,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
     | '/app/cases/new/review'
+    | '/app/cases/new/template'
     | '/app/review/$reviewId/check'
     | '/app/review/$reviewId/result'
     | '/app/cases/$caseId'
@@ -813,6 +824,7 @@ export interface FileRouteTypes {
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
     | '/app/cases/new/review'
+    | '/app/cases/new/template'
     | '/app/review_/$reviewId/check'
     | '/app/review_/$reviewId/result'
     | '/app/cases/$caseId/'
@@ -1248,6 +1260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCasesNewReviewRouteImport
       parentRoute: typeof AppCasesRoute
     }
+    '/app/cases/new/template': {
+      id: '/app/cases/new/template'
+      path: '/new/template'
+      fullPath: '/app/cases/new/template'
+      preLoaderRoute: typeof AppCasesNewTemplateRouteImport
+      parentRoute: typeof AppCasesRoute
+    }
     '/app/review_/$reviewId/check': {
       id: '/app/review_/$reviewId/check'
       path: '/review/$reviewId/check'
@@ -1414,6 +1433,7 @@ interface AppCasesRouteChildren {
   AppCasesNewProcessRoute: typeof AppCasesNewProcessRoute
   AppCasesNewProfessionalsRoute: typeof AppCasesNewProfessionalsRoute
   AppCasesNewReviewRoute: typeof AppCasesNewReviewRoute
+  AppCasesNewTemplateRoute: typeof AppCasesNewTemplateRoute
 }
 
 const AppCasesRouteChildren: AppCasesRouteChildren = {
@@ -1424,6 +1444,7 @@ const AppCasesRouteChildren: AppCasesRouteChildren = {
   AppCasesNewProcessRoute: AppCasesNewProcessRoute,
   AppCasesNewProfessionalsRoute: AppCasesNewProfessionalsRoute,
   AppCasesNewReviewRoute: AppCasesNewReviewRoute,
+  AppCasesNewTemplateRoute: AppCasesNewTemplateRoute,
 }
 
 const AppCasesRouteWithChildren = AppCasesRoute._addFileChildren(

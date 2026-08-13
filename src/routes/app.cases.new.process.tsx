@@ -26,7 +26,7 @@ function NewCaseProcessPage() {
             Cancelar
           </Link>
           <div className="flex gap-1">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4, 5].map((s) => (
               <div key={s} className={`w-8 h-1 rounded-full ${s === 1 ? "bg-veritas-electric" : "bg-white/10"}`} />
             ))}
           </div>
@@ -36,7 +36,7 @@ function NewCaseProcessPage() {
         <div className="flex items-center gap-2 mt-1">
           <span className="text-[10px] uppercase tracking-widest font-bold text-white/30">Modo:</span>
           <span className={`text-[10px] uppercase tracking-widest font-bold ${mode === 'automatic' ? 'text-veritas-electric' : 'text-veritas-violet'}`}>
-            {mode === 'automatic' ? 'Automático' : 'Guided'}
+            {mode === 'automatic' ? 'Automático' : 'Guiado'}
           </span>
         </div>
       </header>

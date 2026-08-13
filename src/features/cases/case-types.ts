@@ -13,6 +13,8 @@ export interface CaseProfessional {
 	name: string;
 	profession: string;
 	registration: string;
+	discipline: "psychology" | "social-work";
+	initials: string;
 	isRequiredSigner: boolean;
 }
 

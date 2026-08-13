@@ -5,12 +5,8 @@ import { ChevronRight, FileText, Check, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-
-const OPTIONS = {
-  psicologia: ["Laudo Psicológico", "Relatório Psicológico", "Parecer Psicológico"],
-  social: ["Estudo/Laudo Social", "Parecer Social"],
-  multiprofissional: ["Relatório Psicossocial", "Relatório Multiprofissional", "Laudo Multiprofissional"]
-};
+import { DOCUMENT_TYPES, getDocumentTypesByDiscipline } from "@/features/documents/document-types";
+import { PROFESSIONALS } from "@/features/cases/mock-professionals";
 
 export const Route = createFileRoute("/app/cases/new/document-type")({
   validateSearch: (search) => z.object({
@@ -22,14 +18,27 @@ export const Route = createFileRoute("/app/cases/new/document-type")({
 });
 
 function DocumentTypePage() {
-  const { mode, caseNumber, professionals = [] } = Route.useSearch();
-  const [selected, setSelected] = useState("");
+  const { mode, caseNumber, professionals: selectedProfIds = [] } = Route.useSearch();
+  const [selectedId, setSelectedId] = useState("");
 
-  // Simple mock logic for options based on "professionals" (in a real app this would check roles)
-  const isMulti = professionals.length > 1;
-  const availableOptions = isMulti 
-    ? [...OPTIONS.multiprofissional, ...OPTIONS.psicologia, ...OPTIONS.social]
-    : professionals.includes("p1") || professionals.includes("p3") ? OPTIONS.psicologia : OPTIONS.social;
+  const selectedProfs = selectedProfIds.map(id => PROFESSIONALS.find(p => p.id === id)).filter(Boolean);
+  const disciplines = new Set(selectedProfs.map(p => p?.discipline));
+  
+  const hasPsychology = disciplines.has("psychology");
+  const hasSocialWork = disciplines.has("social-work");
+
+  let availableOptions: typeof DOCUMENT_TYPES = [];
+  if (hasPsychology && hasSocialWork) {
+    availableOptions = [
+      ...getDocumentTypesByDiscipline("multiprofessional"),
+      ...getDocumentTypesByDiscipline("psychology"),
+      ...getDocumentTypesByDiscipline("social-work")
+    ];
+  } else if (hasPsychology) {
+    availableOptions = getDocumentTypesByDiscipline("psychology");
+  } else if (hasSocialWork) {
+    availableOptions = getDocumentTypesByDiscipline("social-work");
+  }
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
@@ -41,7 +50,7 @@ function DocumentTypePage() {
             Voltar
           </Link>
           <div className="flex gap-1">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4, 5].map((s) => (
               <div key={s} className={`w-8 h-1 rounded-full ${s === 3 ? "bg-veritas-electric" : s < 3 ? "bg-veritas-electric/40" : "bg-white/10"}`} />
             ))}
           </div>
@@ -55,23 +64,28 @@ function DocumentTypePage() {
         <div className="space-y-3">
           {availableOptions.map((opt) => (
             <button
-              key={opt}
-              onClick={() => setSelected(opt)}
+              key={opt.id}
+              onClick={() => setSelectedId(opt.id)}
               className={cn(
                 "w-full flex items-center gap-4 p-5 rounded-2xl border transition-all duration-300 text-left",
-                selected === opt 
+                selectedId === opt.id 
                   ? "bg-veritas-violet/10 border-veritas-violet/40 shadow-[0_0_20px_rgba(139,92,246,0.1)]" 
                   : "bg-white/5 border-white/5 hover:border-white/10"
               )}
             >
               <div className={cn(
                 "w-10 h-10 rounded-xl flex items-center justify-center border transition-colors",
-                selected === opt ? "bg-veritas-violet border-transparent" : "bg-white/5 border-white/10"
+                selectedId === opt.id ? "bg-veritas-violet border-transparent" : "bg-white/5 border-white/10"
               )}>
-                <FileText className={cn("w-5 h-5", selected === opt ? "text-white" : "text-white/20")} />
+                <FileText className={cn("w-5 h-5", selectedId === opt.id ? "text-white" : "text-white/20")} />
               </div>
-              <span className="flex-1 text-sm font-medium">{opt}</span>
-              {selected === opt && <Check className="w-5 h-5 text-veritas-violet" />}
+              <div className="flex-1">
+                <span className="block text-sm font-medium">{opt.label}</span>
+                <span className="block text-[10px] text-white/40 mt-0.5 uppercase tracking-wider font-bold">
+                  {opt.discipline === 'psychology' ? 'Psicologia' : opt.discipline === 'social-work' ? 'Serviço Social' : 'Multiprofissional'}
+                </span>
+              </div>
+              {selectedId === opt.id && <Check className="w-5 h-5 text-veritas-violet" />}
             </button>
           ))}
         </div>
@@ -85,14 +99,14 @@ function DocumentTypePage() {
 
         <Button 
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
-          disabled={!selected}
+          disabled={!selectedId}
           asChild
         >
           <Link 
-            to="/app/cases/new/review" 
-            search={{ mode, caseNumber, professionals, docType: selected }}
+            to="/app/cases/new/template" 
+            search={{ mode, caseNumber, professionals: selectedProfIds, docType: selectedId }}
           >
-            Revisar
+            Continuar
             <ChevronRight className="ml-2 w-5 h-5" />
           </Link>
         </Button>
