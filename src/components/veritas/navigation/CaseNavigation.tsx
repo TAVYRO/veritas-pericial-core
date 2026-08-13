@@ -15,16 +15,15 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
+	// Find active group and step
 	let activeGroup = CASE_NAVIGATION_GROUPS[0];
 	let activeStepId = "";
 
-	let found = false;
 	for (const group of CASE_NAVIGATION_GROUPS) {
 		const exactMatch = group.steps.find((s) => s.path === relativePath);
 		if (exactMatch) {
 			activeGroup = group;
 			activeStepId = exactMatch.id;
-			found = true;
 			break;
 		}
 
@@ -34,7 +33,6 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		if (prefixMatch) {
 			activeGroup = group;
 			activeStepId = prefixMatch.id;
-			found = true;
 			break;
 		}
 
@@ -44,22 +42,20 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		if (startsWithMatch) {
 			activeGroup = group;
 			activeStepId = startsWithMatch.id;
-			found = true;
 			break;
 		}
 	}
 
-	if (!found || !activeGroup) {
-		activeGroup = CASE_NAVIGATION_GROUPS[0];
-		activeStepId = activeGroup.steps[0].id;
-	}
+	// Ensure activeGroup is defined for TS
+	const currentGroup = activeGroup || CASE_NAVIGATION_GROUPS[0];
+	const currentStepId = activeStepId || currentGroup.steps[0].id;
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
 			{/* Level 1: Groups */}
 			<div className="grid grid-cols-4 px-2 border-b border-white/5">
 				{CASE_NAVIGATION_GROUPS.map((group) => {
-					const isActive = activeGroup.id === group.id;
+					const isActive = currentGroup.id === group.id;
 					const targetRoute = `/app/cases/${caseId}/${group.defaultPath}`;
 					return (
 						<button
@@ -86,8 +82,8 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			{/* Level 2: Steps */}
 			<div className="overflow-x-auto no-scrollbar">
 				<div className="flex px-6 py-3 gap-6 min-w-max items-center">
-					{activeGroup.steps.map((step) => {
-						const isActive = activeStepId === step.id;
+					{currentGroup.steps.map((step) => {
+						const isActive = currentStepId === step.id;
 						const Icon = step.icon;
 						const targetRoute = `/app/cases/${caseId}/${step.path}`;
 
