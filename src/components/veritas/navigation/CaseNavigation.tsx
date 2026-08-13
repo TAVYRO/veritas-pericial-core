@@ -55,10 +55,11 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			<div className="grid grid-cols-4 px-2 border-b border-white/5">
 				{CASE_NAVIGATION_GROUPS.map((group) => {
 					const isActive = activeGroup.id === group.id;
+					const to = `/app/cases/$caseId/${group.defaultPath}` as any;
 					return (
 						<Link
 							key={group.id}
-							to={`/app/cases/$caseId/${group.defaultPath}`}
+							to={to}
 							params={{ caseId }}
 							className={cn(
 								"flex flex-col items-center py-3 px-1 gap-1 transition-all duration-300 relative",
@@ -83,11 +84,12 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 					{activeGroup.steps.map((step) => {
 						const isActive = activeStepId === step.id;
 						const Icon = step.icon;
+						const to = `/app/cases/$caseId/${step.path}` as any;
 
 						return (
 							<Link
 								key={step.id}
-								to={`/app/cases/$caseId/${step.path}`}
+								to={to}
 								params={{ caseId }}
 								className={cn(
 									"flex items-center gap-2 transition-all duration-300 px-2 py-1 rounded-full whitespace-nowrap",
