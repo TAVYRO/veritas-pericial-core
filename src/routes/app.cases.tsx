@@ -90,7 +90,7 @@ function CasesPage() {
     : mockCases.filter(c => c.status === activeFilter || (activeFilter === "Ativos" && c.status !== "Finalizados"));
 
   return (
-    <div className="min-h-screen veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)]">
+    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)] relative">
       {/* Header */}
       <header className="px-6 pt-6 flex flex-col gap-6 mb-6">
         <div className="flex items-center justify-between">

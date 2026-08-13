@@ -18,6 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { cn } from "@/lib/utils";
+import { usePWAMode } from "@/hooks/use-pwa-mode";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/app/")({
   component: DashboardPage,
@@ -25,6 +27,14 @@ export const Route = createFileRoute("/app/")({
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const { displayMode, requestFullscreen } = usePWAMode();
+
+  useEffect(() => {
+    // If we're in a PWA but not fullscreen, try to request it on mount
+    if (displayMode !== 'browser') {
+      requestFullscreen();
+    }
+  }, [displayMode, requestFullscreen]);
 
   const stats = [
     { label: "Casos ativos", value: 12, color: "text-blue-400" },
@@ -79,7 +89,7 @@ function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)]">
+    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)] relative">
       {/* Top Bar */}
       <header className="px-6 pt-6 flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
