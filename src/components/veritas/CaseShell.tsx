@@ -23,13 +23,11 @@ const FLOW_STEPS = [
   { label: "Triagem", path: "triage", icon: FileSearch },
   { label: "Objeto", path: "object", icon: Scale },
   { label: "Quesitos", path: "questions", icon: HelpCircle },
-  { label: "Entrevistas", path: "interview-plan", icon: Users },
+  { label: "Entrevistas", path: "interviews", icon: Users },
   { label: "Suficiência", path: "sufficiency", icon: CheckCircle2 },
-  { label: "Rascunho", path: "draft", icon: PenTool },
-  { label: "Auditoria", path: "audit", icon: ShieldCheck },
-  { label: "Revisão", path: "review", icon: FileText },
-  { label: "Aprovação", path: "approval", icon: Check },
-  { label: "Final", path: "final", icon: Flag },
+  { label: "Contradições", path: "contradictions", icon: ShieldCheck },
+  { label: "Notas", path: "notes", icon: PenTool },
+  { label: "Lacunas", path: "critical-gaps", icon: Flag },
 ];
 
 export function CaseShell() {
