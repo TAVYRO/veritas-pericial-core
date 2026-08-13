@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { useScroll } from "@/hooks/use-scroll";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app/cases")({
   component: CasesPage,
