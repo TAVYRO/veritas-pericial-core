@@ -121,6 +121,7 @@ function ApprovalsPage() {
 
 			<div className="mt-8 space-y-4">
 				<button
+					type="button"
 					onClick={() => releaseFinal(caseId)}
 					disabled={!isComplete || workflow.finalReleased}
 					className={cn(

@@ -81,6 +81,7 @@ function SignaturesPage() {
 										Autorizar assinatura para este caso e esta versão.
 									</p>
 									<button
+										type="button"
 										onClick={() => toggleAuth(pro.id)}
 										className={cn(
 											"w-12 h-6 rounded-full relative transition-all duration-300",
