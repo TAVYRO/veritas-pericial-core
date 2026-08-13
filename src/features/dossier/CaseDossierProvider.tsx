@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem } from "./case-dossier-types";
+import type { CaseDossierState, NewCaseDossierItemInput, CaseDossierItem, CaseTechnicalScope } from "./case-dossier-types";
 import { INITIAL_DOSSIERS } from "./mock-dossiers";
 
 interface CaseDossierContextType {
