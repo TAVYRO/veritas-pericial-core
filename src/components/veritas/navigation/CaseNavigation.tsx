@@ -44,7 +44,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		}
 	}
 
-	const activeGroup: NavGroup = foundGroup || CASE_NAVIGATION_GROUPS[0];
+	// Use a definite NavGroup from the config
+	const firstGroup = CASE_NAVIGATION_GROUPS[0] as NavGroup;
+	const activeGroup: NavGroup = foundGroup || firstGroup;
 	const activeStepId: string = foundStepId || (activeGroup.steps[0] ? activeGroup.steps[0].id : "");
 
 	return (
