@@ -1,14 +1,10 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import {
   ChevronLeft,
-  Save,
-  MessageSquare,
   Eye,
   Edit3,
   Check,
   X,
-  RefreshCw,
-  Search,
   Plus,
   Trash2,
   FileText,
@@ -126,8 +122,9 @@ function DraftEditPage() {
             to="/app/cases/$caseId/draft"
             params={{ caseId }}
             className="p-2 hover:bg-white/5 rounded-full transition-colors"
+            aria-label="Voltar para o rascunho"
           >
-            <ChevronLeft className="w-5 h-5 text-white/40" />
+            <ChevronLeft className="w-5 h-5 text-white/40" aria-hidden="true" />
           </Link>
           <div>
             <h2 className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none mb-1">
@@ -144,7 +141,7 @@ function DraftEditPage() {
             params={{ caseId }}
             className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-2"
           >
-            <Eye className="w-3.5 h-3.5" />
+            <Eye className="w-3.5 h-3.5" aria-hidden="true" />
             Visualizar
           </Link>
         </div>
@@ -154,7 +151,7 @@ function DraftEditPage() {
         {!document ? (
           <div className="py-20 text-center space-y-6 max-w-sm mx-auto">
             <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto border border-white/10">
-              <FileText className="w-10 h-10 text-white/20" />
+              <FileText className="w-10 h-10 text-white/20" aria-hidden="true" />
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-bold">Nenhum rascunho foi iniciado nesta versão.</h3>
@@ -199,14 +196,16 @@ function DraftEditPage() {
                           <button
                             onClick={() => handleUpdateSection(section.id)}
                             className="p-1.5 bg-veritas-electric text-white rounded"
+                            aria-label="Salvar alteração do título da seção"
                           >
-                            <Check className="w-4 h-4" />
+                            <Check className="w-4 h-4" aria-hidden="true" />
                           </button>
                           <button
                             onClick={() => setEditingSectionId(null)}
                             className="p-1.5 bg-white/10 text-white/60 rounded"
+                            aria-label="Cancelar edição do título da seção"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="w-4 h-4" aria-hidden="true" />
                           </button>
                         </div>
                       ) : (
@@ -226,7 +225,7 @@ function DraftEditPage() {
                               className="p-1.5 hover:bg-white/10 rounded text-white/40 transition-colors"
                               aria-label="Editar título da seção"
                             >
-                              <Edit3 className="w-4 h-4" />
+                              <Edit3 className="w-4 h-4" aria-hidden="true" />
                             </button>
                             <button
                               onClick={() =>
@@ -238,7 +237,7 @@ function DraftEditPage() {
                               className="p-1.5 hover:bg-red-500/20 rounded text-white/40 hover:text-red-400 transition-colors"
                               aria-label="Excluir seção"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <Trash2 className="w-4 h-4" aria-hidden="true" />
                             </button>
                           </div>
                         </>
@@ -278,7 +277,7 @@ function DraftEditPage() {
                                   className="p-1 hover:bg-white/10 rounded text-white/40 transition-colors"
                                   aria-label="Editar parágrafo"
                                 >
-                                  <Edit3 className="w-3.5 h-3.5" />
+                                  <Edit3 className="w-3.5 h-3.5" aria-hidden="true" />
                                 </button>
                                 <button
                                   onClick={() =>
@@ -290,7 +289,7 @@ function DraftEditPage() {
                                   className="p-1 hover:bg-red-500/20 rounded text-white/40 hover:text-red-400 transition-colors"
                                   aria-label="Excluir parágrafo"
                                 >
-                                  <Trash2 className="w-3.5 h-3.5" />
+                                  <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                                 </button>
                               </div>
                             )}
@@ -346,7 +345,7 @@ function DraftEditPage() {
                             disabled={!newParagraphTexts[section.id]?.trim()}
                             className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-white/10 text-white text-xs font-bold rounded-lg transition-all"
                           >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3.5 h-3.5" aria-hidden="true" />
                             Adicionar parágrafo
                           </button>
                         </div>
@@ -359,7 +358,7 @@ function DraftEditPage() {
               {/* Add New Section Area */}
               <div className="bg-veritas-electric/5 border border-veritas-electric/20 rounded-2xl p-6 space-y-4">
                 <div className="flex items-center gap-2 text-veritas-electric mb-2">
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-4 h-4" aria-hidden="true" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">
                     Nova Seção
                   </span>
