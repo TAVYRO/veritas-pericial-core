@@ -26,3 +26,11 @@ export const MOCK_TEMPLATES: DocumentTemplate[] = [
 export function getTemplatesForDocumentType(documentTypeId: DocumentTypeId): DocumentTemplate[] {
   return MOCK_TEMPLATES.filter(t => t.supportedDocumentTypes.includes(documentTypeId));
 }
+
+export function getTemplateById(id: string): DocumentTemplate | undefined {
+  return MOCK_TEMPLATES.find(t => t.id === id);
+}
+
+export function getActiveTemplates(): DocumentTemplate[] {
+  return MOCK_TEMPLATES.filter(t => t.status === "active");
+}

@@ -8,5 +8,5 @@ export const templateIdSchema = z.enum(TEMPLATE_IDS);
 
 export function isTemplateId(id: string | null | undefined): id is TemplateId {
   if (!id) return false;
-  return TEMPLATE_IDS.includes(id as any);
+  return (TEMPLATE_IDS as readonly string[]).includes(id);
 }

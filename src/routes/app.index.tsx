@@ -9,7 +9,8 @@ import {
   Clock, 
   ChevronRight,
   MoreVertical,
-  Calendar
+  Calendar,
+  FileStack
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -186,6 +187,24 @@ function DashboardPage() {
             <span className="text-[10px] font-bold text-center leading-tight">Processar com Veritas</span>
           </Button>
         </div>
+      </div>
+
+      {/* Global Template Library Access */}
+      <div className="px-6 mb-8">
+        <Link to="/app/templates" className="block w-full focus:outline-none">
+          <Card className="bg-veritas-graphite/40 border-white/5 hover:border-veritas-electric/30 transition-all duration-300 veritas-card shadow-lg group">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-white/5 text-veritas-silver group-hover:bg-veritas-electric/10 group-hover:text-veritas-electric transition-colors">
+                <FileStack className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-bold text-veritas-silver group-hover:text-white transition-colors">Biblioteca de Modelos</h3>
+                <p className="text-[10px] text-veritas-silver/40 font-medium">Consulte as estruturas documentais disponíveis.</p>
+              </div>
+              <ChevronRight className="w-5 h-5 text-veritas-silver/20 group-hover:text-veritas-electric transition-colors" />
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* Recent Cases */}
