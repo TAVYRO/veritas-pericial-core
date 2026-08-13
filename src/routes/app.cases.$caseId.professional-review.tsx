@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, Circle, Edit3, MessageSquare, Search, ChevronRight } from "lucide-react";
+import { CheckCircle2, Circle, Edit3, MessageSquare, Search, ChevronRight, FileText } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/app/cases/$caseId/professional-review")({
