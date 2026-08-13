@@ -164,7 +164,7 @@ function CasesPage() {
           <Card 
             key={c.id} 
             className="bg-veritas-graphite/40 border-white/5 hover:border-white/10 transition-all shadow-md overflow-hidden group active:scale-[0.98]"
-            onClick={() => navigate({ to: "/app/cases/demo-case" })}
+            onClick={() => navigate({ to: "/app/cases/$caseId", params: { caseId: "demo-case" } })}
           >
             <CardContent className="p-5">
               <div className="flex justify-between items-start mb-3">

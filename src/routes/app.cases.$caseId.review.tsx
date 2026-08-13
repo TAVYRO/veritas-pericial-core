@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/app/cases/$caseId/review")({
-  component: () => <div className="p-6 text-white">Revisão (Em breve)</div>
+  component: () => <Navigate to="/app/cases/$caseId/professional-review" params={Route.useParams()} />,
 });

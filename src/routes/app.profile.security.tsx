@@ -14,8 +14,8 @@ function ProfileSecurityPage() {
 
   const securityItems = [
     { label: "Alterar senha", icon: Key, description: "Atualize sua credencial de acesso." },
-    { label: "Autenticação em 2 fatores (2FA)", icon: Smartphone, description: "Camada extra de proteção via app ou SMS.", status: "Em breve" },
-    { label: "Biometria", icon: Fingerprint, description: "Acesso rápido via digital ou face.", status: "Em breve" },
+    { label: "Autenticação em 2 fatores (2FA)", icon: Smartphone, description: "Camada extra de proteção via app ou SMS.", status: "ATIVAR" },
+    { label: "Biometria", icon: Fingerprint, description: "Acesso rápido via digital ou face.", status: "ATIVAR" },
     { label: "Sessões ativas", icon: LogOut, description: "Gerencie aparelhos conectados." },
   ];
 

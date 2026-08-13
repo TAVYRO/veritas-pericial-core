@@ -1,11 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { BottomNavigation } from "@/components/veritas/BottomNavigation";
+import { createFileRoute, Navigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/app/profile")({
-  component: () => (
-    <div className="min-h-screen veritas-hero-gradient pb-24 text-white">
-      <div className="p-6">Perfil (Em breve)</div>
-      <BottomNavigation />
-    </div>
-  ),
+  component: () => <Navigate to="/app/profile" />,
 });

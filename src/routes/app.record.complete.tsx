@@ -90,7 +90,7 @@ function RecordCompletePage() {
           <Button 
             variant="ghost"
             className="w-full h-14 text-veritas-silver hover:bg-white/5 font-bold gap-2"
-            onClick={() => navigate({ to: "/app/cases/demo-case" })}
+            onClick={() => navigate({ to: "/app/cases/$caseId", params: { caseId: "demo-case" } })}
           >
             <Briefcase className="w-5 h-5" />
             Voltar ao caso

@@ -31,7 +31,6 @@ import { Route as RegisterSuccessRouteImport } from './routes/register.success'
 import { Route as AppCasesIndexRouteImport } from './routes/app.cases.index'
 import { Route as AppCasesCaseIdRouteImport } from './routes/app.cases.$caseId'
 import { Route as AppCasesContinueRouteImport } from './routes/app.cases.continue'
-import { Route as AppCasesDemoCaseRouteImport } from './routes/app.cases.demo-case'
 import { Route as AppProfileIndexRouteImport } from './routes/app.profile.index'
 import { Route as AppProfileEditRouteImport } from './routes/app.profile.edit'
 import { Route as AppProfilePreferencesRouteImport } from './routes/app.profile.preferences'
@@ -186,11 +185,6 @@ const AppCasesCaseIdRoute = AppCasesCaseIdRouteImport.update({
 const AppCasesContinueRoute = AppCasesContinueRouteImport.update({
   id: '/continue',
   path: '/continue',
-  getParentRoute: () => AppCasesRoute,
-} as any)
-const AppCasesDemoCaseRoute = AppCasesDemoCaseRouteImport.update({
-  id: '/demo-case',
-  path: '/demo-case',
   getParentRoute: () => AppCasesRoute,
 } as any)
 const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
@@ -369,9 +363,9 @@ const AppCasesCaseIdTriageRoute = AppCasesCaseIdTriageRouteImport.update({
 } as any)
 const AppCasesDemoCaseMaterialsRoute =
   AppCasesDemoCaseMaterialsRouteImport.update({
-    id: '/materials',
-    path: '/materials',
-    getParentRoute: () => AppCasesDemoCaseRoute,
+    id: '/demo-case/materials',
+    path: '/demo-case/materials',
+    getParentRoute: () => AppCasesRoute,
   } as any)
 const AppCasesNewDocumentTypeRoute = AppCasesNewDocumentTypeRouteImport.update({
   id: '/new/document-type',
@@ -456,7 +450,6 @@ export interface FileRoutesByFullPath {
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
-  '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/profile/edit': typeof AppProfileEditRoute
   '/app/profile/preferences': typeof AppProfilePreferencesRoute
   '/app/profile/security': typeof AppProfileSecurityRoute
@@ -522,7 +515,6 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
-  '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/profile/edit': typeof AppProfileEditRoute
   '/app/profile/preferences': typeof AppProfilePreferencesRoute
   '/app/profile/security': typeof AppProfileSecurityRoute
@@ -592,7 +584,6 @@ export interface FileRoutesById {
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRouteWithChildren
   '/app/cases/continue': typeof AppCasesContinueRoute
-  '/app/cases/demo-case': typeof AppCasesDemoCaseRouteWithChildren
   '/app/profile/edit': typeof AppProfileEditRoute
   '/app/profile/preferences': typeof AppProfilePreferencesRoute
   '/app/profile/security': typeof AppProfileSecurityRoute
@@ -664,7 +655,6 @@ export interface FileRouteTypes {
     | '/register/'
     | '/app/cases/$caseId'
     | '/app/cases/continue'
-    | '/app/cases/demo-case'
     | '/app/profile/edit'
     | '/app/profile/preferences'
     | '/app/profile/security'
@@ -730,7 +720,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/cases/$caseId'
     | '/app/cases/continue'
-    | '/app/cases/demo-case'
     | '/app/profile/edit'
     | '/app/profile/preferences'
     | '/app/profile/security'
@@ -799,7 +788,6 @@ export interface FileRouteTypes {
     | '/register/'
     | '/app/cases/$caseId'
     | '/app/cases/continue'
-    | '/app/cases/demo-case'
     | '/app/profile/edit'
     | '/app/profile/preferences'
     | '/app/profile/security'
@@ -1012,13 +1000,6 @@ declare module '@tanstack/react-router' {
       path: '/continue'
       fullPath: '/app/cases/continue'
       preLoaderRoute: typeof AppCasesContinueRouteImport
-      parentRoute: typeof AppCasesRoute
-    }
-    '/app/cases/demo-case': {
-      id: '/app/cases/demo-case'
-      path: '/demo-case'
-      fullPath: '/app/cases/demo-case'
-      preLoaderRoute: typeof AppCasesDemoCaseRouteImport
       parentRoute: typeof AppCasesRoute
     }
     '/app/profile/': {
@@ -1254,10 +1235,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/cases/demo-case/materials': {
       id: '/app/cases/demo-case/materials'
-      path: '/materials'
+      path: '/demo-case/materials'
       fullPath: '/app/cases/demo-case/materials'
       preLoaderRoute: typeof AppCasesDemoCaseMaterialsRouteImport
-      parentRoute: typeof AppCasesDemoCaseRoute
+      parentRoute: typeof AppCasesRoute
     }
     '/app/cases/new/document-type': {
       id: '/app/cases/new/document-type'
@@ -1443,22 +1424,11 @@ const AppCasesCaseIdRouteWithChildren = AppCasesCaseIdRoute._addFileChildren(
   AppCasesCaseIdRouteChildren,
 )
 
-interface AppCasesDemoCaseRouteChildren {
-  AppCasesDemoCaseMaterialsRoute: typeof AppCasesDemoCaseMaterialsRoute
-}
-
-const AppCasesDemoCaseRouteChildren: AppCasesDemoCaseRouteChildren = {
-  AppCasesDemoCaseMaterialsRoute: AppCasesDemoCaseMaterialsRoute,
-}
-
-const AppCasesDemoCaseRouteWithChildren =
-  AppCasesDemoCaseRoute._addFileChildren(AppCasesDemoCaseRouteChildren)
-
 interface AppCasesRouteChildren {
   AppCasesCaseIdRoute: typeof AppCasesCaseIdRouteWithChildren
   AppCasesContinueRoute: typeof AppCasesContinueRoute
-  AppCasesDemoCaseRoute: typeof AppCasesDemoCaseRouteWithChildren
   AppCasesIndexRoute: typeof AppCasesIndexRoute
+  AppCasesDemoCaseMaterialsRoute: typeof AppCasesDemoCaseMaterialsRoute
   AppCasesNewDocumentTypeRoute: typeof AppCasesNewDocumentTypeRoute
   AppCasesNewProcessRoute: typeof AppCasesNewProcessRoute
   AppCasesNewProfessionalsRoute: typeof AppCasesNewProfessionalsRoute
@@ -1468,8 +1438,8 @@ interface AppCasesRouteChildren {
 const AppCasesRouteChildren: AppCasesRouteChildren = {
   AppCasesCaseIdRoute: AppCasesCaseIdRouteWithChildren,
   AppCasesContinueRoute: AppCasesContinueRoute,
-  AppCasesDemoCaseRoute: AppCasesDemoCaseRouteWithChildren,
   AppCasesIndexRoute: AppCasesIndexRoute,
+  AppCasesDemoCaseMaterialsRoute: AppCasesDemoCaseMaterialsRoute,
   AppCasesNewDocumentTypeRoute: AppCasesNewDocumentTypeRoute,
   AppCasesNewProcessRoute: AppCasesNewProcessRoute,
   AppCasesNewProfessionalsRoute: AppCasesNewProfessionalsRoute,
