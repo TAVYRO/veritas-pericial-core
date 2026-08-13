@@ -55,7 +55,7 @@ function CaseTriagePage() {
   };
 
   return (
-    <div className="p-6 space-y-6 pb-32 max-w-4xl mx-auto">
+    <div className="p-6 space-y-6 pb-40 max-w-4xl mx-auto">
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">Triagem do Caso</h2>
         <p className="text-white/40 text-sm">
@@ -206,57 +206,57 @@ function CaseTriagePage() {
       )}
 
       {/* Botões de Ação */}
-      <div className="fixed bottom-24 left-6 right-6 flex justify-center pointer-events-none">
-        <div className="w-full max-w-4xl pointer-events-auto">
-          {dossier.triageComplete ? (
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-center gap-2 text-green-400 bg-green-500/10 py-3 rounded-2xl border border-green-500/20 font-bold uppercase tracking-widest text-xs">
-                <CheckCircle2 className="w-4 h-4" />
-                Triagem técnica concluída
-              </div>
-              <Button 
-                onClick={() => reopenTriage(caseId)}
-                variant="outline" 
-                className="w-full h-14 rounded-2xl border-white/10 hover:bg-white/5"
-              >
-                Reabrir triagem
-              </Button>
+      <div className="w-full">
+        {dossier.triageComplete ? (
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-center gap-2 text-green-400 bg-green-500/10 py-3 rounded-2xl border border-green-500/20 font-bold uppercase tracking-widest text-xs">
+              <CheckCircle2 className="w-4 h-4" />
+              Triagem técnica concluída
             </div>
-          ) : (
-            <div className="space-y-4">
-              {!canCompleteTriage(caseId) && (
-                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
-                  <p className="text-[10px] uppercase tracking-widest font-bold text-amber-400">Requisitos pendentes</p>
-                  <ul className="space-y-1 text-xs text-amber-200/60 list-disc list-inside">
-                    {!dossier.materialsCollectionComplete && <li>Conclua a conferência dos materiais antes de concluir a triagem.</li>}
-                    {dossier.items.length === 0 && <li>Nenhuma fonte registrada no inventário.</li>}
-                    {dossier.items.length > 0 && reviewedCount < dossier.items.length && (
-                      <li>Existem {dossier.items.length - reviewedCount} fonte(s) pendente(s) de revisão.</li>
-                    )}
-                  </ul>
-                </div>
-              )}
-              
-              <div className="flex flex-col gap-2">
-                <Button 
-                  onClick={() => completeTriage(caseId)}
-                  disabled={!canCompleteTriage(caseId)}
-                  className={cn(
-                    "w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-xs transition-all",
-                    canCompleteTriage(caseId) 
-                      ? "bg-veritas-electric hover:bg-veritas-electric/90 text-white" 
-                      : "bg-white/5 text-white/20 border-white/5"
+            <Button 
+              type="button"
+              onClick={() => reopenTriage(caseId)}
+              variant="outline" 
+              className="w-full h-14 rounded-2xl border-white/10 hover:bg-white/5"
+            >
+              Reabrir triagem
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {!canCompleteTriage(caseId) && (
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 space-y-2">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-amber-400">Requisitos pendentes</p>
+                <ul className="space-y-1 text-xs text-amber-200/60 list-disc list-inside">
+                  {!dossier.materialsCollectionComplete && <li>Conclua a conferência dos materiais antes de concluir a triagem.</li>}
+                  {dossier.items.length === 0 && <li>Nenhuma fonte registrada no inventário.</li>}
+                  {dossier.items.length > 0 && reviewedCount < dossier.items.length && (
+                    <li>Existem {dossier.items.length - reviewedCount} fonte(s) pendente(s) de revisão.</li>
                   )}
-                >
-                  Concluir triagem técnica
-                </Button>
-                <p className="text-[10px] text-white/20 text-center italic">
-                  Concluir a triagem não aprova o Gate de Suficiência.
-                </p>
+                </ul>
               </div>
+            )}
+            
+            <div className="flex flex-col gap-2">
+              <Button 
+                type="button"
+                onClick={() => completeTriage(caseId)}
+                disabled={!canCompleteTriage(caseId)}
+                className={cn(
+                  "w-full h-14 rounded-2xl font-bold uppercase tracking-widest text-xs transition-all",
+                  canCompleteTriage(caseId) 
+                    ? "bg-veritas-electric hover:bg-veritas-electric/90 text-white" 
+                    : "bg-white/5 text-white/20 border-white/5"
+                )}
+              >
+                Concluir triagem técnica
+              </Button>
+              <p className="text-[10px] text-white/20 text-center italic">
+                Concluir a triagem não aprova o Gate de Suficiência.
+              </p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
