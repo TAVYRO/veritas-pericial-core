@@ -23,8 +23,8 @@ function SelectTemplatePage() {
   const { mode, caseNumber, professionals = [], docType } = Route.useSearch();
   const [selectedId, setSelectedId] = useState<TemplateId | "">("");
 
-  const docTypeInfo = getDocumentTypeById(docType);
-  const compatibleTemplates = getTemplatesForDocumentType(docType);
+  const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
+  const compatibleTemplates = docType ? getTemplatesForDocumentType(docType) : [];
 
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
