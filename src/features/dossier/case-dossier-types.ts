@@ -37,6 +37,8 @@ export interface CaseDossierItem {
   duplicateStatus: DuplicateStatus;
 }
 
+export type NewCaseDossierItemInput = Omit<CaseDossierItem, "id">;
+
 export interface CaseDossierState {
   caseId: string;
   items: CaseDossierItem[];
