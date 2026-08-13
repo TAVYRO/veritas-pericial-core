@@ -143,12 +143,12 @@ function CaseMaterialsPage() {
           </div>
 
           <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-6">
-            <div className="grid grid-cols-1 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Título</p>
                 <p>{formData.title}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Tipo</p>
                   <p className="capitalize">{formData.materialKind}</p>
@@ -158,7 +158,7 @@ function CaseMaterialsPage() {
                   <p className="text-veritas-electric font-bold">{TRACEABILITY_OPTIONS.find(o => o.value === formData.traceability)?.label}</p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Origem</p>
                   <p>{formData.origin}</p>
@@ -180,7 +180,7 @@ function CaseMaterialsPage() {
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Localização</p>
                 <p>{formData.location}</p>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Legibilidade</p>
                   <p>{LEGIBILITY_OPTIONS.find(o => o.value === formData.legibility)?.label}</p>
@@ -190,9 +190,9 @@ function CaseMaterialsPage() {
                   <p>{DUPLICATE_OPTIONS.find(o => o.value === formData.duplicateStatus)?.label}</p>
                 </div>
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <p className="text-white/20 text-[10px] uppercase font-bold tracking-widest">Limitações</p>
-                <p>{formData.limitations.length > 0 ? formData.limitations.join(", ") : "Sem limitações registradas"}</p>
+                <p className="break-words">{formData.limitations.length > 0 ? formData.limitations.join(", ") : "Sem limitações registradas"}</p>
               </div>
             </div>
           </div>
