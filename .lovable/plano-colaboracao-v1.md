@@ -448,6 +448,9 @@ Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
 
 Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem ser removidas por microetapas posteriores. Correções devem preservar registros anteriores.
 
+**Regra de concorrência de baseline:** se um commit externo ocorrer entre o baseline declarado e a execução de uma microetapa, a etapa não pode ser fechada pelo diff bruto original. A alteração externa deve ser identificada, isolada e registrada antes do fechamento.
+
+
 | ETAPA | STATUS | BASELINE INICIAL | HEAD VALIDADO | ARQUIVOS | OBSERVAÇÕES |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | C0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | fcc99b4afa977364064353eca56df35ff4493b68 | ZERO | Auditoria read-only |
