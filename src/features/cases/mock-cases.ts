@@ -1,4 +1,4 @@
-import type { CaseData, CaseWorkflowState } from "./case-types";
+import type { CaseData, CaseWorkflowState, DocumentVersionRef } from "./case-types";
 import type { TemplateId } from "../documents/template-ids";
 
 
