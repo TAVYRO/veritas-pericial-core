@@ -36,7 +36,7 @@ function NewCaseProcessPage() {
         <div className="flex items-center gap-2 mt-1">
           <span className="text-[10px] uppercase tracking-widest font-bold text-white/30">Modo:</span>
           <span className={`text-[10px] uppercase tracking-widest font-bold ${mode === 'automatic' ? 'text-veritas-electric' : 'text-veritas-violet'}`}>
-            {mode === 'automatic' ? 'Automático' : 'Guided'}
+            {mode === 'automatic' ? 'Automático' : 'Guiado'}
           </span>
         </div>
       </header>
