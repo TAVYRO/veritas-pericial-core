@@ -230,13 +230,14 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       const dossier = prev[caseId];
       if (!dossier) return prev;
 
-      const validIds = sourceIds.filter(id => dossier.items.some(item => item.id === id));
-      const uniqueIds = Array.from(new Set(validIds));
+      const requestedIds = new Set(sourceIds);
+      const canonicalIds = dossier.items
+        .map(item => item.id)
+        .filter(id => requestedIds.has(id));
       
-      // Check for real change to avoid unnecessary confirmed=false
       const currentIds = dossier.technicalScope.sourceIds;
-      const hasChange = uniqueIds.length !== currentIds.length || 
-                        uniqueIds.some((id, idx) => id !== currentIds[idx]);
+      const hasChange = canonicalIds.length !== currentIds.length || 
+                        canonicalIds.some((id, idx) => id !== currentIds[idx]);
 
       if (!hasChange) return prev;
 
@@ -246,7 +247,7 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
           ...dossier,
           technicalScope: {
             ...dossier.technicalScope,
-            sourceIds: uniqueIds,
+            sourceIds: canonicalIds,
             confirmed: false
           }
         }

@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { Scale, Target, Ruler, Info, AlertTriangle, CheckCircle2, Circle } from "lucide-react";
+import { Scale, Target, Ruler, Info, CheckCircle2 } from "lucide-react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -172,39 +172,42 @@ function CaseObjectPage() {
           <div className="space-y-2">
             {dossier.items.map((item) => {
               const selected = technicalScope.sourceIds.includes(item.id);
+              const checkboxId = `scope-source-${item.id}`;
+              
               return (
                 <div 
                   key={item.id}
-                  onClick={() => handleToggleSource(item.id)}
                   className={cn(
-                    "p-4 rounded-xl border transition-all cursor-pointer flex items-center gap-4",
+                    "p-4 rounded-xl border transition-all flex items-center gap-4",
                     selected 
                       ? "bg-veritas-electric/5 border-veritas-electric/20" 
                       : "bg-white/[0.02] border-white/5 hover:bg-white/[0.05]",
-                    isConfirmed && "cursor-default opacity-80"
+                    isConfirmed && "opacity-80"
                   )}
                 >
-                  <div 
-                    role="checkbox"
-                    aria-checked={selected}
-                    aria-label={`Vincular ${item.id} — ${item.title}`}
-                    className={cn(
-                      "w-5 h-5 rounded border flex items-center justify-center transition-colors",
-                      selected ? "bg-veritas-electric border-veritas-electric" : "border-white/20"
-                    )}
-                  >
-                    {selected && <CheckCircle2 className="w-3 h-3 text-black" />}
+                  <div className="flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      id={checkboxId}
+                      checked={selected}
+                      onChange={() => handleToggleSource(item.id)}
+                      disabled={isConfirmed}
+                      className="w-5 h-5 rounded border-white/20 bg-black/40 text-veritas-electric focus:ring-veritas-electric/50 focus:ring-offset-0 disabled:opacity-50 transition-colors cursor-pointer disabled:cursor-default"
+                    />
                   </div>
                   
-                  <div className="flex-1 min-w-0">
+                  <label 
+                    htmlFor={checkboxId}
+                    className="flex-1 min-w-0 cursor-pointer disabled:cursor-default py-1"
+                  >
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-mono font-bold text-veritas-electric">{item.id}</span>
-                      <h4 className="text-sm font-medium text-white/80 truncate">{item.title}</h4>
+                      <h4 className="text-sm font-medium text-white/80 break-words">{item.title}</h4>
                     </div>
                     <span className="text-[9px] font-bold text-white/20 uppercase tracking-tighter">
                       {TRACEABILITY_LABELS[item.traceability]}
                     </span>
-                  </div>
+                  </label>
                 </div>
               );
             })}
