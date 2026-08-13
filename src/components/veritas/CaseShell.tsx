@@ -88,12 +88,13 @@ export function CaseShell() {
             
             // Type-safe link destination
             const to = `/app/cases/$caseId/${step.path}` as any;
+            const params = { caseId } as any;
 
             return (
               <Link
                 key={step.path}
                 to={to}
-                params={{ caseId }}
+                params={params}
                 className={cn(
                   "flex flex-col items-center gap-1.5 transition-all duration-300 relative",
                   isActive ? "text-veritas-electric" : "text-white/20 hover:text-white/40"
