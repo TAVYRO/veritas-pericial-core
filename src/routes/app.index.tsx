@@ -1,15 +1,29 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { 
+  Bell, 
+  Search, 
+  Plus, 
+  Mic, 
+  FilePlus, 
+  Zap, 
+  Clock, 
+  ChevronRight,
+  MoreVertical,
+  Calendar
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { BottomNavigation } from "@/components/veritas/BottomNavigation";
+import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/app")({
-  component: AppLayout,
+export const Route = createFileRoute("/app/")({
+  component: DashboardPage,
 });
 
-function AppLayout() {
-  return <Outlet />;
-}
-
-
-function AppPage() {
+function DashboardPage() {
   const navigate = useNavigate();
 
   const stats = [
@@ -57,15 +71,15 @@ function AppPage() {
       icon: <FilePlus className="w-4 h-4" />,
     },
     {
-      action: "Análise concluída",
-      target: "Inteligência Veritas",
+      action: "Processamento Veritas concluído",
+      target: "Análise assistida pronta para revisão profissional",
       time: "Ontem",
       icon: <Zap className="w-4 h-4" />,
     },
   ];
 
   return (
-    <div className="min-h-screen veritas-hero-gradient pb-24 text-white">
+    <div className="min-h-screen veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)]">
       {/* Top Bar */}
       <header className="px-6 pt-6 flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
@@ -124,37 +138,37 @@ function AppPage() {
         </Button>
       </div>
 
-      {/* Quick Actions */}
-      <div className="px-6 mb-8 overflow-x-auto no-scrollbar">
-        <div className="flex gap-4 w-max">
+      {/* Quick Actions - Responsive 3 columns */}
+      <div className="px-6 mb-8">
+        <div className="grid grid-cols-3 gap-3">
           <Button 
             variant="outline" 
-            className="h-auto py-3 px-4 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
+            className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
             onClick={() => navigate({ to: "/app/record" })}
           >
             <div className="p-2 rounded-xl bg-veritas-violet/20 text-veritas-violet">
               <Mic className="w-5 h-5" />
             </div>
-            <span className="text-xs font-semibold">Gravar entrevista</span>
+            <span className="text-[10px] font-bold text-center leading-tight">Gravar entrevista</span>
           </Button>
           <Button 
             variant="outline" 
-            className="h-auto py-3 px-4 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
+            className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
           >
             <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400">
               <FilePlus className="w-5 h-5" />
             </div>
-            <span className="text-xs font-semibold">Adicionar documento</span>
+            <span className="text-[10px] font-bold text-center leading-tight">Adicionar documento</span>
           </Button>
           <Button 
             variant="outline" 
-            className="h-auto py-3 px-4 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
+            className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
             onClick={() => navigate({ to: "/app/veritas" })}
           >
             <div className="p-2 rounded-xl bg-veritas-electric/20 text-veritas-electric">
               <Zap className="w-5 h-5" />
             </div>
-            <span className="text-xs font-semibold">Analisar com Veritas</span>
+            <span className="text-[10px] font-bold text-center leading-tight">Processar com Veritas</span>
           </Button>
         </div>
       </div>
