@@ -44,6 +44,7 @@ export interface CaseWorkflowState {
 	documentType: DocumentTypeId;
 	templateId: TemplateId | null;
 	currentVersion: DocumentVersionRef;
+	versions: DocumentVersionRef[];
 	sufficiencyApproved: boolean;
 	auditApproved: boolean;
 	professionalReviewApproved: boolean;

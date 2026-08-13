@@ -1,4 +1,4 @@
-import type { CaseData, CaseWorkflowState } from "./case-types";
+import type { CaseData, CaseWorkflowState, DocumentVersionRef } from "./case-types";
 import type { TemplateId } from "../documents/template-ids";
 
 
@@ -36,17 +36,20 @@ export const MOCK_CASES: Record<string, CaseData> = {
 	},
 };
 
+const DEMO_CASE_V01: DocumentVersionRef = {
+	id: "v01",
+	number: 1,
+	label: "V01",
+	status: "draft",
+};
+
 export const INITIAL_WORKFLOWS: Record<string, CaseWorkflowState> = {
 	"demo-case": {
 		caseId: "demo-case",
 		documentType: "relatorio-psicossocial",
 		templateId: "veritas-multiprofessional",
-		currentVersion: {
-			id: "v01",
-			number: 1,
-			label: "V01",
-			status: "draft",
-		},
+		currentVersion: DEMO_CASE_V01,
+		versions: [DEMO_CASE_V01],
 		sufficiencyApproved: true,
 		auditApproved: true,
 		professionalReviewApproved: true,

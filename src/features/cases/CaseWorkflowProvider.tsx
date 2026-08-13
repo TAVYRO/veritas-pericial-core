@@ -17,7 +17,7 @@ interface CaseWorkflowContextType {
 	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
 	setTemplate: (caseId: string, templateId: TemplateId | null) => void;
 	setProfessionals: (caseId: string, professionals: CaseProfessional[]) => void;
-	setCurrentVersion: (caseId: string, version: DocumentVersionRef) => void;
+	createNextVersion: (caseId: string) => boolean;
 	setAuditApproved: (caseId: string, approved: boolean) => void;
 	setProfessionalReviewApproved: (caseId: string, approved: boolean) => void;
 	setCaseIsolationConfirmed: (caseId: string, confirmed: boolean) => void;
@@ -156,9 +156,53 @@ export function CaseWorkflowProvider({
 		}
 	}, [cases, workflows, updateCaseData, updateWorkflow]);
 
-	const setCurrentVersion = useCallback((caseId: string, version: DocumentVersionRef) => {
-		updateWorkflow(caseId, { currentVersion: version });
-	}, [updateWorkflow]);
+	const createNextVersion = useCallback((caseId: string) => {
+		let success = false;
+		setWorkflows((prev) => {
+			const workflow = prev[caseId];
+			if (!workflow) return prev;
+
+			// Integrity check: currentVersion must exist in versions
+			const currentExists = workflow.versions.some(v => v.id === workflow.currentVersion.id);
+			if (!currentExists) return prev;
+
+			const maxNumber = Math.max(...workflow.versions.map(v => v.number));
+			const nextNumber = maxNumber + 1;
+			const nextLabel = `V${nextNumber.toString().padStart(2, "0")}`;
+			const nextId = nextLabel.toLowerCase();
+
+			const nextVersion: DocumentVersionRef = {
+				id: nextId,
+				number: nextNumber,
+				label: nextLabel,
+				status: "draft",
+			};
+
+			const updatedVersions = workflow.versions.map((v) => {
+				if (v.id === workflow.currentVersion.id) {
+					return {
+						...v,
+						status: workflow.finalReleased ? ("final" as const) : ("archived" as const),
+					};
+				}
+				return v;
+			});
+
+			success = true;
+			return {
+				...prev,
+				[caseId]: {
+					...workflow,
+					currentVersion: nextVersion,
+					versions: [...updatedVersions, nextVersion],
+					professionalReviewApproved: false,
+					auditApproved: false,
+					finalReleased: false,
+				},
+			};
+		});
+		return success;
+	}, []);
 
 	const setAuditApproved = useCallback((caseId: string, auditApproved: boolean) => {
 		updateWorkflow(caseId, { auditApproved });
@@ -320,7 +364,7 @@ export function CaseWorkflowProvider({
 			setDocumentType,
 			setTemplate,
 			setProfessionals,
-			setCurrentVersion,
+			createNextVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
 			setCaseIsolationConfirmed,
@@ -340,7 +384,7 @@ export function CaseWorkflowProvider({
 			setDocumentType,
 			setTemplate,
 			setProfessionals,
-			setCurrentVersion,
+			createNextVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
 			setCaseIsolationConfirmed,
