@@ -1,60 +1,102 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { User, Target, ClipboardList, CheckCircle2, Clock } from "lucide-react";
+import { createFileRoute, useParams } from "@tanstack/react-router";
+import { User, ClipboardList, Target, Clock, Plus, Trash2, Edit2, Check, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
+import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
+import { useState } from "react";
+import type { CaseInterviewStatus } from "@/features/dossier/case-dossier-types";
 
-const PLANS = [
-  { person: "Maria Silva", relation: "Mãe", professional: "Dra. Mônica", target: "Avaliar vínculo", status: "Agendado", time: "25/06 - 14h" },
-  { person: "João Silva", relation: "Pai", professional: "Dr. Roberto", target: "Condições habitacionais", status: "Em análise", time: "26/06 - 09h" },
-  { person: "L.M.S", relation: "Criança", professional: "Conjunta", target: "Lúdico / Vínculos", status: "Pendente", time: "A definir" },
-];
+const STATUS_LABELS: Record<CaseInterviewStatus, string> = {
+  planned: "Planejada",
+  scheduled: "Agendada",
+  completed: "Realizada",
+  "not-applicable": "Não se aplica",
+  cancelled: "Cancelada",
+};
 
 export const Route = createFileRoute("/app/cases/$caseId/interview-plan")({
   component: CaseInterviewPlanPage,
 });
 
 function CaseInterviewPlanPage() {
+  const { caseId } = useParams({ from: "/app/cases/$caseId/interview-plan" });
+  const { getDossier, addCaseInterview, removeCaseInterview, updateCaseInterview } = useCaseDossier();
+  const { getCase } = useCaseWorkflow();
+  
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const dossier = getDossier(caseId);
+  const caseData = getCase(caseId);
+
+  if (!dossier || !caseData) {
+    return <div className="p-6 text-white/40">Dossiê indisponível para este caso.</div>;
+  }
+
+  const { interviews } = dossier;
+  const { professionals } = caseData;
+
   return (
     <div className="p-6 space-y-6 pb-24">
       <div className="space-y-1">
-        <h2 className="text-xl font-semibold">Plano de Entrevista</h2>
-        <p className="text-white/40 text-sm">Cronograma e objetivos das oitivas</p>
+        <h2 className="text-xl font-semibold">Plano de Entrevistas</h2>
+        <p className="text-white/40 text-sm">Planejamento e acompanhamento das entrevistas deste caso.</p>
       </div>
 
-      <div className="space-y-4">
-        {PLANS.map((plan) => (
-          <div key={plan.person} className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/5">
-                  <User className="w-5 h-5 text-white/40" />
+      {interviews.length === 0 ? (
+        <div className="text-center py-10 border border-white/5 rounded-2xl bg-white/5 text-white/40">
+            Nenhuma entrevista planejada para este caso.
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {interviews.map((interview) => (
+            <div key={interview.id} className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/5">
+                    <User className="w-5 h-5 text-white/40" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium">{interview.personName}</h3>
+                    <p className="text-[10px] text-white/40 font-bold uppercase tracking-wider">{interview.relation}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium">{plan.person}</h3>
-                  <p className="text-[10px] text-white/40 font-bold uppercase tracking-wider">{plan.relation}</p>
-                </div>
+                <Badge className="bg-white/10 text-white/60">
+                  {STATUS_LABELS[interview.status]}
+                </Badge>
               </div>
-              <Badge className={plan.status === "Agendado" ? "bg-veritas-electric/20 text-veritas-electric" : "bg-white/10 text-white/40"}>
-                {plan.status}
-              </Badge>
-            </div>
 
-            <div className="space-y-3 pt-2">
-              <div className="flex items-center gap-3 text-xs text-white/60">
-                <ClipboardList className="w-4 h-4 text-white/20" />
-                <span>Profissional: <span className="text-white">{plan.professional}</span></span>
+              <div className="space-y-2 pt-2 text-xs text-white/60">
+                <p>Objetivo: <span className="text-white">{interview.purpose}</span></p>
+                <p>Profissionais: <span className="text-white">
+                    {interview.professionalIds.map(id => {
+                        const pro = professionals.find(p => p.id === id);
+                        return pro ? pro.name : "Profissional não localizado";
+                    }).join(", ")}
+                </span></p>
+                {interview.scheduledAt && <p>Agendamento: <span className="text-white">{interview.scheduledAt.replace("T", " • ")}</span></p>}
+                {interview.completedAt && <p>Realização: <span className="text-white">{interview.completedAt.replace("T", " • ")}</span></p>}
               </div>
-              <div className="flex items-center gap-3 text-xs text-white/60">
-                <Target className="w-4 h-4 text-white/20" />
-                <span>Objetivo: <span className="text-white">{plan.target}</span></span>
-              </div>
-              <div className="flex items-center gap-3 text-xs text-white/60">
-                <Clock className="w-4 h-4 text-white/20" />
-                <span>Previsão: <span className="text-white">{plan.time}</span></span>
+              
+              <div className="flex gap-2 pt-2">
+                <button onClick={() => setEditingId(interview.id)} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/60">
+                    <Edit2 className="w-4 h-4" />
+                </button>
+                {deletingId === interview.id ? (
+                    <div className="flex items-center gap-2">
+                        <button onClick={() => setDeletingId(null)} className="text-[10px] text-white/60">Cancelar</button>
+                        <button onClick={() => removeCaseInterview(caseId, interview.id)} className="text-[10px] text-red-400 font-bold">Confirmar remoção</button>
+                    </div>
+                ) : (
+                    <button onClick={() => setDeletingId(interview.id)} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-red-400/60 hover:text-red-400">
+                        <Trash2 className="w-4 h-4" />
+                    </button>
+                )}
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
