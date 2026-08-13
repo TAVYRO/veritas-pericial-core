@@ -26,7 +26,7 @@ function NewCaseProcessPage() {
             Cancelar
           </Link>
           <div className="flex gap-1">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4, 5].map((s) => (
               <div key={s} className={`w-8 h-1 rounded-full ${s === 1 ? "bg-veritas-electric" : "bg-white/10"}`} />
             ))}
           </div>
