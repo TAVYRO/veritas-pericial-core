@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { DOCUMENT_TYPES, getDocumentTypesByDiscipline, documentTypeIdSchema } from "@/features/documents/document-types";
-import type { DocumentTypeId } from "@/features/features/documents/document-type-ids";
+import type { DocumentTypeId } from "@/features/documents/document-type-ids";
 import { PROFESSIONALS } from "@/features/cases/mock-professionals";
 
 export const Route = createFileRoute("/app/cases/new/document-type")({
