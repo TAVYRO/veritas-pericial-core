@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, AlertCircle } from "lucide-react";
+import { ArrowLeft, AlertCircle, FileText } from "lucide-react";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { DocumentViewer } from "@/components/veritas/documents/DocumentViewer";
-import { getMockPreview } from "@/features/documents/mock-document-preview";
+import { useCaseDocument } from "@/features/documents/CaseDocumentProvider";
+import type { DocumentPreviewData } from "@/features/documents/document-preview-types";
 
 export const Route = createFileRoute("/app/cases/$caseId/draft")({
   component: DraftPage,
@@ -11,10 +12,20 @@ export const Route = createFileRoute("/app/cases/$caseId/draft")({
 function DraftPage() {
   const { caseId } = useParams({ from: "/app/cases/$caseId/draft" });
   const { getCase, getWorkflow } = useCaseWorkflow();
+  const { getDocument } = useCaseDocument();
 
   const caseData = getCase(caseId);
   const workflow = getWorkflow(caseId);
-  const preview = getMockPreview(caseId);
+  
+  const versionId = workflow?.currentVersion.id;
+  const document = versionId ? getDocument(caseId, versionId) : undefined;
+
+  const preview: DocumentPreviewData | undefined = document 
+    ? {
+        sections: document.sections,
+        ...(document.footerNote ? { footerNote: document.footerNote } : {})
+      }
+    : undefined;
 
   if (!caseData || !workflow) {
     return (
@@ -53,12 +64,15 @@ function DraftPage() {
       </div>
 
       <div className="p-6 space-y-8 pb-32 overflow-y-auto">
-        {!preview ? (
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center space-y-4 max-w-2xl mx-auto">
+        {!preview || preview.sections.length === 0 ? (
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center space-y-4 max-w-2xl mx-auto mt-12">
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto">
-              <AlertCircle className="w-6 h-6 text-white/20" />
+              <FileText className="w-6 h-6 text-white/20" aria-hidden="true" />
             </div>
-            <p className="text-sm text-white/40">Pré-visualização documental indisponível para este caso.</p>
+            <div className="space-y-2">
+              <h3 className="text-white font-medium">Nenhum rascunho documental foi criado para esta versão.</h3>
+              <p className="text-sm text-white/40">O conteúdo desta versão será exibido aqui quando for criado no editor documental.</p>
+            </div>
           </div>
         ) : (
           <DocumentViewer 
