@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/app/review")({
+export const Route = createFileRoute("/app/review_/")({
   component: ReviewPage,
 });
 
