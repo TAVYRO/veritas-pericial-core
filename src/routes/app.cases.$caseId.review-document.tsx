@@ -24,7 +24,7 @@ function ReviewDocumentPage() {
           <AlertCircle className="w-8 h-8 text-white/20" />
         </div>
         <h2 className="text-xl font-bold text-white">Caso não encontrado</h2>
-        <Link 
+        <Link
           to="/app/cases"
           className="flex items-center gap-2 text-veritas-electric text-sm font-bold"
         >
@@ -61,10 +61,14 @@ function ReviewDocumentPage() {
             <FileText className="w-8 h-8 text-white/20" aria-hidden="true" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-white font-bold">Nenhum documento disponível para revisão nesta versão.</h3>
-            <p className="text-sm text-white/40">Crie e estruture o rascunho antes de iniciar a revisão documental.</p>
+            <h3 className="text-white font-bold">
+              Nenhum documento disponível para revisão nesta versão.
+            </h3>
+            <p className="text-sm text-white/40">
+              Crie e estruture o rascunho antes de iniciar a revisão documental.
+            </p>
           </div>
-          <Link 
+          <Link
             to="/app/cases/$caseId/draft/edit"
             params={{ caseId }}
             className="inline-flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white px-6 py-3 rounded-xl transition-colors text-sm font-bold border border-white/10"
@@ -75,16 +79,16 @@ function ReviewDocumentPage() {
         </div>
       ) : (
         <div className="space-y-8">
-          <DocumentViewer 
-            caseData={caseData} 
-            workflow={workflow} 
-            preview={preview!} 
-            mode="review" 
+          <DocumentViewer
+            caseData={caseData}
+            workflow={workflow}
+            preview={preview!}
+            mode="review"
           />
-          
+
           <div className="max-w-3xl mx-auto">
-            <Link 
-              to="/app/cases/$caseId/professional-review" 
+            <Link
+              to="/app/cases/$caseId/professional-review"
               params={{ caseId }}
               className="w-full bg-veritas-electric text-veritas-graphite py-4 rounded-xl flex items-center justify-center gap-2 font-black uppercase tracking-widest text-xs hover:bg-veritas-electric/90 transition-all shadow-lg shadow-veritas-electric/20"
             >
