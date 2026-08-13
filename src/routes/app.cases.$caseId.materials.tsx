@@ -250,7 +250,7 @@ function CaseMaterialsPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 px-1">Tipo de Material</label>
                 <select 
@@ -273,7 +273,7 @@ function CaseMaterialsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-bold tracking-widest text-white/40 px-1">Origem *</label>
                 <input 
@@ -281,7 +281,7 @@ function CaseMaterialsPage() {
                   placeholder="Ex: Processo"
                   value={formData.origin}
                   onChange={e => setFormData(prev => ({ ...prev, origin: e.target.value }))}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none"
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none transition-colors focus:border-veritas-electric/50"
                 />
               </div>
               <div className="space-y-2">
@@ -290,7 +290,7 @@ function CaseMaterialsPage() {
                   type="date"
                   value={formData.date || ""}
                   onChange={e => setFormData(prev => ({ ...prev, date: e.target.value || null }))}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none"
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm focus:outline-none transition-colors focus:border-veritas-electric/50"
                 />
               </div>
             </div>
