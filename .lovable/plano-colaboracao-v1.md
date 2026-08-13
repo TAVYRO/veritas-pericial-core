@@ -453,7 +453,7 @@ Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
 | C1.0.1 | CLOSED | 1aac88ea884a051ab3a04709f856c83b37eac548 | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; estrutura granular e protocolo anti-pulo validados. |
 | C1.0.2 | CLOSED | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | 6e317973e4eab291542faad6b70e1ebb0aa164bf | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; objetivos C18.1-C18.7 validados. Saneamento estrutural posterior em C1.0.3. |
 | C1.0.3 | CLOSED | 6e317973e4eab291542faad6b70e1ebb0aa164bf | 1872a4f754c140c253dc98551a613dec4d43f370 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; numeração 1-20, ordem estrutural e testes C18 validados. |
-| C2.1 | CLOSED | 2558baa695ceb5ef7e509c06dbe6c59f2ee5203b | 4617e5513063a3c38b90eab9af9d67863bc4f2f8 | src/features/collaboration/professional-profile-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; contrato ProfessionalProfile mínimo validado. |
-| C2.2 | AUDIT_REQUIRED | 4617e5513063a3c38b90eab9af9d67863bc4f2f8 | PENDENTE | src/features/collaboration/partner-relationship-types.ts<br>.lovable/plano-colaboracao-v1.md | Contrato PartnerRelationship; pendente de auditoria externa. |
-| C2.3 | BLOCKED | PENDENTE | PENDENTE | - | Dependente de C2.2 CLOSED. Não executar C2.3. |
-| C2.4+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
+| C2.2 | CLOSED | 4617e5513063a3c38b90eab9af9d67863bc4f2f8 | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | src/features/collaboration/partner-relationship-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; PartnerRelationship mínimo validado sem acesso a casos. |
+| C2.3 | AUDIT_REQUIRED | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | PENDENTE | src/features/collaboration/case-member-types.ts<br>.lovable/plano-colaboracao-v1.md | Contrato CaseMember + roles; pendente de auditoria externa. |
+| C2.4 | BLOCKED | PENDENTE | PENDENTE | - | Matriz de permissões depende de C2.3 CLOSED. Não executar C2.4. |
+| C2.5+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
