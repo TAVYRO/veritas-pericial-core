@@ -81,10 +81,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 						const targetRoute = `/app/cases/${caseId}/${step.path}`;
 
 						return (
-							<button
+							<Link
 								key={step.id}
-								type="button"
-								onClick={() => navigate({ to: targetRoute as any })}
+								to={targetRoute as any}
 								className={cn(
 									"flex items-center gap-2 transition-all duration-300 px-2 py-1 rounded-full whitespace-nowrap outline-none",
 									isActive ? "text-veritas-electric bg-veritas-electric/5" : "text-white/30 hover:text-white/50",
@@ -95,7 +94,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 								<span className="text-[9px] uppercase tracking-widest font-bold">
 									{step.label}
 								</span>
-							</button>
+							</Link>
 						);
 					})}
 				</div>
