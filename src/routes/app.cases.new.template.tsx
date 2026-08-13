@@ -10,12 +10,15 @@ import { getDocumentTypeById, documentTypeIdSchema } from "@/features/documents/
 import type { TemplateId } from "@/features/documents/template-ids";
 
 export const Route = createFileRoute("/app/cases/new/template")({
-  validateSearch: (search) => z.object({
-    mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
-    caseNumber: z.string().optional().catch(undefined),
-    professionals: z.array(z.string()).optional().catch(undefined),
-    docType: documentTypeIdSchema.optional().catch(undefined),
-  }).parse(search),
+  validateSearch: (search) =>
+    z
+      .object({
+        mode: z.enum(["automatic", "guided"]).optional().catch(undefined),
+        caseNumber: z.string().optional().catch(undefined),
+        professionals: z.array(z.string()).optional().catch(undefined),
+        docType: documentTypeIdSchema.optional().catch(undefined),
+      })
+      .parse(search),
   component: SelectTemplatePage,
 });
 
@@ -28,10 +31,9 @@ function SelectTemplatePage() {
     if (!selectedId) return;
     navigate({
       to: "/app/cases/new/review",
-      search: { mode, caseNumber, professionals, docType, templateId: selectedId }
+      search: { mode, caseNumber, professionals, docType, templateId: selectedId },
     });
   };
-
 
   const docTypeInfo = docType ? getDocumentTypeById(docType) : undefined;
   const compatibleTemplates = docType ? getTemplatesForDocumentType(docType) : [];
@@ -39,21 +41,21 @@ function SelectTemplatePage() {
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
-      
+
       <header className="sticky top-0 z-50 px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 bg-[#0A0D14]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex items-center justify-between mb-4">
-          <Link 
-            to="/app/cases/new/document-type" 
-            search={{ mode, caseNumber, professionals, docType }} 
+          <Link
+            to="/app/cases/new/document-type"
+            search={{ mode, caseNumber, professionals, docType }}
             className="text-white/40 hover:text-white transition-colors"
           >
             Voltar
           </Link>
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((s) => (
-              <div 
-                key={s} 
-                className={`w-8 h-1 rounded-full ${s === 4 ? "bg-veritas-electric" : s < 4 ? "bg-veritas-electric/40" : "bg-white/10"}`} 
+              <div
+                key={s}
+                className={`w-8 h-1 rounded-full ${s === 4 ? "bg-veritas-electric" : s < 4 ? "bg-veritas-electric/40" : "bg-white/10"}`}
               />
             ))}
           </div>
@@ -68,7 +70,9 @@ function SelectTemplatePage() {
       <main className="p-6 space-y-6 relative">
         {docTypeInfo && (
           <div className="p-4 rounded-2xl bg-veritas-electric/5 border border-veritas-electric/10">
-            <p className="text-[10px] uppercase tracking-widest font-bold text-veritas-electric/60 mb-1">Modalidade Selecionada</p>
+            <p className="text-[10px] uppercase tracking-widest font-bold text-veritas-electric/60 mb-1">
+              Modalidade Selecionada
+            </p>
             <p className="text-sm font-medium text-white">{docTypeInfo.label}</p>
           </div>
         )}
@@ -81,17 +85,26 @@ function SelectTemplatePage() {
                 onClick={() => setSelectedId(template.id)}
                 className={cn(
                   "w-full flex flex-col gap-3 p-5 rounded-2xl border transition-all duration-300 text-left",
-                  selectedId === template.id 
-                    ? "bg-veritas-electric/10 border-veritas-electric/40 shadow-[0_0_20px_rgba(30,174,255,0.1)]" 
-                    : "bg-white/5 border-white/5 hover:border-white/10"
+                  selectedId === template.id
+                    ? "bg-veritas-electric/10 border-veritas-electric/40 shadow-[0_0_20px_rgba(30,174,255,0.1)]"
+                    : "bg-white/5 border-white/5 hover:border-white/10",
                 )}
               >
                 <div className="flex items-start justify-between">
-                  <div className={cn(
-                    "w-10 h-10 rounded-xl flex items-center justify-center border transition-colors",
-                    selectedId === template.id ? "bg-veritas-electric border-transparent" : "bg-white/5 border-white/10"
-                  )}>
-                    <FileText className={cn("w-5 h-5", selectedId === template.id ? "text-white" : "text-white/20")} />
+                  <div
+                    className={cn(
+                      "w-10 h-10 rounded-xl flex items-center justify-center border transition-colors",
+                      selectedId === template.id
+                        ? "bg-veritas-electric border-transparent"
+                        : "bg-white/5 border-white/10",
+                    )}
+                  >
+                    <FileText
+                      className={cn(
+                        "w-5 h-5",
+                        selectedId === template.id ? "text-white" : "text-white/20",
+                      )}
+                    />
                   </div>
                   {selectedId === template.id && (
                     <div className="bg-veritas-electric/20 p-1 rounded-full">
@@ -99,7 +112,7 @@ function SelectTemplatePage() {
                     </div>
                   )}
                 </div>
-                
+
                 <div>
                   <h3 className="text-sm font-bold">{template.name}</h3>
                   <p className="text-xs text-white/40 mt-1 leading-relaxed">
@@ -112,7 +125,7 @@ function SelectTemplatePage() {
                     Estrutura Veritas
                   </span>
                   <span className="text-[9px] uppercase tracking-wider font-bold bg-veritas-violet/10 px-2 py-1 rounded text-veritas-violet/80 border border-veritas-violet/20">
-                    {template.scope === 'multiprofessional' ? 'Multiprofissional' : 'Geral'}
+                    {template.scope === "multiprofessional" ? "Multiprofissional" : "Geral"}
                   </span>
                 </div>
               </button>
@@ -127,7 +140,7 @@ function SelectTemplatePage() {
           )}
         </div>
 
-        <Button 
+        <Button
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg disabled:opacity-50"
           disabled={!selectedId}
           onClick={handleContinue}
@@ -135,7 +148,6 @@ function SelectTemplatePage() {
           Continuar
           <ChevronRight className="ml-2 w-5 h-5" />
         </Button>
-
       </main>
 
       <BottomNavigation />

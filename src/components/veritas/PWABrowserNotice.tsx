@@ -8,8 +8,8 @@ export function PWABrowserNotice() {
 
   useEffect(() => {
     // Only show if in browser mode and not recently dismissed
-    if (displayMode === 'browser') {
-      const dismissed = localStorage.getItem('veritas-pwa-notice-dismissed');
+    if (displayMode === "browser") {
+      const dismissed = localStorage.getItem("veritas-pwa-notice-dismissed");
       if (!dismissed) {
         const timer = setTimeout(() => setIsVisible(true), 2000);
         return () => clearTimeout(timer);
@@ -20,7 +20,7 @@ export function PWABrowserNotice() {
 
   const handleDismiss = () => {
     setIsVisible(false);
-    localStorage.setItem('veritas-pwa-notice-dismissed', 'true');
+    localStorage.setItem("veritas-pwa-notice-dismissed", "true");
   };
 
   if (!isVisible) return null;
@@ -34,10 +34,11 @@ export function PWABrowserNotice() {
         <div className="flex-1">
           <h4 className="text-sm font-bold text-white">Experiência Profissional</h4>
           <p className="text-xs text-veritas-silver/60 mt-0.5">
-            Instale o Veritas na sua tela inicial para usar em tela cheia e ter uma experiência mais fluida.
+            Instale o Veritas na sua tela inicial para usar em tela cheia e ter uma experiência mais
+            fluida.
           </p>
         </div>
-        <button 
+        <button
           onClick={handleDismiss}
           className="p-1 text-veritas-silver/40 hover:text-veritas-silver transition-colors"
         >

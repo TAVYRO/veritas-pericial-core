@@ -13,7 +13,10 @@ export const Route = createFileRoute("/login")({
       { title: "Login — Veritas Pericial" },
       { name: "description", content: "Acesse seu ambiente profissional no Veritas Pericial." },
       { property: "og:title", content: "Login — Veritas Pericial" },
-      { property: "og:description", content: "Acesse seu ambiente profissional no Veritas Pericial." },
+      {
+        property: "og:description",
+        content: "Acesse seu ambiente profissional no Veritas Pericial.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -28,7 +31,7 @@ function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (displayMode !== 'browser') {
+    if (displayMode !== "browser") {
       await requestFullscreen();
     }
     navigate({ to: "/app" });
@@ -45,22 +48,34 @@ function LoginPage() {
           backgroundSize: "30px 30px",
         }}
       />
-      
+
       {/* Logo and Header */}
       <div className="animate-fade-in-up flex flex-col items-center text-center">
         <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-xl border border-veritas-electric/20 bg-veritas-graphite/60 shadow-[0_0_30px_-10px_rgba(60,130,246,0.3)]">
           <svg viewBox="0 0 48 48" fill="none" className="h-8 w-8 text-veritas-electric">
-            <path d="M12 36L24 8L36 36H12Z" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M12 36L24 8L36 36H12Z"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
             <path d="M18 28H30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
             <circle cx="24" cy="38" r="3" fill="currentColor" />
           </svg>
         </div>
-        <h1 className="veritas-gradient-text text-3xl font-bold tracking-tight">Bem-vindo de volta</h1>
+        <h1 className="veritas-gradient-text text-3xl font-bold tracking-tight">
+          Bem-vindo de volta
+        </h1>
         <p className="mt-2 text-veritas-silver-dim/70">Acesse seu ambiente profissional.</p>
       </div>
 
       {/* Login Form */}
-      <form onSubmit={handleLogin} className="animate-fade-in-up mt-12 space-y-6" style={{ animationDelay: "0.1s" }}>
+      <form
+        onSubmit={handleLogin}
+        className="animate-fade-in-up mt-12 space-y-6"
+        style={{ animationDelay: "0.1s" }}
+      >
         <div className="space-y-2">
           <Label htmlFor="email">E-mail</Label>
           <Input id="email" type="email" placeholder="nome@exemplo.com" required />
@@ -69,11 +84,11 @@ function LoginPage() {
         <div className="space-y-2">
           <Label htmlFor="password">Senha</Label>
           <div className="relative">
-            <Input 
-              id="password" 
-              type={showPassword ? "text" : "password"} 
-              placeholder="••••••••" 
-              required 
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              required
             />
             <button
               type="button"
@@ -88,10 +103,12 @@ function LoginPage() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Checkbox id="remember" />
-            <Label htmlFor="remember" className="text-xs cursor-pointer">Lembrar de mim</Label>
+            <Label htmlFor="remember" className="text-xs cursor-pointer">
+              Lembrar de mim
+            </Label>
           </div>
-          <Link 
-            to="/forgot-password" 
+          <Link
+            to="/forgot-password"
             className="text-xs font-medium text-veritas-electric hover:text-veritas-electric-glow transition-colors"
           >
             Esqueci minha senha
@@ -104,7 +121,10 @@ function LoginPage() {
       </form>
 
       {/* Divider */}
-      <div className="animate-fade-in-up mt-8 flex items-center gap-4" style={{ animationDelay: "0.2s" }}>
+      <div
+        className="animate-fade-in-up mt-8 flex items-center gap-4"
+        style={{ animationDelay: "0.2s" }}
+      >
         <div className="h-px flex-1 bg-veritas-electric/10" />
         <span className="text-[10px] uppercase tracking-widest text-veritas-silver-dim/40">ou</span>
         <div className="h-px flex-1 bg-veritas-electric/10" />
@@ -136,10 +156,16 @@ function LoginPage() {
       </div>
 
       {/* Footer */}
-      <div className="animate-fade-in-up mt-auto pt-10 text-center" style={{ animationDelay: "0.3s" }}>
+      <div
+        className="animate-fade-in-up mt-auto pt-10 text-center"
+        style={{ animationDelay: "0.3s" }}
+      >
         <p className="text-sm text-veritas-silver-dim/60">
           Ainda não possui uma conta?{" "}
-          <Link to="/register" className="font-semibold text-veritas-electric hover:text-veritas-electric-glow transition-colors">
+          <Link
+            to="/register"
+            className="font-semibold text-veritas-electric hover:text-veritas-electric-glow transition-colors"
+          >
             Criar conta
           </Link>
         </p>

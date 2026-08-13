@@ -13,7 +13,7 @@ const TRACE_DATA = [
     area: "Psicologia",
     divergences: "F02 afirma que a criança é 'influenciada'.",
     scope: "Interacional",
-    limit: "Observação limitada a ambiente controlado."
+    limit: "Observação limitada a ambiente controlado.",
   },
   {
     assertion: "O genitor mantém as obrigações alimentares em dia.",
@@ -22,7 +22,7 @@ const TRACE_DATA = [
     area: "Serviço Social",
     divergences: "Nenhuma",
     scope: "Financeiro",
-    limit: "Baseado em comprovantes bancários."
+    limit: "Baseado em comprovantes bancários.",
   },
   {
     assertion: "Conflito de lealdade identificado na fala da genitora.",
@@ -31,8 +31,8 @@ const TRACE_DATA = [
     area: "Psicologia",
     divergences: "Inconsistência com relato da Avó (F05).",
     scope: "Dinâmica Familiar",
-    limit: "Necessária avaliação da rede de apoio."
-  }
+    limit: "Necessária avaliação da rede de apoio.",
+  },
 ];
 
 function TraceabilityPage() {
@@ -50,7 +50,10 @@ function TraceabilityPage() {
 
       <div className="grid gap-4">
         {TRACE_DATA.map((item, index) => (
-          <div key={index} className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4 hover:bg-white/[0.07] transition-all">
+          <div
+            key={index}
+            className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4 hover:bg-white/[0.07] transition-all"
+          >
             <div className="flex justify-between items-start gap-4">
               <p className="text-sm font-medium text-white leading-relaxed">{item.assertion}</p>
               <span className="px-2 py-1 bg-veritas-electric/10 text-veritas-electric text-[9px] font-bold uppercase tracking-widest rounded">
@@ -62,10 +65,10 @@ function TraceabilityPage() {
               <div className="space-y-1">
                 <p className="text-[9px] text-white/40 uppercase tracking-widest">Fontes</p>
                 <div className="flex items-center gap-2">
-                   <span className="text-xs text-veritas-violet font-bold">{item.source}</span>
-                   <button className="p-1 hover:text-veritas-electric transition-colors">
-                     <ExternalLink className="w-3 h-3" />
-                   </button>
+                  <span className="text-xs text-veritas-violet font-bold">{item.source}</span>
+                  <button className="p-1 hover:text-veritas-electric transition-colors">
+                    <ExternalLink className="w-3 h-3" />
+                  </button>
                 </div>
               </div>
               <div className="space-y-1">

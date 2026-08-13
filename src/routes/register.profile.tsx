@@ -117,10 +117,16 @@ function RegisterProfile() {
               <ImageIcon className="w-6 h-6" />
             </div>
             <div className="text-center">
-              <p className="text-sm font-medium text-veritas-silver">Adicionar logotipo profissional</p>
+              <p className="text-sm font-medium text-veritas-silver">
+                Adicionar logotipo profissional
+              </p>
               <p className="text-xs text-veritas-silver/40">(Opcional)</p>
             </div>
-            <Button variant="outline" size="sm" className="h-8 border-veritas-silver/20 text-veritas-silver hover:bg-white/5">
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 border-veritas-silver/20 text-veritas-silver hover:bg-white/5"
+            >
               Escolher arquivo
             </Button>
           </section>
@@ -130,7 +136,7 @@ function RegisterProfile() {
             <h3 className="text-sm font-semibold text-veritas-silver/60 uppercase tracking-wider ml-1">
               Como seu perfil aparecerá
             </h3>
-            
+
             <Card className="veritas-card overflow-hidden border-veritas-electric-blue/20">
               <CardContent className="p-6">
                 <div className="flex items-center gap-4">

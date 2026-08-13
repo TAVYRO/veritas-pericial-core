@@ -38,13 +38,15 @@ const slides: Slide[] = [
   },
   {
     title: "Toda informação mantém sua origem",
-    description: "Documentos, relatos, observações e fontes categorizados para total rastreabilidade.",
+    description:
+      "Documentos, relatos, observações e fontes categorizados para total rastreabilidade.",
     items: ["Documento", "Relato", "Observação", "Fonte"],
     icon: <Share2 className="w-16 h-16 text-blue-400" />,
   },
   {
     title: "Veritas auxilia. O profissional decide.",
-    description: "A Veritas organiza, estrutura e verifica. A avaliação e decisão permanecem sob responsabilidade profissional.",
+    description:
+      "A Veritas organiza, estrutura e verifica. A avaliação e decisão permanecem sob responsabilidade profissional.",
     icon: <Zap className="w-16 h-16 text-amber-400" />,
   },
   {
@@ -84,12 +86,15 @@ function OnboardingPage() {
     <div className="min-h-screen veritas-hero-gradient flex flex-col p-6 text-white relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-[-10%] right-[-20%] w-96 h-96 bg-veritas-electric/10 rounded-full blur-[100px] animate-pulse-glow" />
-      <div className="absolute bottom-[-10%] left-[-20%] w-96 h-96 bg-veritas-violet/10 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+      <div
+        className="absolute bottom-[-10%] left-[-20%] w-96 h-96 bg-veritas-violet/10 rounded-full blur-[100px] animate-pulse-glow"
+        style={{ animationDelay: "2s" }}
+      />
 
       {/* Skip Button */}
       <header className="flex justify-end pt-2">
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="text-veritas-silver/60 hover:text-veritas-electric transition-colors"
           onClick={skip}
         >
@@ -110,19 +115,15 @@ function OnboardingPage() {
           </div>
 
           <div className="space-y-4">
-            <h1 className="text-3xl font-black tracking-tight leading-tight px-4">
-              {slide.title}
-            </h1>
-            <p className="text-veritas-silver/60 text-base px-6">
-              {slide.description}
-            </p>
+            <h1 className="text-3xl font-black tracking-tight leading-tight px-4">{slide.title}</h1>
+            <p className="text-veritas-silver/60 text-base px-6">{slide.description}</p>
           </div>
 
           {slide.items && (
             <div className="flex flex-wrap justify-center gap-2 pt-2 px-4">
               {slide.items.map((item, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-veritas-silver/80"
                 >
                   {item}
@@ -138,11 +139,11 @@ function OnboardingPage() {
         {/* Indicators */}
         <div className="flex justify-center gap-2">
           {slides.map((_, i) => (
-            <div 
+            <div
               key={i}
               className={cn(
                 "h-1 rounded-full transition-all duration-300",
-                i === currentSlide ? "w-8 bg-veritas-electric" : "w-2 bg-white/10"
+                i === currentSlide ? "w-8 bg-veritas-electric" : "w-2 bg-white/10",
               )}
             />
           ))}
@@ -153,7 +154,7 @@ function OnboardingPage() {
             variant="ghost"
             className={cn(
               "flex-1 h-14 rounded-2xl text-veritas-silver hover:bg-white/5 gap-2",
-              currentSlide === 0 && "invisible"
+              currentSlide === 0 && "invisible",
             )}
             onClick={prev}
           >
@@ -172,12 +173,12 @@ function OnboardingPage() {
       </footer>
 
       {/* Grid Pattern */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03]" 
-        style={{ 
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: '32px 32px' 
-        }} 
+          backgroundSize: "32px 32px",
+        }}
       />
     </div>
   );

@@ -11,18 +11,38 @@ function NotificationsPage() {
   const navigate = useNavigate();
 
   const notifications = [
-    { title: "Prazo próximo", body: "Caso 0003512-93: Laudo para amanhã.", icon: Clock, color: "text-amber-400" },
-    { title: "Transcrição pronta", body: "Entrevista de Maria Silva processada.", icon: FileText, color: "text-blue-400" },
-    { title: "Auditoria completa", body: "Caso 0012478-22 revisado.", icon: CheckCircle2, color: "text-emerald-400" },
-    { title: "Processamento Veritas", body: "Análise assistida gerada.", icon: Zap, color: "text-veritas-electric" },
+    {
+      title: "Prazo próximo",
+      body: "Caso 0003512-93: Laudo para amanhã.",
+      icon: Clock,
+      color: "text-amber-400",
+    },
+    {
+      title: "Transcrição pronta",
+      body: "Entrevista de Maria Silva processada.",
+      icon: FileText,
+      color: "text-blue-400",
+    },
+    {
+      title: "Auditoria completa",
+      body: "Caso 0012478-22 revisado.",
+      icon: CheckCircle2,
+      color: "text-emerald-400",
+    },
+    {
+      title: "Processamento Veritas",
+      body: "Análise assistida gerada.",
+      icon: Zap,
+      color: "text-veritas-electric",
+    },
   ];
 
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
       <header className="sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center gap-4 bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5">
-        <Button 
-          variant="ghost" 
-          size="icon" 
+        <Button
+          variant="ghost"
+          size="icon"
           className="text-veritas-silver hover:bg-white/5"
           onClick={() => navigate({ to: "/app" })}
         >

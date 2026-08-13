@@ -1,16 +1,16 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { 
-  Bell, 
-  Search, 
-  Plus, 
-  Mic, 
-  FilePlus, 
-  Zap, 
-  Clock, 
+import {
+  Bell,
+  Search,
+  Plus,
+  Mic,
+  FilePlus,
+  Zap,
+  Clock,
   ChevronRight,
   MoreVertical,
   Calendar,
-  FileStack
+  FileStack,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +34,7 @@ function DashboardPage() {
 
   useEffect(() => {
     // If we're in a PWA but not fullscreen, try to request it on mount
-    if (displayMode !== 'browser') {
+    if (displayMode !== "browser") {
       requestFullscreen();
     }
   }, [displayMode, requestFullscreen]);
@@ -94,10 +94,14 @@ function DashboardPage() {
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
       {/* Top Bar - Sticky */}
-      <header className={cn(
-        "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
-        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
-      )}>
+      <header
+        className={cn(
+          "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
+          scrolled
+            ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg"
+            : "bg-transparent",
+        )}
+      >
         <div className="flex items-center gap-4">
           <Avatar className="w-12 h-12 border-2 border-veritas-electric/20">
             <AvatarImage src="" />
@@ -108,9 +112,9 @@ function DashboardPage() {
             <p className="text-xs text-veritas-silver-dim">Veja o andamento das suas perícias</p>
           </div>
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
+        <Button
+          variant="ghost"
+          size="icon"
           className="relative text-veritas-silver hover:bg-white/5"
           onClick={() => navigate({ to: "/app/notifications" })}
         >
@@ -123,8 +127,8 @@ function DashboardPage() {
       <div className="px-6 mb-8 mt-2">
         <div className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-veritas-silver/40 group-focus-within:text-veritas-electric transition-colors" />
-          <Input 
-            placeholder="Buscar processo, pessoa ou documento..." 
+          <Input
+            placeholder="Buscar processo, pessoa ou documento..."
             className="pl-11 bg-veritas-graphite/40 border-white/5 focus-visible:ring-veritas-electric/20"
             onClick={() => navigate({ to: "/app/search" })}
           />
@@ -134,10 +138,15 @@ function DashboardPage() {
       {/* Stats Grid */}
       <div className="px-6 grid grid-cols-2 gap-4 mb-8">
         {stats.map((stat) => (
-          <Card key={stat.label} className="bg-veritas-graphite/40 border-white/5 veritas-card shadow-lg">
+          <Card
+            key={stat.label}
+            className="bg-veritas-graphite/40 border-white/5 veritas-card shadow-lg"
+          >
             <CardContent className="p-4">
               <p className="text-2xl font-black mb-1 leading-none">{stat.value}</p>
-              <p className="text-xs text-veritas-silver/60 font-medium uppercase tracking-wider">{stat.label}</p>
+              <p className="text-xs text-veritas-silver/60 font-medium uppercase tracking-wider">
+                {stat.label}
+              </p>
             </CardContent>
           </Card>
         ))}
@@ -145,7 +154,7 @@ function DashboardPage() {
 
       {/* Main Action */}
       <div className="px-6 mb-8">
-        <Button 
+        <Button
           className="w-full h-14 text-lg font-bold veritas-button-glow veritas-button-scale gap-2 shadow-2xl shadow-veritas-electric/20"
           onClick={() => navigate({ to: "/app/veritas" })}
         >
@@ -157,34 +166,40 @@ function DashboardPage() {
       {/* Quick Actions - Responsive 3 columns */}
       <div className="px-6 mb-8">
         <div className="grid grid-cols-3 gap-3">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
             onClick={() => navigate({ to: "/app/record" })}
           >
             <div className="p-2 rounded-xl bg-veritas-violet/20 text-veritas-violet">
               <Mic className="w-5 h-5" />
             </div>
-            <span className="text-[10px] font-bold text-center leading-tight">Gravar entrevista</span>
+            <span className="text-[10px] font-bold text-center leading-tight">
+              Gravar entrevista
+            </span>
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
           >
             <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400">
               <FilePlus className="w-5 h-5" />
             </div>
-            <span className="text-[10px] font-bold text-center leading-tight">Adicionar documento</span>
+            <span className="text-[10px] font-bold text-center leading-tight">
+              Adicionar documento
+            </span>
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="h-auto py-3 px-2 flex flex-col items-center gap-2 border-white/10 bg-white/5 text-veritas-silver hover:bg-veritas-electric/10 hover:border-veritas-electric/30 transition-all rounded-2xl"
             onClick={() => navigate({ to: "/app/veritas" })}
           >
             <div className="p-2 rounded-xl bg-veritas-electric/20 text-veritas-electric">
               <Zap className="w-5 h-5" />
             </div>
-            <span className="text-[10px] font-bold text-center leading-tight">Processar com Veritas</span>
+            <span className="text-[10px] font-bold text-center leading-tight">
+              Processar com Veritas
+            </span>
           </Button>
         </div>
       </div>
@@ -198,8 +213,12 @@ function DashboardPage() {
                 <FileStack className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="text-sm font-bold text-veritas-silver group-hover:text-white transition-colors">Biblioteca de Modelos</h3>
-                <p className="text-[10px] text-veritas-silver/40 font-medium">Consulte as estruturas documentais disponíveis.</p>
+                <h3 className="text-sm font-bold text-veritas-silver group-hover:text-white transition-colors">
+                  Biblioteca de Modelos
+                </h3>
+                <p className="text-[10px] text-veritas-silver/40 font-medium">
+                  Consulte as estruturas documentais disponíveis.
+                </p>
               </div>
               <ChevronRight className="w-5 h-5 text-veritas-silver/20 group-hover:text-veritas-electric transition-colors" />
             </CardContent>
@@ -211,23 +230,38 @@ function DashboardPage() {
       <section className="px-6 mb-8">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold">Casos recentes</h3>
-          <Link to="/app/cases" className="text-xs font-semibold text-veritas-electric hover:underline">Ver todos</Link>
+          <Link
+            to="/app/cases"
+            className="text-xs font-semibold text-veritas-electric hover:underline"
+          >
+            Ver todos
+          </Link>
         </div>
         <div className="space-y-4">
           {recentCases.map((c) => (
-            <Card key={c.id} className="bg-veritas-graphite/40 border-white/5 hover:border-white/10 transition-colors shadow-md overflow-hidden group">
+            <Card
+              key={c.id}
+              className="bg-veritas-graphite/40 border-white/5 hover:border-white/10 transition-colors shadow-md overflow-hidden group"
+            >
               <CardContent className="p-5">
                 <div className="flex justify-between items-start mb-3">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-mono text-veritas-silver/40 uppercase tracking-tighter">{c.id}</p>
-                    <h4 className="font-bold text-veritas-silver group-hover:text-white transition-colors">{c.title}</h4>
+                    <p className="text-[10px] font-mono text-veritas-silver/40 uppercase tracking-tighter">
+                      {c.id}
+                    </p>
+                    <h4 className="font-bold text-veritas-silver group-hover:text-white transition-colors">
+                      {c.title}
+                    </h4>
                   </div>
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-veritas-silver/30">
                     <MoreVertical className="w-4 h-4" />
                   </Button>
                 </div>
                 <div className="flex items-center justify-between">
-                  <Badge variant="outline" className={`rounded-full border text-[10px] py-0 px-2 font-bold ${c.statusColor}`}>
+                  <Badge
+                    variant="outline"
+                    className={`rounded-full border text-[10px] py-0 px-2 font-bold ${c.statusColor}`}
+                  >
                     {c.status}
                   </Badge>
                   <div className="flex items-center gap-1.5 text-xs text-veritas-silver/40">
@@ -253,7 +287,9 @@ function DashboardPage() {
               <div className="flex-1 space-y-0.5 pt-1">
                 <div className="flex justify-between">
                   <p className="text-sm font-bold text-veritas-silver">{activity.action}</p>
-                  <span className="text-[10px] text-veritas-silver/30 font-medium">{activity.time}</span>
+                  <span className="text-[10px] text-veritas-silver/30 font-medium">
+                    {activity.time}
+                  </span>
                 </div>
                 <p className="text-xs text-veritas-silver/40">{activity.target}</p>
               </div>

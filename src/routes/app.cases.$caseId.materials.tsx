@@ -1,16 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { 
-  FileText, 
-  Image as ImageIcon, 
-  FileSpreadsheet, 
-  FileArchive, 
-  Mic, 
-  Video, 
-  Type, 
-  StickyNote, 
-  Plus, 
+import {
+  FileText,
+  Image as ImageIcon,
+  FileSpreadsheet,
+  FileArchive,
+  Mic,
+  Video,
+  Type,
+  StickyNote,
+  Plus,
   Check,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -49,11 +49,13 @@ function CaseMaterialsPage() {
             </div>
             <div>
               <p className="text-sm font-medium">{type.label}</p>
-              <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{type.count} arquivos</p>
+              <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">
+                {type.count} arquivos
+              </p>
             </div>
           </button>
         ))}
-        
+
         <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-dashed border-white/10 hover:border-veritas-electric/40 hover:bg-veritas-electric/5 transition-all text-veritas-electric/60 hover:text-veritas-electric group">
           <Plus className="w-6 h-6" />
           <span className="text-[10px] font-bold uppercase tracking-wider">Adicionar mais</span>

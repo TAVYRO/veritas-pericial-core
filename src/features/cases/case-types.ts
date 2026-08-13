@@ -4,50 +4,50 @@ import type { TemplateId } from "../documents/template-ids";
 export type { DocumentTypeId };
 
 export interface CaseProfessional {
-	id: string;
-	name: string;
-	profession: string;
-	registration: string;
-	discipline: "psychology" | "social-work";
-	initials: string;
-	isRequiredSigner: boolean;
+  id: string;
+  name: string;
+  profession: string;
+  registration: string;
+  discipline: "psychology" | "social-work";
+  initials: string;
+  isRequiredSigner: boolean;
 }
 
 export interface DocumentVersionRef {
-	id: string;
-	label: string;
-	number: number;
-	status: "draft" | "review" | "approved" | "final" | "archived";
+  id: string;
+  label: string;
+  number: number;
+  status: "draft" | "review" | "approved" | "final" | "archived";
 }
 
 export interface CaseData {
-	id: string;
-	caseNumber: string;
-	court: string;
-	district: string;
-	state: string;
-	documentType: DocumentTypeId;
-	modality: string; // Display name
-	professionals: CaseProfessional[];
-	currentStage: string;
-	createdAt: string;
+  id: string;
+  caseNumber: string;
+  court: string;
+  district: string;
+  state: string;
+  documentType: DocumentTypeId;
+  modality: string; // Display name
+  professionals: CaseProfessional[];
+  currentStage: string;
+  createdAt: string;
 }
 
 export interface SignatureAuthorization {
-	professionalId: string;
-	versionId: string;
-	authorized: boolean;
+  professionalId: string;
+  versionId: string;
+  authorized: boolean;
 }
 
 export interface CaseWorkflowState {
-	caseId: string;
-	documentType: DocumentTypeId;
-	templateId: TemplateId | null;
-	currentVersion: DocumentVersionRef;
-	sufficiencyApproved: boolean;
-	auditApproved: boolean;
-	professionalReviewApproved: boolean;
-	caseIsolationConfirmed: boolean;
-	signatureAuthorizations: SignatureAuthorization[];
-	finalReleased: boolean;
+  caseId: string;
+  documentType: DocumentTypeId;
+  templateId: TemplateId | null;
+  currentVersion: DocumentVersionRef;
+  sufficiencyApproved: boolean;
+  auditApproved: boolean;
+  professionalReviewApproved: boolean;
+  caseIsolationConfirmed: boolean;
+  signatureAuthorizations: SignatureAuthorization[];
+  finalReleased: boolean;
 }

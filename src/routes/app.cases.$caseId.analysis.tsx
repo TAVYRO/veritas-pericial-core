@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Database, ArrowDown, Share2, AlertCircle, Info, CheckCircle2, FlaskConical, Users, Zap } from "lucide-react";
+import {
+  Database,
+  ArrowDown,
+  Share2,
+  AlertCircle,
+  Info,
+  CheckCircle2,
+  FlaskConical,
+  Users,
+  Zap,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/app/cases/$caseId/analysis")({
@@ -11,18 +21,35 @@ function AnalysisPage() {
     <div className="p-6 space-y-8 pb-32">
       <header className="space-y-1">
         <h2 className="text-xl font-bold text-white tracking-tight">Análise Assistida</h2>
-        <p className="text-xs text-white/40">Visualização técnica das cadeias de raciocínio pericial.</p>
+        <p className="text-xs text-white/40">
+          Visualização técnica das cadeias de raciocínio pericial.
+        </p>
       </header>
 
       <Tabs defaultValue="integração" className="w-full">
         <TabsList className="w-full bg-white/5 border border-white/10 p-1 mb-6">
-          <TabsTrigger value="psicologia" className="flex-1 text-[10px] uppercase tracking-widest font-bold">Psicologia</TabsTrigger>
-          <TabsTrigger value="social" className="flex-1 text-[10px] uppercase tracking-widest font-bold">Serviço Social</TabsTrigger>
-          <TabsTrigger value="integração" className="flex-1 text-[10px] uppercase tracking-widest font-bold">Integração</TabsTrigger>
+          <TabsTrigger
+            value="psicologia"
+            className="flex-1 text-[10px] uppercase tracking-widest font-bold"
+          >
+            Psicologia
+          </TabsTrigger>
+          <TabsTrigger
+            value="social"
+            className="flex-1 text-[10px] uppercase tracking-widest font-bold"
+          >
+            Serviço Social
+          </TabsTrigger>
+          <TabsTrigger
+            value="integração"
+            className="flex-1 text-[10px] uppercase tracking-widest font-bold"
+          >
+            Integração
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="integração" className="space-y-6 animate-fade-in-up">
-          <ChainCard 
+          <ChainCard
             title="Divergência de Alienação Parental"
             data="Maria afirma que João não vê o filho; F01 (Relato Maria)"
             attribution="Atribuído como comportamento de exclusão"
@@ -37,14 +64,18 @@ function AnalysisPage() {
         <TabsContent value="psicologia" className="space-y-6">
           <div className="p-12 text-center text-white/20">
             <FlaskConical className="w-12 h-12 mx-auto mb-4 opacity-10" />
-            <p className="text-sm font-medium">Análise psicológica específica em processamento...</p>
+            <p className="text-sm font-medium">
+              Análise psicológica específica em processamento...
+            </p>
           </div>
         </TabsContent>
 
         <TabsContent value="social" className="space-y-6">
           <div className="p-12 text-center text-white/20">
             <Users className="w-12 h-12 mx-auto mb-4 opacity-10" />
-            <p className="text-sm font-medium">Análise do Serviço Social específico em processamento...</p>
+            <p className="text-sm font-medium">
+              Análise do Serviço Social específico em processamento...
+            </p>
           </div>
         </TabsContent>
       </Tabs>
@@ -52,7 +83,16 @@ function AnalysisPage() {
   );
 }
 
-function ChainCard({ title, data, attribution, interpretation, relation, divergences, limits, conclusion }: any) {
+function ChainCard({
+  title,
+  data,
+  attribution,
+  interpretation,
+  relation,
+  divergences,
+  limits,
+  conclusion,
+}: any) {
   return (
     <div className="bg-white/5 border border-white/5 rounded-2xl p-5 space-y-4">
       <div className="flex items-center gap-2 mb-2">
@@ -95,7 +135,9 @@ function ChainCard({ title, data, attribution, interpretation, relation, diverge
             <div className="w-px h-full bg-white/10" />
           </div>
           <div className="pb-4">
-            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-1">Interpretação técnica para revisão</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-1">
+              Interpretação técnica para revisão
+            </p>
             <p className="text-xs text-white/80 font-medium italic">{interpretation}</p>
           </div>
         </div>
@@ -108,7 +150,9 @@ function ChainCard({ title, data, attribution, interpretation, relation, diverge
             <div className="w-px h-full bg-white/10" />
           </div>
           <div className="pb-4">
-            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-1">Relação com objeto/quesito</p>
+            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-1">
+              Relação com objeto/quesito
+            </p>
             <p className="text-xs text-white/80">{relation}</p>
           </div>
         </div>
@@ -146,7 +190,9 @@ function ChainCard({ title, data, attribution, interpretation, relation, diverge
             </div>
           </div>
           <div>
-            <p className="text-[10px] text-emerald-500 uppercase tracking-widest mb-1">Conclusão possível para revisão profissional</p>
+            <p className="text-[10px] text-emerald-500 uppercase tracking-widest mb-1">
+              Conclusão possível para revisão profissional
+            </p>
             <p className="text-xs text-emerald-400 font-bold">✨ {conclusion}</p>
           </div>
         </div>

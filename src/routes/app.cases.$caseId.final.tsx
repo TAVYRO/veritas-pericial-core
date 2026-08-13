@@ -1,13 +1,13 @@
 import { createFileRoute, Link, useParams } from "@tanstack/react-router";
-import { 
-  FileText, 
-  Inspect, 
-  CheckCircle2, 
-  Sparkles, 
-  ChevronRight, 
+import {
+  FileText,
+  Inspect,
+  CheckCircle2,
+  Sparkles,
+  ChevronRight,
   AlertCircle,
   Lock,
-  ArrowLeft
+  ArrowLeft,
 } from "lucide-react";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/app/cases/$caseId/final")({
 function FinalPage() {
   const { caseId } = useParams({ from: "/app/cases/$caseId/final" });
   const { getWorkflow } = useCaseWorkflow();
-  
+
   const workflow = getWorkflow(caseId);
 
   // 1. Handle case where workflow is not found (Workflow Ausente)
@@ -34,7 +34,7 @@ function FinalPage() {
             Não foi possível localizar os dados de workflow para este caso.
           </p>
         </div>
-        <Link 
+        <Link
           to="/app/cases"
           className="flex items-center gap-2 text-veritas-electric text-sm font-bold hover:opacity-80 transition-opacity"
         >
@@ -54,7 +54,9 @@ function FinalPage() {
             <Lock className="w-8 h-8 text-white/20" />
           </div>
           <div>
-            <h2 className="text-2xl font-black text-white tracking-tight italic">Versão final ainda não liberada</h2>
+            <h2 className="text-2xl font-black text-white tracking-tight italic">
+              Versão final ainda não liberada
+            </h2>
             <p className="text-xs text-white/40 mt-1 uppercase tracking-[0.15em] font-bold">
               Aguardando confirmação de liberação
             </p>
@@ -66,7 +68,7 @@ function FinalPage() {
             A liberação final depende da conclusão e confirmação do Portão de Aprovações.
           </p>
           <div className="pt-2">
-            <Link 
+            <Link
               to="/app/cases/$caseId/approvals"
               params={{ caseId }}
               className="inline-flex items-center gap-2 bg-veritas-electric text-veritas-graphite px-6 py-3 rounded-xl text-sm font-bold hover:bg-veritas-electric/90 transition-all focus:ring-2 focus:ring-veritas-electric focus:ring-offset-2 focus:ring-offset-veritas-graphite outline-none"
@@ -81,7 +83,9 @@ function FinalPage() {
           <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <FileText className="w-5 h-5 text-white/20" />
-              <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Versão Atual</span>
+              <span className="text-xs font-bold text-white/40 uppercase tracking-widest">
+                Versão Atual
+              </span>
             </div>
             <span className="text-sm font-black text-veritas-electric bg-veritas-electric/10 px-3 py-1 rounded-lg border border-veritas-electric/20">
               {workflow.currentVersion.label}
@@ -100,7 +104,9 @@ function FinalPage() {
           <Sparkles className="w-8 h-8 text-veritas-electric" />
         </div>
         <div>
-          <h2 className="text-2xl font-black text-white tracking-tight italic">Versão final aprovada</h2>
+          <h2 className="text-2xl font-black text-white tracking-tight italic">
+            Versão final aprovada
+          </h2>
           <p className="text-xs text-white/40 mt-1 uppercase tracking-[0.15em] font-bold">
             {workflow.currentVersion.label} • Documento final liberado
           </p>
@@ -113,8 +119,8 @@ function FinalPage() {
       */}
 
       <div className="space-y-4">
-        <Link 
-          to="/app/cases/$caseId/final/inspection" 
+        <Link
+          to="/app/cases/$caseId/final/inspection"
           params={{ caseId }}
           className="w-full bg-veritas-graphite border border-white/5 p-5 rounded-2xl flex items-center justify-between group hover:border-veritas-electric/40 transition-all"
         >
@@ -124,7 +130,9 @@ function FinalPage() {
             </div>
             <div>
               <h3 className="text-sm font-bold text-white">Inspeção Visual Final</h3>
-              <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Revisar a pré-visualização documental</p>
+              <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">
+                Revisar a pré-visualização documental
+              </p>
             </div>
           </div>
           <ChevronRight className="w-5 h-5 text-white/20 group-hover:text-veritas-electric transition-all" />
@@ -136,7 +144,8 @@ function FinalPage() {
         <div>
           <h4 className="text-sm font-bold text-white">Liberação Concluída</h4>
           <p className="text-xs text-white/60 leading-relaxed">
-            O fluxo de trabalho foi finalizado e a versão {workflow.currentVersion.label} está liberada para as próximas etapas administrativas.
+            O fluxo de trabalho foi finalizado e a versão {workflow.currentVersion.label} está
+            liberada para as próximas etapas administrativas.
           </p>
         </div>
       </div>

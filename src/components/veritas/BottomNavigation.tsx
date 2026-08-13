@@ -27,30 +27,34 @@ export function BottomNavigation() {
       <div className="grid grid-cols-5 h-20 items-stretch">
         {navItems.map((item) => {
           const active = isActive(item.route);
-          
+
           if (item.isCenter) {
             return (
               <div key={item.route} className="relative flex justify-center">
                 <div className="absolute -top-6 flex flex-col items-center">
                   <div className="relative group">
-                    <div className={cn(
-                      "absolute inset-0 bg-veritas-electric/20 rounded-full blur-xl transition-opacity",
-                      active ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                    )} />
-                    <Button 
+                    <div
+                      className={cn(
+                        "absolute inset-0 bg-veritas-electric/20 rounded-full blur-xl transition-opacity",
+                        active ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                      )}
+                    />
+                    <Button
                       className={cn(
                         "w-14 h-14 rounded-full bg-veritas-electric veritas-button-glow relative z-10 p-0 shadow-2xl shadow-veritas-electric/40 transition-transform active:scale-90",
-                        active && "ring-2 ring-white/20"
+                        active && "ring-2 ring-white/20",
                       )}
                       onClick={() => navigate({ to: item.route as any })}
                     >
                       <item.icon className="w-7 h-7 text-white" />
                     </Button>
                   </div>
-                  <span className={cn(
-                    "text-[10px] font-bold mt-1 transition-colors",
-                    active ? "text-veritas-electric" : "text-veritas-silver/40"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-[10px] font-bold mt-1 transition-colors",
+                      active ? "text-veritas-electric" : "text-veritas-silver/40",
+                    )}
+                  >
                     {item.label}
                   </span>
                 </div>
@@ -64,7 +68,7 @@ export function BottomNavigation() {
               onClick={() => navigate({ to: item.route as any })}
               className={cn(
                 "flex flex-col items-center justify-center gap-1 transition-colors min-w-0 px-1 outline-none",
-                active ? "text-veritas-electric" : "text-veritas-silver/40"
+                active ? "text-veritas-electric" : "text-veritas-silver/40",
               )}
             >
               <item.icon className={cn("w-6 h-6 transition-transform", active && "scale-110")} />
