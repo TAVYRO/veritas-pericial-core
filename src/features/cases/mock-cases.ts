@@ -26,7 +26,7 @@ export const MOCK_CASES: Record<string, CaseData> = {
 			},
 		],
 		currentStage: "Materiais",
-		createdAt: new Date().toISOString(),
+		createdAt: "2024-08-13T04:00:00.000Z",
 	},
 };
 
