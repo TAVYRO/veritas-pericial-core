@@ -245,7 +245,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       let targetParagraphIndex = -1;
 
       for (let i = 0; i < doc.sections.length; i++) {
-        const pIndex = doc.sections[i].paragraphs.findIndex(p => p.id === paragraphId);
+        const pIndex = doc.sections[i]!.paragraphs.findIndex(p => p.id === paragraphId);
         if (pIndex !== -1) {
           targetSectionIndex = i;
           targetParagraphIndex = pIndex;
