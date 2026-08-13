@@ -446,6 +446,6 @@ Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
 | C1.0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | 1aac88ea884a051ab3a04709f856c83b37eac548 | .lovable/plano-colaboracao-v1.md | Plano inicial criado; complementado pelas sanitizações posteriores. |
 | C1.0.1 | CLOSED | 1aac88ea884a051ab3a04709f856c83b37eac548 | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; estrutura granular e protocolo anti-pulo validados. |
 | C1.0.2 | CLOSED | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | 6e317973e4eab291542faad6b70e1ebb0aa164bf | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; objetivos C18.1-C18.7 validados. Saneamento estrutural posterior em C1.0.3. |
-| C1.0.3 | AUDIT_REQUIRED | 6e317973e4eab291542faad6b70e1ebb0aa164bf | PENDENTE | .lovable/plano-colaboracao-v1.md | Correção final da ordem/numeração das seções e registro de auditoria. |
-| C1.1 | BLOCKED | - | - | - | Vínculo com Plano Mestre Geral |
+| C1.0.3 | CLOSED | 6e317973e4eab291542faad6b70e1ebb0aa164bf | 1872a4f754c140c253dc98551a613dec4d43f370 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; numeração 1-20, ordem estrutural e testes C18 validados. |
+| C1.1 | AUDIT_REQUIRED | 1872a4f754c140c253dc98551a613dec4d43f370 | PENDENTE | .lovable/plano-colaboracao-v1.md<br>.lovable/plano-mestre-fechamento-v4.md | Vínculo documental com Plano Mestre Geral; pendente de auditoria externa. |
 | C2.1+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
