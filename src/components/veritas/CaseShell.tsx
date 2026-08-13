@@ -23,13 +23,11 @@ const FLOW_STEPS = [
   { label: "Triagem", path: "triage", icon: FileSearch },
   { label: "Objeto", path: "object", icon: Scale },
   { label: "Quesitos", path: "questions", icon: HelpCircle },
-  { label: "Entrevistas", path: "interview-plan", icon: Users },
+  { label: "Entrevistas", path: "interviews", icon: Users },
   { label: "Suficiência", path: "sufficiency", icon: CheckCircle2 },
-  { label: "Rascunho", path: "draft", icon: PenTool },
-  { label: "Auditoria", path: "audit", icon: ShieldCheck },
-  { label: "Revisão", path: "review", icon: FileText },
-  { label: "Aprovação", path: "approval", icon: Check },
-  { label: "Final", path: "final", icon: Flag },
+  { label: "Contradições", path: "contradictions", icon: ShieldCheck },
+  { label: "Notas", path: "notes", icon: PenTool },
+  { label: "Lacunas", path: "critical-gaps", icon: Flag },
 ];
 
 export function CaseShell() {
@@ -87,11 +85,16 @@ export function CaseShell() {
           {FLOW_STEPS.map((step) => {
             const isActive = currentPath === step.path;
             const Icon = step.icon;
+            
+            // Type-safe link destination
+            const to = `/app/cases/$caseId/${step.path}` as any;
+            const params = { caseId } as any;
+
             return (
               <Link
                 key={step.path}
-                to={`/app/cases/$caseId/${step.path}`}
-                params={{ caseId }}
+                to={to}
+                params={params}
                 className={cn(
                   "flex flex-col items-center gap-1.5 transition-all duration-300 relative",
                   isActive ? "text-veritas-electric" : "text-white/20 hover:text-white/40"
