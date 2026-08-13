@@ -67,6 +67,7 @@ import { Route as AppCasesCaseIdStatusRouteImport } from './routes/app.cases.$ca
 import { Route as AppCasesCaseIdSufficiencyRouteImport } from './routes/app.cases.$caseId.sufficiency'
 import { Route as AppCasesCaseIdTraceabilityRouteImport } from './routes/app.cases.$caseId.traceability'
 import { Route as AppCasesCaseIdTriageRouteImport } from './routes/app.cases.$caseId.triage'
+import { Route as AppCasesCaseIdVersionsRouteImport } from './routes/app.cases.$caseId.versions'
 import { Route as AppCasesNewDocumentTypeRouteImport } from './routes/app.cases.new.document-type'
 import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
 import { Route as AppCasesNewProfessionalsRouteImport } from './routes/app.cases.new.professionals'
@@ -379,6 +380,11 @@ const AppCasesCaseIdTriageRoute = AppCasesCaseIdTriageRouteImport.update({
   path: '/triage',
   getParentRoute: () => AppCasesCaseIdRoute,
 } as any)
+const AppCasesCaseIdVersionsRoute = AppCasesCaseIdVersionsRouteImport.update({
+  id: '/versions',
+  path: '/versions',
+  getParentRoute: () => AppCasesCaseIdRoute,
+} as any)
 const AppCasesNewDocumentTypeRoute = AppCasesNewDocumentTypeRouteImport.update({
   id: '/new/document-type',
   path: '/new/document-type',
@@ -503,6 +509,7 @@ export interface FileRoutesByFullPath {
   '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
   '/app/cases/$caseId/traceability': typeof AppCasesCaseIdTraceabilityRoute
   '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
+  '/app/cases/$caseId/versions': typeof AppCasesCaseIdVersionsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
@@ -569,6 +576,7 @@ export interface FileRoutesByTo {
   '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
   '/app/cases/$caseId/traceability': typeof AppCasesCaseIdTraceabilityRoute
   '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
+  '/app/cases/$caseId/versions': typeof AppCasesCaseIdVersionsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
@@ -642,6 +650,7 @@ export interface FileRoutesById {
   '/app/cases/$caseId/sufficiency': typeof AppCasesCaseIdSufficiencyRoute
   '/app/cases/$caseId/traceability': typeof AppCasesCaseIdTraceabilityRoute
   '/app/cases/$caseId/triage': typeof AppCasesCaseIdTriageRoute
+  '/app/cases/$caseId/versions': typeof AppCasesCaseIdVersionsRoute
   '/app/cases/new/document-type': typeof AppCasesNewDocumentTypeRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
   '/app/cases/new/professionals': typeof AppCasesNewProfessionalsRoute
@@ -716,6 +725,7 @@ export interface FileRouteTypes {
     | '/app/cases/$caseId/sufficiency'
     | '/app/cases/$caseId/traceability'
     | '/app/cases/$caseId/triage'
+    | '/app/cases/$caseId/versions'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
@@ -782,6 +792,7 @@ export interface FileRouteTypes {
     | '/app/cases/$caseId/sufficiency'
     | '/app/cases/$caseId/traceability'
     | '/app/cases/$caseId/triage'
+    | '/app/cases/$caseId/versions'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
@@ -854,6 +865,7 @@ export interface FileRouteTypes {
     | '/app/cases/$caseId/sufficiency'
     | '/app/cases/$caseId/traceability'
     | '/app/cases/$caseId/triage'
+    | '/app/cases/$caseId/versions'
     | '/app/cases/new/document-type'
     | '/app/cases/new/process'
     | '/app/cases/new/professionals'
@@ -1287,6 +1299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCasesCaseIdTriageRouteImport
       parentRoute: typeof AppCasesCaseIdRoute
     }
+    '/app/cases/$caseId/versions': {
+      id: '/app/cases/$caseId/versions'
+      path: '/versions'
+      fullPath: '/app/cases/$caseId/versions'
+      preLoaderRoute: typeof AppCasesCaseIdVersionsRouteImport
+      parentRoute: typeof AppCasesCaseIdRoute
+    }
     '/app/cases/new/document-type': {
       id: '/app/cases/new/document-type'
       path: '/new/document-type'
@@ -1443,6 +1462,7 @@ interface AppCasesCaseIdRouteChildren {
   AppCasesCaseIdSufficiencyRoute: typeof AppCasesCaseIdSufficiencyRoute
   AppCasesCaseIdTraceabilityRoute: typeof AppCasesCaseIdTraceabilityRoute
   AppCasesCaseIdTriageRoute: typeof AppCasesCaseIdTriageRoute
+  AppCasesCaseIdVersionsRoute: typeof AppCasesCaseIdVersionsRoute
   AppCasesCaseIdIndexRoute: typeof AppCasesCaseIdIndexRoute
 }
 
@@ -1473,6 +1493,7 @@ const AppCasesCaseIdRouteChildren: AppCasesCaseIdRouteChildren = {
   AppCasesCaseIdSufficiencyRoute: AppCasesCaseIdSufficiencyRoute,
   AppCasesCaseIdTraceabilityRoute: AppCasesCaseIdTraceabilityRoute,
   AppCasesCaseIdTriageRoute: AppCasesCaseIdTriageRoute,
+  AppCasesCaseIdVersionsRoute: AppCasesCaseIdVersionsRoute,
   AppCasesCaseIdIndexRoute: AppCasesCaseIdIndexRoute,
 }
 
