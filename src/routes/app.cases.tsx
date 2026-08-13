@@ -6,11 +6,6 @@ import {
   MoreVertical,
   Calendar,
   Clock,
-  Home,
-  Briefcase,
-  Zap,
-  User,
-  Mic,
   ArrowLeft
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 
 export const Route = createFileRoute("/app/cases")({
   component: CasesPage,
@@ -215,52 +211,7 @@ function CasesPage() {
       </Button>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 h-20 bg-veritas-graphite-dark/95 backdrop-blur-xl border-t border-white/5 px-6 flex items-center justify-between z-50 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
-        <Button 
-          variant="ghost" 
-          className="flex flex-col gap-1 items-center text-veritas-silver/40 h-auto py-2"
-          onClick={() => navigate({ to: "/app" })}
-        >
-          <Home className="w-6 h-6" />
-          <span className="text-[10px] font-bold">Início</span>
-        </Button>
-        <Button 
-          variant="ghost" 
-          className="flex flex-col gap-1 items-center text-veritas-electric h-auto py-2"
-          onClick={() => navigate({ to: "/app/cases" })}
-        >
-          <Briefcase className="w-6 h-6" />
-          <span className="text-[10px] font-bold">Casos</span>
-        </Button>
-        
-        {/* Special Center Button */}
-        <div className="relative -mt-12 group">
-          <div className="absolute inset-0 bg-veritas-electric/20 rounded-full blur-xl group-hover:bg-veritas-electric/30 transition-colors"></div>
-          <Button 
-            className="w-16 h-16 rounded-full bg-veritas-electric veritas-button-glow relative z-10 p-0 shadow-2xl shadow-veritas-electric/40"
-            onClick={() => navigate({ to: "/app/record" })}
-          >
-            <Mic className="w-8 h-8 text-white" />
-          </Button>
-        </div>
-
-        <Button 
-          variant="ghost" 
-          className="flex flex-col gap-1 items-center text-veritas-silver/40 h-auto py-2"
-          onClick={() => navigate({ to: "/app/veritas" })}
-        >
-          <Zap className="w-6 h-6" />
-          <span className="text-[10px] font-bold">Veritas</span>
-        </Button>
-        <Button 
-          variant="ghost" 
-          className="flex flex-col gap-1 items-center text-veritas-silver/40 h-auto py-2"
-          onClick={() => navigate({ to: "/app/profile" })}
-        >
-          <User className="w-6 h-6" />
-          <span className="text-[10px] font-bold">Perfil</span>
-        </Button>
-      </nav>
+      <BottomNavigation />
     </div>
   );
 }
