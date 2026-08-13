@@ -35,7 +35,7 @@ const generateNextId = (existingIds: string[], prefix: string, regex: RegExp): s
     const match = id.match(regex);
     if (match) {
       const num = parseInt(match[1], 10);
-      if (num > maxSuffix) maxSuffix = num;
+      if (!isNaN(num) && num > maxSuffix) maxSuffix = num;
     }
   });
   return `${prefix}${String(maxSuffix + 1).padStart(2, "0")}`;
