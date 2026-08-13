@@ -16,6 +16,12 @@ interface CaseDossierContextType {
   canConfirmTechnicalScope: (caseId: string) => boolean;
   confirmTechnicalScope: (caseId: string) => void;
   reopenTechnicalScope: (caseId: string) => void;
+  addCaseQuestion: (caseId: string, input: NewCaseQuestionInput) => void;
+  updateCaseQuestion: (caseId: string, questionId: string, patch: Partial<Pick<CaseQuestion, "text" | "author" | "sourceIds">>) => void;
+  removeCaseQuestion: (caseId: string, questionId: string) => void;
+  setCaseQuestionResponse: (caseId: string, questionId: string, response: string) => void;
+  setCaseQuestionInsufficient: (caseId: string, questionId: string) => void;
+  clearCaseQuestionResponse: (caseId: string, questionId: string) => void;
 }
 
 const CaseDossierContext = createContext<CaseDossierContextType | undefined>(undefined);
