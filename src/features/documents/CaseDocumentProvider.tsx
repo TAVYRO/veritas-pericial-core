@@ -160,8 +160,9 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        ...section,
-        title: newTitle
+        id: section.id,
+        title: newTitle,
+        paragraphs: section.paragraphs
       };
 
       return {
@@ -213,7 +214,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        ...section,
+        id: section.id,
+        title: section.title,
         paragraphs: [...section.paragraphs, newParagraph]
       };
 
@@ -275,7 +277,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         editorialMarker: newEditorialMarker
       };
       updatedSections[targetSectionIndex] = {
-        ...section,
+        id: section.id,
+        title: section.title,
         paragraphs: updatedParagraphs
       };
 
@@ -297,7 +300,11 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         const nextParagraphs = s.paragraphs.filter(p => p.id !== paragraphId);
         if (nextParagraphs.length !== s.paragraphs.length) {
           found = true;
-          return { ...s, paragraphs: nextParagraphs };
+          return {
+            id: s.id,
+            title: s.title,
+            paragraphs: nextParagraphs
+          };
         }
         return s;
       });
