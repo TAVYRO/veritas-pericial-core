@@ -27,6 +27,7 @@ import { Route as RegisterIndexRouteImport } from './routes/register.index'
 import { Route as RegisterProfessionalRouteImport } from './routes/register.professional'
 import { Route as RegisterProfileRouteImport } from './routes/register.profile'
 import { Route as RegisterSuccessRouteImport } from './routes/register.success'
+import { Route as AppCasesIndexRouteImport } from './routes/app.cases.index'
 import { Route as AppCasesDemoCaseRouteImport } from './routes/app.cases.demo-case'
 import { Route as AppCasesNewProcessRouteImport } from './routes/app.cases.new.process'
 
@@ -120,6 +121,11 @@ const RegisterSuccessRoute = RegisterSuccessRouteImport.update({
   path: '/success',
   getParentRoute: () => RegisterRoute,
 } as any)
+const AppCasesIndexRoute = AppCasesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppCasesRoute,
+} as any)
 const AppCasesDemoCaseRoute = AppCasesDemoCaseRouteImport.update({
   id: '/demo-case',
   path: '/demo-case',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/cases/': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRoutesByTo {
@@ -159,7 +166,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/offline': typeof OfflineRoute
   '/onboarding': typeof OnboardingRoute
-  '/app/cases': typeof AppCasesRouteWithChildren
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/record': typeof AppRecordRoute
@@ -171,6 +177,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/register': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/cases': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRoutesById {
@@ -194,6 +201,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
+  '/app/cases/': typeof AppCasesIndexRoute
   '/app/cases/new/process': typeof AppCasesNewProcessRoute
 }
 export interface FileRouteTypes {
@@ -218,6 +226,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/register/'
     | '/app/cases/demo-case'
+    | '/app/cases/'
     | '/app/cases/new/process'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -226,7 +235,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/offline'
     | '/onboarding'
-    | '/app/cases'
     | '/app/notifications'
     | '/app/profile'
     | '/app/record'
@@ -238,6 +246,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/register'
     | '/app/cases/demo-case'
+    | '/app/cases'
     | '/app/cases/new/process'
   id:
     | '__root__'
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/register/'
     | '/app/cases/demo-case'
+    | '/app/cases/'
     | '/app/cases/new/process'
   fileRoutesById: FileRoutesById
 }
@@ -401,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterSuccessRouteImport
       parentRoute: typeof RegisterRoute
     }
+    '/app/cases/': {
+      id: '/app/cases/'
+      path: '/'
+      fullPath: '/app/cases/'
+      preLoaderRoute: typeof AppCasesIndexRouteImport
+      parentRoute: typeof AppCasesRoute
+    }
     '/app/cases/demo-case': {
       id: '/app/cases/demo-case'
       path: '/demo-case'
@@ -420,11 +437,13 @@ declare module '@tanstack/react-router' {
 
 interface AppCasesRouteChildren {
   AppCasesDemoCaseRoute: typeof AppCasesDemoCaseRoute
+  AppCasesIndexRoute: typeof AppCasesIndexRoute
   AppCasesNewProcessRoute: typeof AppCasesNewProcessRoute
 }
 
 const AppCasesRouteChildren: AppCasesRouteChildren = {
   AppCasesDemoCaseRoute: AppCasesDemoCaseRoute,
+  AppCasesIndexRoute: AppCasesIndexRoute,
   AppCasesNewProcessRoute: AppCasesNewProcessRoute,
 }
 
