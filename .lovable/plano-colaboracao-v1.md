@@ -439,11 +439,14 @@ Marcar implementação: DECISÃO PENDENTE — C3/C4.
 *   [ ] revogação funciona imediatamente
 *   [ ] nenhum dado cruza processos.
 
-## 19. REGISTRO DE BASELINES
+## 20. REGISTRO DE BASELINES
+
 | ETAPA | STATUS | BASELINE INICIAL | HEAD VALIDADO | ARQUIVOS | OBSERVAÇÕES |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | C0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | fcc99b4afa977364064353eca56df35ff4493b68 | ZERO | Auditoria read-only |
-| C1.0 | AUDIT_REQUIRED | fcc99b4afa977364064353eca56df35ff4493b68 | 1aac88ea884a051ab3a04709f856c83b37eac548 | .lovable/plano-colaboracao-v1.md | Plano criado; saneamento C1.0.1 necessário. |
-| C1.0.1 | AUDIT_REQUIRED | 1aac88ea884a051ab3a04709f856c83b37eac548 | PENDENTE | .lovable/plano-colaboracao-v1.md | Saneamento e detalhamento do plano. |
+| C1.0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | 1aac88ea884a051ab3a04709f856c83b37eac548 | .lovable/plano-colaboracao-v1.md | Plano inicial criado; complementado pelas sanitizações posteriores. |
+| C1.0.1 | CLOSED | 1aac88ea884a051ab3a04709f856c83b37eac548 | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; estrutura granular e protocolo anti-pulo validados. |
+| C1.0.2 | AUDIT_REQUIRED | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | PENDENTE | .lovable/plano-colaboracao-v1.md | Registro explícito dos objetivos C18 e fechamento documental pendente de auditoria externa. |
 | C1.1 | BLOCKED | - | - | - | Vínculo com Plano Mestre Geral |
 | C2.1+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
+
