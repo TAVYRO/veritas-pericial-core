@@ -67,7 +67,6 @@ function ProfilePage() {
 
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
-      {/* Header */}
       <header className={cn(
         "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
         scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
@@ -75,7 +74,6 @@ function ProfilePage() {
         <h2 className="text-xl font-bold tracking-tight">Meu Perfil</h2>
       </header>
 
-      {/* Profile Header */}
       <div className="px-6 mb-8 mt-4 flex flex-col items-center">
         <div className="relative mb-4">
           <Avatar className="w-24 h-24 border-4 border-veritas-electric/20 shadow-2xl">
@@ -99,7 +97,6 @@ function ProfilePage() {
         </div>
       </div>
 
-      {/* Signature Status */}
       <div className="px-6 mb-8">
         <Card className="bg-veritas-graphite/40 border-veritas-electric/20 veritas-card shadow-lg">
           <CardContent className="p-4 flex items-center gap-4">
@@ -117,7 +114,6 @@ function ProfilePage() {
         </Card>
       </div>
 
-      {/* Menu Options */}
       <div className="px-6 space-y-3">
         {menuItems.map((item) => (
           <Button
@@ -136,7 +132,6 @@ function ProfilePage() {
           </Button>
         ))}
 
-        {/* Logout */}
         <Button
           variant="ghost"
           className="w-full h-auto py-4 px-4 justify-between bg-red-500/5 hover:bg-red-500/10 border border-red-500/10 rounded-2xl transition-all group mt-4"
