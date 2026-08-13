@@ -14,6 +14,7 @@ export const INITIAL_DOSSIERS: Record<string, CaseDossierState> = {
       confirmed: false
     },
     questions: [],
+    interviews: [],
     items: [
       {
         id: "F01",
