@@ -121,7 +121,7 @@ function CasesPage() {
             <Button 
               size="icon" 
               className="bg-veritas-electric hover:bg-veritas-electric/90 text-white rounded-full w-8 h-8"
-              onClick={() => navigate({ to: "/app/cases/new/process" })}
+              onClick={() => navigate({ to: "/app/veritas" })}
             >
               <Plus className="w-5 h-5" />
             </Button>
@@ -214,7 +214,7 @@ function CasesPage() {
       {/* Floating Action Button */}
       <Button 
         className="fixed right-6 bottom-28 w-14 h-14 rounded-full bg-veritas-electric veritas-button-glow shadow-2xl shadow-veritas-electric/40 z-40 p-0"
-        onClick={() => navigate({ to: "/app/cases/new/process" })}
+        onClick={() => navigate({ to: "/app/veritas" })}
       >
         <Plus className="w-8 h-8 text-white" />
       </Button>
