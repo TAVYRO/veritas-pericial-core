@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { CASE_NAVIGATION_GROUPS, type NavGroup } from "./case-navigation-config";
 
@@ -7,7 +7,6 @@ interface CaseNavigationProps {
 }
 
 export function CaseNavigation({ caseId }: CaseNavigationProps) {
-	const navigate = useNavigate();
 	const location = useLocation();
 	const path = location.pathname;
 
