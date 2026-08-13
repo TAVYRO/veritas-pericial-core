@@ -7,7 +7,7 @@ import { getDocumentTypeById } from "@/features/documents/document-types";
 import { getTemplateById } from "@/features/documents/mock-templates";
 import { TraceabilityMarker } from "./TraceabilityMarker";
 import { cn } from "@/lib/utils";
-import { Sparkles, AlertTriangle } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface DocumentViewerProps {
   caseData: CaseData;

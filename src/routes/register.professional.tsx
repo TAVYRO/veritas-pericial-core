@@ -28,10 +28,7 @@ function ProfessionalRegisterPage() {
     region: "",
   });
 
-  const professions = [
-    "Psicólogo(a)",
-    "Assistente Social",
-  ];
+  const professions = ["Psicólogo(a)", "Assistente Social"];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,16 +42,18 @@ function ProfessionalRegisterPage() {
 
       <header className="relative z-10 mb-8 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => navigate({ to: "/register" })}
             className="text-veritas-silver hover:text-veritas-electric hover:bg-white/5 transition-colors rounded-full"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <div className="text-right">
-            <span className="text-veritas-electric text-xs font-bold uppercase tracking-widest">Etapa 2 de 3</span>
+            <span className="text-veritas-electric text-xs font-bold uppercase tracking-widest">
+              Etapa 2 de 3
+            </span>
             <h1 className="text-xl font-bold text-veritas-silver">Dados profissionais</h1>
           </div>
         </div>
@@ -71,10 +70,13 @@ function ProfessionalRegisterPage() {
       <main className="flex-1 flex flex-col max-w-md mx-auto w-full relative z-10 overflow-y-auto pb-12 custom-scrollbar text-white">
         <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in-up">
           <div className="space-y-1.5">
-            <Label htmlFor="profession" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+            <Label
+              htmlFor="profession"
+              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+            >
               Profissão
             </Label>
-            <Select 
+            <Select
               onValueChange={(value) => setFormData({ ...formData, profession: value })}
               required
             >
@@ -84,7 +86,11 @@ function ProfessionalRegisterPage() {
               </SelectTrigger>
               <SelectContent className="bg-veritas-graphite border-white/10 text-veritas-silver rounded-xl">
                 {professions.map((prof) => (
-                  <SelectItem key={prof} value={prof} className="focus:bg-veritas-electric/10 focus:text-veritas-electric cursor-pointer">
+                  <SelectItem
+                    key={prof}
+                    value={prof}
+                    className="focus:bg-veritas-electric/10 focus:text-veritas-electric cursor-pointer"
+                  >
                     {prof}
                   </SelectItem>
                 ))}
@@ -93,7 +99,10 @@ function ProfessionalRegisterPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="specialty" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+            <Label
+              htmlFor="specialty"
+              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+            >
               Especialidade
             </Label>
             <div className="relative group">
@@ -111,7 +120,10 @@ function ProfessionalRegisterPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <Label htmlFor="council" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+              <Label
+                htmlFor="council"
+                className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+              >
                 Conselho
               </Label>
               <div className="relative group">
@@ -128,7 +140,10 @@ function ProfessionalRegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="registration" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+              <Label
+                htmlFor="registration"
+                className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+              >
                 Nº Registro
               </Label>
               <div className="relative group">
@@ -147,7 +162,10 @@ function ProfessionalRegisterPage() {
 
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-1 space-y-1.5">
-              <Label htmlFor="state" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+              <Label
+                htmlFor="state"
+                className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+              >
                 Estado/UF
               </Label>
               <div className="relative group">
@@ -159,13 +177,18 @@ function ProfessionalRegisterPage() {
                   required
                   className="bg-white/5 border-white/10 text-veritas-silver placeholder:text-veritas-silver/30 pl-10 h-11 focus:border-veritas-electric/50 focus:ring-veritas-electric/20 transition-all rounded-xl text-center uppercase"
                   value={formData.state}
-                  onChange={(e) => setFormData({ ...formData, state: e.target.value.toUpperCase() })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, state: e.target.value.toUpperCase() })
+                  }
                 />
               </div>
             </div>
 
             <div className="col-span-2 space-y-1.5">
-              <Label htmlFor="region" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
+              <Label
+                htmlFor="region"
+                className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
+              >
                 Comarca/Região
               </Label>
               <div className="relative group">
@@ -183,7 +206,7 @@ function ProfessionalRegisterPage() {
           </div>
 
           <div className="flex gap-4 pt-4">
-            <Button 
+            <Button
               type="button"
               variant="outline"
               onClick={() => navigate({ to: "/register" })}
@@ -191,8 +214,8 @@ function ProfessionalRegisterPage() {
             >
               Voltar
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="flex-[2] h-12 bg-veritas-electric hover:bg-veritas-electric-glow text-veritas-ink font-bold text-base shadow-[0_0_20px_-5px_rgba(101,217,255,0.4)] transition-all active:scale-[0.98] rounded-xl"
             >
               Continuar
@@ -201,12 +224,12 @@ function ProfessionalRegisterPage() {
         </form>
       </main>
 
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03]" 
-        style={{ 
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: '32px 32px' 
-        }} 
+          backgroundSize: "32px 32px",
+        }}
       />
     </div>
   );

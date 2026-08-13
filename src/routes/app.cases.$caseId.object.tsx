@@ -20,10 +20,12 @@ function CaseObjectPage() {
             <h3 className="text-[10px] uppercase tracking-widest font-bold">Objeto da Perícia</h3>
           </div>
           <p className="text-sm leading-relaxed">
-            Avaliação das dinâmicas familiares e condições de saúde mental das partes para subsidiar decisão sobre guarda.
+            Avaliação das dinâmicas familiares e condições de saúde mental das partes para subsidiar
+            decisão sobre guarda.
           </p>
           <div className="flex items-center gap-1 text-[9px] text-veritas-electric/60">
-            <Anchor className="w-3 h-3" /> Fonte vinculada: <span className="underline">F01 (Decisão Judicial)</span>
+            <Anchor className="w-3 h-3" /> Fonte vinculada:{" "}
+            <span className="underline">F01 (Decisão Judicial)</span>
           </div>
         </div>
 
@@ -41,7 +43,9 @@ function CaseObjectPage() {
               <Ruler className="w-4 h-4" />
               <h3 className="text-[10px] uppercase tracking-widest font-bold">Limites</h3>
             </div>
-            <p className="text-sm">Restrito à análise psicossocial, sem avaliação de capacidade civil.</p>
+            <p className="text-sm">
+              Restrito à análise psicossocial, sem avaliação de capacidade civil.
+            </p>
           </div>
         </div>
       </div>

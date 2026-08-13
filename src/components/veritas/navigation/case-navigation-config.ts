@@ -1,7 +1,25 @@
-import { 
-  FileText, Search, FileSearch, Scale, HelpCircle, Users, PenTool,
-  CheckCircle2, Flag, Cpu, LineChart, Share2, ShieldCheck,
-  PenLine, Activity, Lock, FileCheck, UserCheck, ClipboardCheck, Signature, Download
+import {
+  FileText,
+  Search,
+  FileSearch,
+  Scale,
+  HelpCircle,
+  Users,
+  PenTool,
+  CheckCircle2,
+  Flag,
+  Cpu,
+  LineChart,
+  Share2,
+  ShieldCheck,
+  PenLine,
+  Activity,
+  Lock,
+  FileCheck,
+  UserCheck,
+  ClipboardCheck,
+  Signature,
+  Download,
 } from "lucide-react";
 
 export type NavStep = {
@@ -30,7 +48,13 @@ export const CASE_NAVIGATION_GROUPS: NavGroup[] = [
       { id: "triage", label: "Triagem", path: "triage", icon: FileSearch },
       { id: "object", label: "Objeto", path: "object", icon: Scale },
       { id: "questions", label: "Quesitos", path: "questions", icon: HelpCircle },
-      { id: "interviews", label: "Entrevistas", path: "interviews", icon: Users, matchPrefix: "interviews" },
+      {
+        id: "interviews",
+        label: "Entrevistas",
+        path: "interviews",
+        icon: Users,
+        matchPrefix: "interviews",
+      },
       { id: "notes", label: "Notas", path: "notes", icon: PenTool },
     ],
   },
@@ -64,8 +88,18 @@ export const CASE_NAVIGATION_GROUPS: NavGroup[] = [
     steps: [
       { id: "audit", label: "Auditoria", path: "audit", icon: Activity },
       { id: "blocks", label: "Bloqueios", path: "blocks", icon: Lock },
-      { id: "review-document", label: "Documento de Revisão", path: "review-document", icon: FileCheck },
-      { id: "professional-review", label: "Revisão Profissional", path: "professional-review", icon: UserCheck },
+      {
+        id: "review-document",
+        label: "Documento de Revisão",
+        path: "review-document",
+        icon: FileCheck,
+      },
+      {
+        id: "professional-review",
+        label: "Revisão Profissional",
+        path: "professional-review",
+        icon: UserCheck,
+      },
       { id: "approvals", label: "Aprovações", path: "approvals", icon: ClipboardCheck },
       { id: "signatures", label: "Assinaturas", path: "signatures", icon: Signature },
       { id: "final-inspection", label: "Inspeção", path: "final/inspection", icon: CheckCircle2 },

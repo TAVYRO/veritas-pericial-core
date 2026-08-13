@@ -35,9 +35,13 @@ export function TemplateStatusBadge({ status, className }: TemplateStatusBadgePr
   };
 
   return (
-    <Badge 
-      variant="outline" 
-      className={cn("rounded-full border text-[10px] py-0 px-2 font-bold uppercase tracking-wider", getStatusStyles(status), className)}
+    <Badge
+      variant="outline"
+      className={cn(
+        "rounded-full border text-[10px] py-0 px-2 font-bold uppercase tracking-wider",
+        getStatusStyles(status),
+        className,
+      )}
     >
       {getStatusLabel(status)}
     </Badge>

@@ -73,6 +73,7 @@ function InspectionPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* DOCUMENTVIEWER - Order 1 on mobile and desktop column 1 */}
         <div className="lg:col-span-2 order-1">
           {!preview ? (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center space-y-4">
@@ -88,7 +89,17 @@ function InspectionPage() {
           )}
         </div>
 
+        {/* LATERAL PANEL - Order 2 on mobile and desktop column 2 */}
         <div className="space-y-6 order-2 lg:sticky lg:top-6">
+          {/* AVISO DE EQUIVALÊNCIA - Mandatory order 2 on mobile / first in column on desktop */}
+          <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-xl">
+            <p className="text-[9px] text-amber-500/60 leading-relaxed italic">
+              A equivalência real somente poderá ser verificada após a geração dos arquivos DOCX e
+              PDF.
+            </p>
+          </div>
+
+          {/* CHECKLIST CARD - Mandatory order 3 on mobile / second in column on desktop */}
           <div className="bg-veritas-graphite border border-white/5 p-6 rounded-2xl space-y-6">
             <h3 className="text-xs font-black uppercase tracking-widest text-white/40">
               Itens de Inspeção
@@ -163,13 +174,6 @@ function InspectionPage() {
                 </>
               )}
             </div>
-          </div>
-
-          <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-xl">
-            <p className="text-[9px] text-amber-500/60 leading-relaxed italic">
-              A equivalência real somente poderá ser verificada após a geração dos arquivos DOCX e
-              PDF.
-            </p>
           </div>
         </div>
       </div>

@@ -46,9 +46,9 @@ const INTERVIEWS = [
 
 const STATUS_COLORS: Record<string, string> = {
   "Não iniciada": "bg-white/5 text-white/40",
-  "Realizada": "bg-veritas-electric/10 text-veritas-electric",
-  "Transcrita": "bg-veritas-violet/10 text-veritas-violet",
-  "Revisada": "bg-emerald-500/10 text-emerald-400",
+  Realizada: "bg-veritas-electric/10 text-veritas-electric",
+  Transcrita: "bg-veritas-violet/10 text-veritas-violet",
+  Revisada: "bg-emerald-500/10 text-emerald-400",
 };
 
 function InterviewsList() {
@@ -79,11 +79,17 @@ function InterviewsList() {
                   <User className="w-5 h-5 text-white/40" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white tracking-tight">{interview.person}</h3>
-                  <p className="text-[10px] text-white/40 uppercase tracking-widest">{interview.relationship}</p>
+                  <h3 className="text-sm font-bold text-white tracking-tight">
+                    {interview.person}
+                  </h3>
+                  <p className="text-[10px] text-white/40 uppercase tracking-widest">
+                    {interview.relationship}
+                  </p>
                 </div>
               </div>
-              <span className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest ${STATUS_COLORS[interview.status]}`}>
+              <span
+                className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest ${STATUS_COLORS[interview.status]}`}
+              >
                 {interview.status}
               </span>
             </div>

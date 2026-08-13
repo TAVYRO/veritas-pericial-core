@@ -1,11 +1,5 @@
-
-export type TraceabilityKind = 
-  | "documento" 
-  | "relato" 
-  | "observacao" 
-  | "inferencia" 
-  | "hipotese" 
-  | "nao-confirmado";
+export type TraceabilityKind =
+  "documento" | "relato" | "observacao" | "inferencia" | "hipotese" | "nao-confirmado";
 
 export type EditorialMarker = "confirmar" | "pendente";
 

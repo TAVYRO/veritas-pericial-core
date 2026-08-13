@@ -1,12 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { 
-  CheckCircle2, 
-  ArrowRight, 
-  ChevronRight, 
-  Clock, 
+import {
+  CheckCircle2,
+  ArrowRight,
+  ChevronRight,
+  Clock,
   Flag,
   FileText,
-  Briefcase
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,7 +40,9 @@ function RecordCompletePage() {
         <Card className="w-full bg-veritas-graphite/40 border-white/5 mt-10 text-left overflow-hidden">
           <CardContent className="p-6 space-y-6">
             <div className="space-y-1">
-              <p className="text-[10px] font-mono text-veritas-silver/40 uppercase tracking-tighter">Proc. 0003512-93.2025.8.16</p>
+              <p className="text-[10px] font-mono text-veritas-silver/40 uppercase tracking-tighter">
+                Proc. 0003512-93.2025.8.16
+              </p>
               <h3 className="text-xl font-bold text-veritas-silver">Marta Silva</h3>
             </div>
 
@@ -64,13 +66,18 @@ function RecordCompletePage() {
 
             <div className="pt-6 border-t border-white/5 flex items-center justify-between">
               <div className="space-y-1">
-                <span className="text-[10px] font-bold text-veritas-silver/40 uppercase tracking-wider">Status</span>
+                <span className="text-[10px] font-bold text-veritas-silver/40 uppercase tracking-wider">
+                  Status
+                </span>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
                   <span className="text-xs font-bold text-amber-500">Aguardando transcrição</span>
                 </div>
               </div>
-              <Badge variant="outline" className="bg-veritas-electric/10 text-veritas-electric border-veritas-electric/20 text-[10px] font-bold uppercase tracking-wider">
+              <Badge
+                variant="outline"
+                className="bg-veritas-electric/10 text-veritas-electric border-veritas-electric/20 text-[10px] font-bold uppercase tracking-wider"
+              >
                 Veritas AI
               </Badge>
             </div>
@@ -79,15 +86,15 @@ function RecordCompletePage() {
 
         {/* Action Buttons */}
         <div className="w-full mt-10 space-y-4">
-          <Button 
+          <Button
             className="w-full h-14 text-lg font-bold veritas-button-glow veritas-button-scale gap-2"
             onClick={() => navigate({ to: "/app/veritas" })} // Assuming transcription will be here or a dedicated view
           >
             Ver transcrição
             <ArrowRight className="w-5 h-5" />
           </Button>
-          
-          <Button 
+
+          <Button
             variant="ghost"
             className="w-full h-14 text-veritas-silver hover:bg-white/5 font-bold gap-2"
             onClick={() => navigate({ to: "/app/cases/$caseId", params: { caseId: "demo-case" } })}

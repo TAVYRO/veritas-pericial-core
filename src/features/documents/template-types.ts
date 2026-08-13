@@ -5,7 +5,6 @@ export type TemplateStatus = "active" | "draft" | "deprecated";
 export type TemplateScope = "general" | "psychology" | "social-work" | "multiprofessional";
 export type { TemplateId };
 
-
 export interface DocumentTemplate {
   id: TemplateId;
   name: string;

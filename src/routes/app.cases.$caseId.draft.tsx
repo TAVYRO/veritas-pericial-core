@@ -23,7 +23,7 @@ function DraftPage() {
           <AlertCircle className="w-8 h-8 text-white/20" />
         </div>
         <h2 className="text-xl font-bold text-white">Caso não encontrado</h2>
-        <Link 
+        <Link
           to="/app/cases"
           className="flex items-center gap-2 text-veritas-electric text-sm font-bold"
         >
@@ -40,15 +40,25 @@ function DraftPage() {
       <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">Rascunho — Não Finalizado</span>
+          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">
+            Rascunho — Não Finalizado
+          </span>
         </div>
         <div className="flex gap-4">
-           <Link to="/app/cases/$caseId/draft/edit" params={{ caseId }} className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest hover:underline">
-             Abrir Editor
-           </Link>
-           <Link to="/app/cases/$caseId/draft/questions" params={{ caseId }} className="text-[10px] font-bold text-veritas-violet uppercase tracking-widest hover:underline">
-             Responder Quesitos
-           </Link>
+          <Link
+            to="/app/cases/$caseId/draft/edit"
+            params={{ caseId }}
+            className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest hover:underline"
+          >
+            Abrir Editor
+          </Link>
+          <Link
+            to="/app/cases/$caseId/draft/questions"
+            params={{ caseId }}
+            className="text-[10px] font-bold text-veritas-violet uppercase tracking-widest hover:underline"
+          >
+            Responder Quesitos
+          </Link>
         </div>
       </div>
 
@@ -58,15 +68,12 @@ function DraftPage() {
             <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto">
               <AlertCircle className="w-6 h-6 text-white/20" />
             </div>
-            <p className="text-sm text-white/40">Pré-visualização documental indisponível para este caso.</p>
+            <p className="text-sm text-white/40">
+              Pré-visualização documental indisponível para este caso.
+            </p>
           </div>
         ) : (
-          <DocumentViewer 
-            caseData={caseData} 
-            workflow={workflow} 
-            preview={preview} 
-            mode="draft" 
-          />
+          <DocumentViewer caseData={caseData} workflow={workflow} preview={preview} mode="draft" />
         )}
       </div>
     </div>

@@ -1,15 +1,15 @@
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
-import { 
-  ArrowLeft, 
-  Scale, 
-  Briefcase, 
-  Zap, 
-  FileText, 
-  Users, 
-  ClipboardCheck, 
-  HelpCircle, 
+import {
+  ArrowLeft,
+  Scale,
+  Briefcase,
+  Zap,
+  FileText,
+  Users,
+  ClipboardCheck,
+  HelpCircle,
   AlertTriangle,
-  PlayCircle
+  PlayCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -35,7 +35,7 @@ function CaseStatusPage() {
     procedures: "8 atos técnicos",
     questions: "15 quesitos ativos",
     gaps: "2 lacunas de suficiência",
-    nextAction: "Revisar análise assistida"
+    nextAction: "Revisar análise assistida",
   };
 
   const sections = [
@@ -51,13 +51,17 @@ function CaseStatusPage() {
 
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
-      <header className={cn(
-        "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center gap-4 transition-all duration-300",
-        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
-      )}>
-        <Button 
-          variant="ghost" 
-          size="icon" 
+      <header
+        className={cn(
+          "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center gap-4 transition-all duration-300",
+          scrolled
+            ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg"
+            : "bg-transparent",
+        )}
+      >
+        <Button
+          variant="ghost"
+          size="icon"
           className="text-veritas-silver hover:bg-white/5"
           onClick={() => window.history.back()}
         >
@@ -69,25 +73,37 @@ function CaseStatusPage() {
       <main className="p-6 space-y-6">
         <div className="grid gap-3">
           {sections.map((section) => (
-            <div 
-              key={section.label} 
+            <div
+              key={section.label}
               className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <div className={cn(
-                  "p-2 rounded-xl bg-white/5",
-                  section.highlight ? "text-veritas-electric" : 
-                  section.warning ? "text-amber-500" : "text-veritas-silver/40"
-                )}>
+                <div
+                  className={cn(
+                    "p-2 rounded-xl bg-white/5",
+                    section.highlight
+                      ? "text-veritas-electric"
+                      : section.warning
+                        ? "text-amber-500"
+                        : "text-veritas-silver/40",
+                  )}
+                >
                   <section.icon className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{section.label}</span>
-                  <p className={cn(
-                    "text-sm font-bold",
-                    section.highlight ? "text-veritas-electric" : 
-                    section.warning ? "text-amber-500" : "text-veritas-silver"
-                  )}>
+                  <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                    {section.label}
+                  </span>
+                  <p
+                    className={cn(
+                      "text-sm font-bold",
+                      section.highlight
+                        ? "text-veritas-electric"
+                        : section.warning
+                          ? "text-amber-500"
+                          : "text-veritas-silver",
+                    )}
+                  >
                     {section.value}
                   </p>
                 </div>
@@ -100,14 +116,16 @@ function CaseStatusPage() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <PlayCircle className="w-5 h-5 text-veritas-electric" />
-              <span className="font-bold text-sm text-veritas-electric uppercase tracking-widest">Próxima Ação</span>
+              <span className="font-bold text-sm text-veritas-electric uppercase tracking-widest">
+                Próxima Ação
+              </span>
             </div>
-            <p className="text-lg font-black text-white leading-tight">
-              {statusInfo.nextAction}
-            </p>
-            <Button 
+            <p className="text-lg font-black text-white leading-tight">{statusInfo.nextAction}</p>
+            <Button
               className="w-full h-12 text-sm font-bold veritas-button-glow bg-veritas-electric hover:bg-veritas-electric-glow"
-              onClick={() => navigate({ to: "/app/cases/$caseId/materials", params: { caseId } } as any)}
+              onClick={() =>
+                navigate({ to: "/app/cases/$caseId/materials", params: { caseId } } as any)
+              }
             >
               Ir para etapa
             </Button>

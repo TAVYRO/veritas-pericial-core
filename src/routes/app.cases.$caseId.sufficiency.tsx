@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { 
-  CheckCircle2, 
-  Circle, 
-  MinusCircle, 
+import {
+  CheckCircle2,
+  Circle,
+  MinusCircle,
   ShieldCheck,
   AlertCircle,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 
 export const Route = createFileRoute("/app/cases/$caseId/sufficiency")({
@@ -13,33 +13,40 @@ export const Route = createFileRoute("/app/cases/$caseId/sufficiency")({
 });
 
 const SUFFICIENCY_ITEMS = [
-  { category: "Identificação", items: [
-    { label: "Dados do Processo", status: "OK" },
-    { label: "Objeto da Perícia", status: "OK" },
-    { label: "Profissionais Nomeados", status: "OK" },
-    { label: "Modalidade Documental", status: "OK" }
-  ]},
-  { category: "Produção de Provas", items: [
-    { label: "Partes e Vínculos", status: "OK" },
-    { label: "Fontes Materiais", status: "OK" },
-    { label: "Procedimentos Realizados", status: "FALTA" },
-    { label: "Quesitos Respondidos", status: "FALTA" }
-  ]},
-  { category: "Análise Técnica", items: [
-    { label: "Elementos Sociais", status: "FALTA" },
-    { label: "Elementos Psicológicos", status: "OK" },
-    { label: "Conclusão Técnica", status: "NÃO SE APLICA" },
-    { label: "Limites da Análise", status: "FALTA" }
-  ]},
-  { category: "Formalização", items: [
-    { label: "Signatárias", status: "NÃO SE APLICA" }
-  ]}
+  {
+    category: "Identificação",
+    items: [
+      { label: "Dados do Processo", status: "OK" },
+      { label: "Objeto da Perícia", status: "OK" },
+      { label: "Profissionais Nomeados", status: "OK" },
+      { label: "Modalidade Documental", status: "OK" },
+    ],
+  },
+  {
+    category: "Produção de Provas",
+    items: [
+      { label: "Partes e Vínculos", status: "OK" },
+      { label: "Fontes Materiais", status: "OK" },
+      { label: "Procedimentos Realizados", status: "FALTA" },
+      { label: "Quesitos Respondidos", status: "FALTA" },
+    ],
+  },
+  {
+    category: "Análise Técnica",
+    items: [
+      { label: "Elementos Sociais", status: "FALTA" },
+      { label: "Elementos Psicológicos", status: "OK" },
+      { label: "Conclusão Técnica", status: "NÃO SE APLICA" },
+      { label: "Limites da Análise", status: "FALTA" },
+    ],
+  },
+  { category: "Formalização", items: [{ label: "Signatárias", status: "NÃO SE APLICA" }] },
 ];
 
 const STATUS_ICONS = {
-  "OK": <CheckCircle2 className="w-4 h-4 text-emerald-500" />,
-  "FALTA": <AlertCircle className="w-4 h-4 text-rose-500" />,
-  "NÃO SE APLICA": <MinusCircle className="w-4 h-4 text-white/20" />
+  OK: <CheckCircle2 className="w-4 h-4 text-emerald-500" />,
+  FALTA: <AlertCircle className="w-4 h-4 text-rose-500" />,
+  "NÃO SE APLICA": <MinusCircle className="w-4 h-4 text-white/20" />,
 };
 
 function SufficiencyPage() {
@@ -48,7 +55,9 @@ function SufficiencyPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold tracking-tight text-white">Gate de Suficiência</h2>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Progresso:</span>
+          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
+            Progresso:
+          </span>
           <span className="text-sm font-bold text-veritas-electric">60%</span>
         </div>
       </div>
@@ -56,16 +65,26 @@ function SufficiencyPage() {
       <div className="space-y-8">
         {SUFFICIENCY_ITEMS.map((section, idx) => (
           <div key={idx} className="space-y-4">
-            <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-widest pl-1">{section.category}</h3>
+            <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-widest pl-1">
+              {section.category}
+            </h3>
             <div className="grid gap-2">
               {section.items.map((item, i) => (
-                <div key={i} className="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3 hover:bg-white/[0.07] transition-colors">
+                <div
+                  key={i}
+                  className="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl p-3 hover:bg-white/[0.07] transition-colors"
+                >
                   <span className="text-xs text-white/80">{item.label}</span>
                   <div className="flex items-center gap-3">
-                    <span className={`text-[8px] font-bold uppercase tracking-widest ${
-                      item.status === "OK" ? "text-emerald-500" : 
-                      item.status === "FALTA" ? "text-rose-500" : "text-white/20"
-                    }`}>
+                    <span
+                      className={`text-[8px] font-bold uppercase tracking-widest ${
+                        item.status === "OK"
+                          ? "text-emerald-500"
+                          : item.status === "FALTA"
+                            ? "text-rose-500"
+                            : "text-white/20"
+                      }`}
+                    >
                       {item.status}
                     </span>
                     {STATUS_ICONS[item.status as keyof typeof STATUS_ICONS]}
@@ -83,7 +102,9 @@ function SufficiencyPage() {
             <ShieldCheck className="w-5 h-5 text-veritas-electric" />
           </div>
           <div>
-            <p className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest">Próxima Etapa</p>
+            <p className="text-[10px] font-bold text-veritas-electric uppercase tracking-widest">
+              Próxima Etapa
+            </p>
             <p className="text-xs text-white/90">Gerar Rascunho Assistido</p>
           </div>
         </div>
