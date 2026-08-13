@@ -14,7 +14,7 @@ export const Route = createFileRoute("/app/cases/new/template")({
     mode: z.enum(["automatic", "guided"]).optional(),
     caseNumber: z.string().optional(),
     professionals: z.array(z.string()).optional(),
-    docType: documentTypeIdSchema,
+    docType: documentTypeIdSchema.optional(),
   }).parse(search),
   component: SelectTemplatePage,
 });
