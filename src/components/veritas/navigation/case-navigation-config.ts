@@ -1,7 +1,7 @@
 import { 
   FileText, Search, FileSearch, Scale, HelpCircle, Users, PenTool,
   CheckCircle2, Flag, Cpu, LineChart, Share2, ShieldCheck,
-  PenLine, Activity, Lock, FileCheck, UserCheck, ClipboardCheck, Signature, Download
+  PenLine, Activity, Lock, FileCheck, UserCheck, ClipboardCheck, Signature, Download, History
 } from "lucide-react";
 
 export type NavStep = {
@@ -53,6 +53,7 @@ export const CASE_NAVIGATION_GROUPS: NavGroup[] = [
     defaultPath: "draft",
     steps: [
       { id: "draft", label: "Rascunho", path: "draft", icon: PenLine },
+      { id: "versions", label: "Versões", path: "versions", icon: History },
       { id: "edit", label: "Editor", path: "draft/edit", icon: PenLine },
       { id: "draft-questions", label: "Respostas", path: "draft/questions", icon: HelpCircle },
     ],
