@@ -29,15 +29,13 @@ const CaseDocumentContext = createContext<CaseDocumentContextType | undefined>(u
 
 const makeDocumentKey = (caseId: string, versionId: string) => `${caseId}::${versionId}`;
 
-const generateNextId = (existingIds: (string | undefined)[], prefix: string, regex: RegExp): string => {
+const generateNextId = (existingIds: string[], prefix: string, regex: RegExp): string => {
   let maxSuffix = 0;
   existingIds.forEach(id => {
-    if (id) {
-      const match = id.match(regex);
-      if (match) {
-        const num = parseInt(match[1], 10);
-        if (num > maxSuffix) maxSuffix = num;
-      }
+    const match = id.match(regex);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      if (num > maxSuffix) maxSuffix = num;
     }
   });
   return `${prefix}${String(maxSuffix + 1).padStart(2, "0")}`;
@@ -120,9 +118,10 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         const pId = generateNextId(currentParagraphsIds, "PAR", /^PAR(\d+)$/);
         currentParagraphsIds.push(pId);
         normalizedParagraphs.push({
-          ...p,
           id: pId,
-          text
+          text,
+          traceability: p.traceability,
+          editorialMarker: p.editorialMarker
         });
       });
 
@@ -203,15 +202,17 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const pId = generateNextId(allParagraphIds, "PAR", /^PAR(\d+)$/);
 
       const newParagraph: CaseDocumentParagraph = {
-        ...input,
         id: pId,
-        text
+        text,
+        traceability: input.traceability,
+        editorialMarker: input.editorialMarker
       };
 
+      const section = doc.sections[sectionIndex];
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
-        ...updatedSections[sectionIndex],
-        paragraphs: [...updatedSections[sectionIndex].paragraphs, newParagraph]
+        ...section,
+        paragraphs: [...section.paragraphs, newParagraph]
       };
 
       return {
@@ -263,8 +264,10 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
         ...currentParagraph,
-        ...patch,
-        ...(text !== undefined ? { text } : {})
+        id: currentParagraph.id,
+        text: text !== undefined ? text : currentParagraph.text,
+        traceability: patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability,
+        editorialMarker: patch.hasOwnProperty("editorialMarker") ? patch.editorialMarker : currentParagraph.editorialMarker
       };
       updatedSections[targetSectionIndex] = {
         ...section,
