@@ -53,10 +53,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 					const isActive = activeGroup.id === group.id;
 					const targetRoute = `/app/cases/${caseId}/${group.defaultPath}`;
 					return (
-						<button
+						<Link
 							key={group.id}
-							type="button"
-							onClick={() => navigate({ to: targetRoute as any })}
+							to={targetRoute as any}
 							className={cn(
 								"flex flex-col items-center py-3 px-1 gap-1 transition-all duration-300 relative outline-none",
 								isActive ? "text-veritas-electric" : "text-white/20 hover:text-white/40",
@@ -69,7 +68,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 							{isActive && (
 								<div className="absolute -bottom-px w-full h-0.5 bg-veritas-electric rounded-full shadow-[0_0_8px_rgba(0,229,255,0.5)]" />
 							)}
-						</button>
+						</Link>
 					);
 				})}
 			</div>
