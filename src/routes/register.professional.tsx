@@ -31,9 +31,6 @@ function ProfessionalRegisterPage() {
   const professions = [
     "Psicólogo(a)",
     "Assistente Social",
-    "Médico(a)",
-    "Perito(a)",
-    "Outro",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -43,11 +40,9 @@ function ProfessionalRegisterPage() {
 
   return (
     <div className="min-h-screen veritas-hero-gradient flex flex-col p-6 overflow-hidden relative">
-      {/* Background Decorative Elements */}
       <div className="absolute top-[-5%] left-[-10%] w-72 h-72 bg-veritas-electric/5 rounded-full blur-3xl" />
       <div className="absolute bottom-[10%] right-[-10%] w-64 h-64 bg-veritas-violet/5 rounded-full blur-3xl" />
 
-      {/* Header */}
       <header className="relative z-10 mb-8 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
           <Button 
@@ -73,10 +68,8 @@ function ProfessionalRegisterPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col max-w-md mx-auto w-full relative z-10 overflow-y-auto pb-12 custom-scrollbar">
-        <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-          
-          {/* Profession Select */}
+      <main className="flex-1 flex flex-col max-w-md mx-auto w-full relative z-10 overflow-y-auto pb-12 custom-scrollbar text-white">
+        <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in-up">
           <div className="space-y-1.5">
             <Label htmlFor="profession" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Profissão
@@ -99,7 +92,6 @@ function ProfessionalRegisterPage() {
             </Select>
           </div>
 
-          {/* Specialty */}
           <div className="space-y-1.5">
             <Label htmlFor="specialty" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Especialidade
@@ -118,7 +110,6 @@ function ProfessionalRegisterPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            {/* Council */}
             <div className="space-y-1.5">
               <Label htmlFor="council" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
                 Conselho
@@ -136,7 +127,6 @@ function ProfessionalRegisterPage() {
               </div>
             </div>
 
-            {/* Registration Number */}
             <div className="space-y-1.5">
               <Label htmlFor="registration" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
                 Nº Registro
@@ -156,7 +146,6 @@ function ProfessionalRegisterPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-            {/* State/UF */}
             <div className="col-span-1 space-y-1.5">
               <Label htmlFor="state" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
                 Estado/UF
@@ -175,7 +164,6 @@ function ProfessionalRegisterPage() {
               </div>
             </div>
 
-            {/* Comarca/Region */}
             <div className="col-span-2 space-y-1.5">
               <Label htmlFor="region" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
                 Comarca/Região
@@ -205,7 +193,7 @@ function ProfessionalRegisterPage() {
             </Button>
             <Button 
               type="submit" 
-              className="flex-[2] h-12 bg-veritas-electric hover:bg-veritas-electric-glow text-veritas-ink font-bold text-base shadow-[0_0_20px_-5px_rgba(101,217,255,0.4)] hover:shadow-[0_0_25px_-2px_rgba(101,217,255,0.5)] transition-all active:scale-[0.98] rounded-xl"
+              className="flex-[2] h-12 bg-veritas-electric hover:bg-veritas-electric-glow text-veritas-ink font-bold text-base shadow-[0_0_20px_-5px_rgba(101,217,255,0.4)] transition-all active:scale-[0.98] rounded-xl"
             >
               Continuar
             </Button>
@@ -213,7 +201,6 @@ function ProfessionalRegisterPage() {
         </form>
       </main>
 
-      {/* Grid Pattern Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-[0.03]" 
         style={{ 
