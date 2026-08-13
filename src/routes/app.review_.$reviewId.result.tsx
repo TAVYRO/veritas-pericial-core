@@ -1,13 +1,13 @@
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
-import {
-  AlertTriangle,
-  CheckCircle2,
-  XCircle,
-  Zap,
+import { 
+  AlertTriangle, 
+  CheckCircle2, 
+  XCircle, 
+  Zap, 
   FileText,
   ArrowLeft,
   ChevronRight,
-  Info,
+  Info
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -25,61 +25,51 @@ function ReviewResultPage() {
   const scrolled = useScroll(10);
 
   const results = [
-    {
-      type: "bloqueio",
-      title: "Bloqueios",
-      count: 1,
-      color: "text-red-400",
+    { 
+      type: "bloqueio", 
+      title: "Bloqueios", 
+      count: 1, 
+      color: "text-red-400", 
       bg: "bg-red-400/10",
-      items: ["Contradição grave identificada entre o item 4.2 e a conclusão."],
+      items: ["Contradição grave identificada entre o item 4.2 e a conclusão."] 
     },
-    {
-      type: "correcao",
-      title: "Correções necessárias",
-      count: 2,
-      color: "text-amber-400",
+    { 
+      type: "correcao", 
+      title: "Correções necessárias", 
+      count: 2, 
+      color: "text-amber-400", 
       bg: "bg-amber-400/10",
-      items: ["Ajustar formato da data no cabeçalho", "Corrigir número do processo"],
+      items: ["Ajustar formato da data no cabeçalho", "Corrigir número do processo"] 
     },
-    {
-      type: "alerta",
-      title: "Alertas",
-      count: 3,
-      color: "text-veritas-violet",
+    { 
+      type: "alerta", 
+      title: "Alertas", 
+      count: 3, 
+      color: "text-veritas-violet", 
       bg: "bg-veritas-violet/10",
-      items: [
-        "Linguagem excessivamente técnica no quesito 3",
-        "Ausência de fonte bibliográfica para o termo 'alienação'",
-        "Verificar competência territorial",
-      ],
+      items: ["Linguagem excessivamente técnica no quesito 3", "Ausência de fonte bibliográfica para o termo 'alienação'", "Verificar competência territorial"] 
     },
-    {
-      type: "adequado",
-      title: "Pontos adequados",
-      count: 8,
-      color: "text-emerald-400",
+    { 
+      type: "adequado", 
+      title: "Pontos adequados", 
+      count: 8, 
+      color: "text-emerald-400", 
       bg: "bg-emerald-400/10",
-      items: ["Identificação completa", "Objetivos claros", "Fontes catalogadas"],
+      items: ["Identificação completa", "Objetivos claros", "Fontes catalogadas"] 
     },
   ];
 
   return (
     <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
-      <header
-        className={cn(
-          "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center gap-4 transition-all duration-300",
-          scrolled
-            ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg"
-            : "bg-transparent",
-        )}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
+      <header className={cn(
+        "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center gap-4 transition-all duration-300",
+        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
+      )}>
+        <Button 
+          variant="ghost" 
+          size="icon" 
           className="text-veritas-silver hover:bg-white/5"
-          onClick={() =>
-            navigate({ to: "/app/review/$reviewId/check", params: { reviewId } } as any)
-          }
+          onClick={() => navigate({ to: "/app/review/$reviewId/check", params: { reviewId } } as any)}
         >
           <ArrowLeft className="w-6 h-6" />
         </Button>
@@ -99,28 +89,18 @@ function ReviewResultPage() {
 
         <div className="space-y-4">
           {results.map((result) => (
-            <Card
-              key={result.type}
-              className="bg-veritas-graphite/40 border-white/5 overflow-hidden"
-            >
+            <Card key={result.type} className="bg-veritas-graphite/40 border-white/5 overflow-hidden">
               <CardContent className="p-0">
                 <div className={cn("p-4 flex items-center justify-between", result.bg)}>
                   <div className="flex items-center gap-3">
                     <span className={cn("font-bold text-sm", result.color)}>{result.title}</span>
-                    <Badge
-                      variant="outline"
-                      className={cn("text-[10px] border-white/10", result.color)}
-                    >
+                    <Badge variant="outline" className={cn("text-[10px] border-white/10", result.color)}>
                       {result.count}
                     </Badge>
                   </div>
-                  {result.type === "bloqueio" ? (
-                    <XCircle className="w-4 h-4 text-red-400" />
-                  ) : result.type === "adequado" ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <AlertTriangle className="w-4 h-4 text-amber-400" />
-                  )}
+                  {result.type === "bloqueio" ? <XCircle className="w-4 h-4 text-red-400" /> : 
+                   result.type === "adequado" ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : 
+                   <AlertTriangle className="w-4 h-4 text-amber-400" />}
                 </div>
                 <div className="p-4 space-y-3">
                   {result.items.map((item, i) => (
@@ -140,19 +120,16 @@ function ReviewResultPage() {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-veritas-electric" />
-                <span className="font-bold text-sm text-veritas-electric">
-                  Nova versão sugerida
-                </span>
+                <span className="font-bold text-sm text-veritas-electric">Nova versão sugerida</span>
               </div>
               <ChevronRight className="w-4 h-4 text-veritas-electric group-hover:translate-x-1 transition-transform" />
             </div>
             <p className="text-xs text-veritas-silver/60 leading-relaxed">
-              A Veritas pode gerar um rascunho corrigindo automaticamente os alertas e sugerindo
-              textos para os bloqueios identificados.
+              A Veritas pode gerar um rascunho corrigindo automaticamente os alertas e sugerindo textos para os bloqueios identificados.
             </p>
           </Card>
 
-          <Button
+          <Button 
             className="w-full h-14 text-lg font-bold veritas-button-glow veritas-button-scale shadow-2xl shadow-veritas-electric/20"
             onClick={() => navigate({ to: "/app/veritas" })}
           >

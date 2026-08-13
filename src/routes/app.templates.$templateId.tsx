@@ -13,7 +13,7 @@ export const Route = createFileRoute("/app/templates/$templateId")({
 
 function TemplateDetailPage() {
   const { templateId } = Route.useParams();
-
+  
   if (!isTemplateId(templateId)) {
     return <NotFoundState />;
   }
@@ -27,20 +27,18 @@ function TemplateDetailPage() {
   return (
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white">
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
-
+      
       <header className="sticky top-0 z-50 px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 bg-[#0A0D14]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex items-center gap-4 mb-4">
-          <Link
-            to="/app/templates"
+          <Link 
+            to="/app/templates" 
             className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </Link>
           <div>
             <h1 className="text-lg font-bold tracking-tight line-clamp-1">{template.name}</h1>
-            <p className="text-white/40 text-[10px] uppercase tracking-widest font-bold">
-              Detalhes do Modelo
-            </p>
+            <p className="text-white/40 text-[10px] uppercase tracking-widest font-bold">Detalhes do Modelo</p>
           </div>
         </div>
       </header>
@@ -57,26 +55,22 @@ function TemplateDetailPage() {
 
           <div className="space-y-2">
             <h2 className="text-xl font-bold">{template.name}</h2>
-            <p className="text-sm text-veritas-silver/60 leading-relaxed">{template.description}</p>
+            <p className="text-sm text-veritas-silver/60 leading-relaxed">
+              {template.description}
+            </p>
           </div>
 
           <div className="grid grid-cols-2 gap-3 pt-2">
             <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-              <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">
-                Escopo
-              </p>
+              <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Escopo</p>
               <p className="text-xs font-bold capitalize">
-                {template.scope === "multiprofessional" ? "Multiprofissional" : "Geral"}
+                {template.scope === 'multiprofessional' ? 'Multiprofissional' : 'Geral'}
               </p>
             </div>
             <div className="p-3 rounded-2xl bg-white/5 border border-white/5">
-              <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">
-                Origem
-              </p>
+              <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold mb-1">Origem</p>
               <p className="text-xs font-bold">
-                {template.id === "veritas-multiprofessional"
-                  ? "Estrutura multiprofissional Veritas"
-                  : "Estrutura documental Veritas"}
+                {template.id === 'veritas-multiprofessional' ? 'Estrutura multiprofissional Veritas' : 'Estrutura documental Veritas'}
               </p>
             </div>
           </div>
@@ -86,18 +80,13 @@ function TemplateDetailPage() {
         <section className="space-y-4">
           <div className="flex items-center gap-2 px-1">
             <Layers className="w-4 h-4 text-veritas-violet" />
-            <h3 className="text-xs font-bold text-white uppercase tracking-widest">
-              Modalidades Compatíveis
-            </h3>
+            <h3 className="text-xs font-bold text-white uppercase tracking-widest">Modalidades Compatíveis</h3>
           </div>
           <div className="space-y-2">
             {template.supportedDocumentTypes.map((docTypeId) => {
               const docType = getDocumentTypeById(docTypeId);
               return (
-                <div
-                  key={docTypeId}
-                  className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between"
-                >
+                <div key={docTypeId} className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between">
                   <span className="text-sm font-medium">{docType?.label || docTypeId}</span>
                   <ShieldCheck className="w-4 h-4 text-veritas-violet/40" />
                 </div>
@@ -112,8 +101,7 @@ function TemplateDetailPage() {
           <div>
             <p className="text-xs font-bold text-white mb-1">Modelo de Referência</p>
             <p className="text-[11px] text-white/40 leading-relaxed">
-              Este é um modelo de referência documental do Veritas, validado para conformidade com
-              normas profissionais vigentes.
+              Este é um modelo de referência documental do Veritas, validado para conformidade com normas profissionais vigentes.
             </p>
           </div>
         </div>

@@ -44,17 +44,17 @@ function ProcessPage() {
 
       <div className="space-y-4 max-w-sm w-full">
         <h2 className="text-xl font-bold text-white tracking-tight">Processando informações</h2>
-
+        
         <div className="space-y-2">
           {STEPS.map((step, index) => (
             <div
               key={step}
               className={`flex items-center gap-3 text-sm transition-all duration-300 ${
-                index === currentStepIndex
-                  ? "text-white font-semibold"
-                  : index < currentStepIndex
-                    ? "text-emerald-500"
-                    : "text-white/20"
+                index === currentStepIndex 
+                  ? "text-white font-semibold" 
+                  : index < currentStepIndex 
+                  ? "text-emerald-500" 
+                  : "text-white/20"
               }`}
             >
               {index < currentStepIndex ? (

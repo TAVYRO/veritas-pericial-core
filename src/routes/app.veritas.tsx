@@ -11,7 +11,7 @@ function VeritasSkillScreen() {
     <div className="min-h-screen bg-[#0A0D14] pb-24 text-white selection:bg-veritas-electric/30">
       {/* Grid background effect */}
       <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
-
+      
       {/* Header */}
       <header className="sticky top-0 z-50 px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 bg-[#0A0D14]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex items-center gap-2 mb-1">
@@ -38,8 +38,7 @@ function VeritasSkillScreen() {
             </div>
             <h3 className="text-lg font-medium mb-2">FAZER TUDO DE UMA VEZ</h3>
             <p className="text-sm text-white/60 leading-relaxed mb-4">
-              Envie o material bruto. A Veritas organiza fontes, estrutura o caso, verifica lacunas
-              e prepara o rascunho para revisão profissional.
+              Envie o material bruto. A Veritas organiza fontes, estrutura o caso, verifica lacunas e prepara o rascunho para revisão profissional.
             </p>
             <div className="inline-flex items-center text-sm font-medium text-veritas-electric group-hover:underline">
               Começar
@@ -74,12 +73,9 @@ function VeritasSkillScreen() {
               className="group block p-5 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-white/30 hover:bg-white/[0.12] transition-all duration-300"
             >
               <FileText className="w-6 h-6 text-white/60 mb-3 group-hover:text-white transition-colors" />
-              <h3 className="text-base font-medium mb-2 uppercase text-[13px] tracking-wide">
-                Revisar documento
-              </h3>
+              <h3 className="text-base font-medium mb-2 uppercase text-[13px] tracking-wide">Revisar documento</h3>
               <p className="text-[11px] text-white/40 leading-relaxed">
-                Revise estrutura, coerência, fontes, quesitos, competências e possíveis resíduos de
-                outro processo.
+                Revise estrutura, coerência, fontes, quesitos, competências e possíveis resíduos de outro processo.
               </p>
             </Link>
 
@@ -89,9 +85,7 @@ function VeritasSkillScreen() {
               className="group block p-5 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 hover:border-white/30 hover:bg-white/[0.12] transition-all duration-300"
             >
               <History className="w-6 h-6 text-white/60 mb-3 group-hover:text-white transition-colors" />
-              <h3 className="text-base font-medium mb-2 uppercase text-[13px] tracking-wide">
-                Continuar um caso
-              </h3>
+              <h3 className="text-base font-medium mb-2 uppercase text-[13px] tracking-wide">Continuar um caso</h3>
               <p className="text-[11px] text-white/40 leading-relaxed">
                 Retome exatamente a etapa de um trabalho já iniciado.
               </p>
@@ -102,8 +96,7 @@ function VeritasSkillScreen() {
         {/* Disclaimer */}
         <div className="p-4 rounded-xl bg-white/5 border border-white/5 mt-8">
           <p className="text-[11px] leading-relaxed text-white/40 text-center italic">
-            Veritas auxilia. A avaliação, interpretação, decisão e responsabilidade permanecem com a
-            profissional.
+            Veritas auxilia. A avaliação, interpretação, decisão e responsabilidade permanecem com a profissional.
           </p>
         </div>
       </main>
@@ -112,3 +105,4 @@ function VeritasSkillScreen() {
     </div>
   );
 }
+

@@ -31,20 +31,17 @@ function RegisterIndexPage() {
   ];
 
   const calculatePasswordStrength = () => {
-    const metCount = passwordRequirements.filter((req) => req.met).length;
+    const metCount = passwordRequirements.filter(req => req.met).length;
     if (formData.password.length === 0) return 0;
     return (metCount / passwordRequirements.length) * 100;
   };
 
   const strength = calculatePasswordStrength();
-  const strengthColor =
-    strength <= 25
-      ? "bg-red-500"
-      : strength <= 50
-        ? "bg-orange-500"
-        : strength <= 75
-          ? "bg-yellow-500"
-          : "bg-veritas-electric";
+  const strengthColor = 
+    strength <= 25 ? "bg-red-500" : 
+    strength <= 50 ? "bg-orange-500" : 
+    strength <= 75 ? "bg-yellow-500" : 
+    "bg-veritas-electric";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,18 +55,16 @@ function RegisterIndexPage() {
 
       <header className="relative z-10 mb-8 animate-fade-in-up">
         <div className="flex items-center justify-between mb-6">
-          <Button
-            variant="ghost"
-            size="icon"
+          <Button 
+            variant="ghost" 
+            size="icon" 
             onClick={() => navigate({ to: "/login" })}
             className="text-veritas-silver hover:text-veritas-electric hover:bg-white/5 transition-colors rounded-full"
           >
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <div className="text-right">
-            <span className="text-veritas-electric text-xs font-bold uppercase tracking-widest">
-              Etapa 1 de 3
-            </span>
+            <span className="text-veritas-electric text-xs font-bold uppercase tracking-widest">Etapa 1 de 3</span>
             <h1 className="text-xl font-bold text-veritas-silver">Criar sua conta</h1>
           </div>
         </div>
@@ -86,10 +81,7 @@ function RegisterIndexPage() {
       <main className="flex-1 flex flex-col max-w-md mx-auto w-full relative z-10 overflow-y-auto pb-12 custom-scrollbar">
         <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in-up">
           <div className="space-y-1.5">
-            <Label
-              htmlFor="fullName"
-              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
-            >
+            <Label htmlFor="fullName" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Nome completo
             </Label>
             <div className="relative group">
@@ -106,10 +98,7 @@ function RegisterIndexPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label
-              htmlFor="email"
-              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
-            >
+            <Label htmlFor="email" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               E-mail profissional
             </Label>
             <div className="relative group">
@@ -127,10 +116,7 @@ function RegisterIndexPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label
-              htmlFor="phone"
-              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
-            >
+            <Label htmlFor="phone" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Telefone
             </Label>
             <div className="relative group">
@@ -148,10 +134,7 @@ function RegisterIndexPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label
-              htmlFor="password"
-              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
-            >
+            <Label htmlFor="password" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Senha
             </Label>
             <div className="relative group">
@@ -173,13 +156,13 @@ function RegisterIndexPage() {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
-
+            
             {formData.password.length > 0 && (
               <div className="space-y-2 px-1 py-1">
                 <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className={cn("h-full transition-all duration-500", strengthColor)}
-                    style={{ width: `${strength}%` }}
+                  <div 
+                    className={cn("h-full transition-all duration-500", strengthColor)} 
+                    style={{ width: `${strength}%` }} 
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-y-1 gap-x-2">
@@ -190,12 +173,10 @@ function RegisterIndexPage() {
                       ) : (
                         <div className="h-1 w-1 rounded-full bg-veritas-silver/30 ml-1" />
                       )}
-                      <span
-                        className={cn(
-                          "text-[9px] transition-colors",
-                          req.met ? "text-veritas-silver" : "text-veritas-silver/40",
-                        )}
-                      >
+                      <span className={cn(
+                        "text-[9px] transition-colors",
+                        req.met ? "text-veritas-silver" : "text-veritas-silver/40"
+                      )}>
                         {req.label}
                       </span>
                     </div>
@@ -206,10 +187,7 @@ function RegisterIndexPage() {
           </div>
 
           <div className="space-y-1.5">
-            <Label
-              htmlFor="confirmPassword"
-              className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold"
-            >
+            <Label htmlFor="confirmPassword" className="text-veritas-silver/70 ml-1 text-[10px] uppercase tracking-wider font-bold">
               Confirmar senha
             </Label>
             <div className="relative group">
@@ -233,8 +211,8 @@ function RegisterIndexPage() {
             </div>
           </div>
 
-          <Button
-            type="submit"
+          <Button 
+            type="submit" 
             className="w-full h-12 bg-veritas-electric hover:bg-veritas-electric-glow text-veritas-ink font-bold text-base shadow-[0_0_20px_-5px_rgba(101,217,255,0.4)] transition-all active:scale-[0.98] rounded-xl mt-4"
           >
             Continuar
@@ -244,8 +222,8 @@ function RegisterIndexPage() {
         <div className="mt-8 text-center">
           <p className="text-veritas-silver-dim text-sm">
             Já possui uma conta?{" "}
-            <Link
-              to="/login"
+            <Link 
+              to="/login" 
               className="text-veritas-electric font-semibold hover:text-veritas-electric-glow transition-colors"
             >
               Entrar
@@ -254,12 +232,12 @@ function RegisterIndexPage() {
         </div>
       </main>
 
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+        style={{ 
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: "32px 32px",
-        }}
+          backgroundSize: '32px 32px' 
+        }} 
       />
     </div>
   );

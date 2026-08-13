@@ -11,12 +11,11 @@ function OfflinePage() {
 
   return (
     <div className="min-h-screen veritas-hero-gradient flex flex-col items-center justify-center p-6 text-center text-white">
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+        style={{ 
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.5) 1px, transparent 0)`,
-          backgroundSize: "32px 32px",
-        }}
+          backgroundSize: '32px 32px' 
+        }} 
       />
 
       <div className="relative z-10 space-y-8 max-w-sm animate-fade-in-up">
@@ -35,15 +34,15 @@ function OfflinePage() {
         </div>
 
         <div className="space-y-3 pt-4">
-          <Button
+          <Button 
             className="w-full h-12 bg-veritas-electric hover:bg-veritas-electric-glow text-veritas-ink font-bold gap-2 rounded-xl transition-all active:scale-[0.98]"
             onClick={() => window.location.reload()}
           >
             <RefreshCw className="w-4 h-4" />
             Tentar novamente
           </Button>
-
-          <Button
+          
+          <Button 
             variant="ghost"
             className="w-full h-12 text-veritas-silver hover:bg-white/5 gap-2 rounded-xl"
             onClick={() => navigate({ to: "/" })}

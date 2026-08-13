@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function useOnlineStatus() {
   const [isOnline, setIsOnline] = useState(
-    typeof navigator !== "undefined" ? navigator.onLine : true,
+    typeof navigator !== "undefined" ? navigator.onLine : true
   );
 
   useEffect(() => {
@@ -40,9 +40,7 @@ export function useOnlineStatus() {
 
 export function PWAUpdater() {
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [updateServiceWorker, setUpdateServiceWorker] = useState<
-    ((reloadPage?: boolean) => Promise<void>) | null
-  >(null);
+  const [updateServiceWorker, setUpdateServiceWorker] = useState<((reloadPage?: boolean) => Promise<void>) | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
@@ -71,22 +69,20 @@ export function PWAUpdater() {
           </div>
           <div>
             <h4 className="text-sm font-bold text-white">Nova versão disponível</h4>
-            <p className="text-xs text-veritas-silver/60">
-              Atualize para acessar as melhorias mais recentes.
-            </p>
+            <p className="text-xs text-veritas-silver/60">Atualize para acessar as melhorias mais recentes.</p>
           </div>
         </div>
         <div className="flex gap-2">
-          <Button
-            size="sm"
+          <Button 
+            size="sm" 
             className="flex-1 bg-veritas-electric text-veritas-ink font-bold hover:bg-veritas-electric-glow"
             onClick={() => updateServiceWorker?.(true)}
           >
             Atualizar agora
           </Button>
-          <Button
-            size="sm"
-            variant="ghost"
+          <Button 
+            size="sm" 
+            variant="ghost" 
             className="flex-1 text-veritas-silver hover:bg-white/5"
             onClick={() => setNeedRefresh(false)}
           >

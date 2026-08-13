@@ -23,7 +23,7 @@ function ReviewDocumentPage() {
           <AlertCircle className="w-8 h-8 text-white/20" />
         </div>
         <h2 className="text-xl font-bold text-white">Caso não encontrado</h2>
-        <Link
+        <Link 
           to="/app/cases"
           className="flex items-center gap-2 text-veritas-electric text-sm font-bold"
         >
@@ -46,17 +46,20 @@ function ReviewDocumentPage() {
           <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto">
             <AlertCircle className="w-6 h-6 text-white/20" />
           </div>
-          <p className="text-sm text-white/40">
-            Pré-visualização documental indisponível para este caso.
-          </p>
+          <p className="text-sm text-white/40">Pré-visualização documental indisponível para este caso.</p>
         </div>
       ) : (
         <div className="space-y-8">
-          <DocumentViewer caseData={caseData} workflow={workflow} preview={preview} mode="review" />
-
+          <DocumentViewer 
+            caseData={caseData} 
+            workflow={workflow} 
+            preview={preview} 
+            mode="review" 
+          />
+          
           <div className="max-w-3xl mx-auto">
-            <Link
-              to="/app/cases/$caseId/professional-review"
+            <Link 
+              to="/app/cases/$caseId/professional-review" 
               params={{ caseId }}
               className="w-full bg-veritas-electric text-veritas-graphite py-4 rounded-xl flex items-center justify-center gap-2 font-black uppercase tracking-widest text-xs hover:bg-veritas-electric/90 transition-all shadow-lg shadow-veritas-electric/20"
             >
