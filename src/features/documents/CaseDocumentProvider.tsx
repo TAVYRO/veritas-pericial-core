@@ -202,7 +202,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const sectionIndex = doc.sections.findIndex(s => s.id === sectionId);
       if (sectionIndex === -1) return prev;
 
-      const section = doc.sections[sectionIndex];
+      const section = doc.sections[sectionIndex]!;
       const allParagraphIds = doc.sections.flatMap(s => s.paragraphs.map(p => p.id));
       const pId = generateNextId(allParagraphIds, "PAR", /^PAR(\d+)$/);
 
