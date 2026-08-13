@@ -1,36 +1,38 @@
-# PWA Implementation for Veritas Pericial
+# Plano de Implementação: Experiência Fullscreen PWA no Veritas Pericial
 
-Transform the Veritas Pericial application into a complete, installable Progressive Web App (PWA) with offline support for the app shell, respecting high privacy standards.
+Este plano visa configurar o Veritas Pericial para abrir e operar como um aplicativo nativo em tela cheia quando instalado como PWA, eliminando barras de navegação do browser e respeitando as áreas seguras do dispositivo.
 
-## Proposed Changes
+## Alterações Técnicas
 
-### Configuration
-- Update `vite.config.ts` to include `vite-plugin-pwa` with full manifest and Workbox configuration.
-- Implement a strict caching strategy that excludes all sensitive judicial and personal data.
+### 1. Configuração do PWA (`vite.config.ts`)
+- Alterar `display` para `fullscreen` no manifest.
+- Adicionar `display_override: ["fullscreen", "standalone"]` para garantir fallback.
+- Validar `start_url`, `scope` e `orientation`.
 
-### Metadata and Assets
-- Update `src/routes/__root.tsx` with PWA-specific head tags (viewport, theme-color, apple-mobile-web-app).
-- Use the generated icons (192x192, 512x512, maskable) in the manifest.
-- Ensure correct localization to `pt-BR`.
+### 2. Metadados e Estilo (`src/routes/__root.tsx`)
+- Garantir `viewport-fit=cover` na meta tag viewport.
+- Configurar `theme-color` e metadados Apple (`apple-mobile-web-app-capable`, status bar style).
 
-### Service Worker and UX
-- Create `src/pwa.ts` for Service Worker registration.
-- Add a controlled update notification component to prevent silent reloads.
-- Implement a connectivity hook (`use-online-status`) and a `/offline` fallback route.
-- Add PWA installation instructions for Android/iOS.
+### 3. Hook de Detecção e Gestão de Fullscreen (`src/hooks/use-pwa-mode.ts`)
+- Criar hook para detectar se o app está rodando em modo `browser`, `standalone` ou `fullscreen`.
+- Implementar função `requestFullscreen` com fallback seguro, disparada por interação do usuário.
 
-### Offline Strategy
-- **Precache**: Static assets, fonts, and application code.
-- **Excluded**: All process-related data, transcripts, IA results, and user-uploaded documents (NetworkOnly).
+### 4. Componente de UI para Modo Navegador (`src/components/veritas/PWABrowserNotice.tsx`)
+- Criar um aviso discreto para usuários que acessam via navegador, sugerindo o uso da versão instalada para melhor experiência.
 
-## Technical Details
-- Using `vite-plugin-pwa` for manifest generation and service worker compilation.
-- `workbox-window` for client-side service worker lifecycle management.
-- Standard PWA manifest properties for high-quality installation (standalone, portrait, themed).
-- Safe area support via CSS `env()` and viewport-fit.
+### 5. Integração na Interface
+- **Splash/Login:** Adicionar lógica para solicitar fullscreen na primeira interação (ex: botão "Entrar").
+- **BottomNavigation:** Revisar padding inferior para garantir que respeite o `safe-area-inset-bottom`.
+- **Layout Global:** Revisar o uso de `h-screen` vs `h-[100dvh]` para evitar problemas com barras dinâmicas.
 
-## Validation Plan
-1. Run `npm run build` to verify PWA generation.
-2. Check `manifest.webmanifest` existence and validity.
-3. Verify Service Worker registration in the client.
-4. Test connectivity transitions (Online/Offline) and ensure no sensitive data is cached.
+### 6. Validação e Build
+- Executar `npm run build` para validar integridade.
+- Adicionar ferramenta temporária de debug para visualizar o `display-mode` atual durante os testes.
+
+## User Review Required
+
+> [!IMPORTANT]
+> A alteração do `display` no manifest PWA geralmente exige que o usuário **remova o aplicativo instalado anteriormente e o instale novamente** para que o sistema operacional aplique as novas configurações de tela cheia.
+
+## Relatório de Conclusão (após implementação)
+Será fornecido um relatório detalhado com os arquivos alterados e os resultados observados em Android/iOS.
