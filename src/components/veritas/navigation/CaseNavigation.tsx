@@ -44,9 +44,8 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		}
 	}
 
-	const fallbackGroup = CASE_NAVIGATION_GROUPS[0];
-	const activeGroup = foundGroup ?? fallbackGroup;
-	const activeStepId = foundStepId || activeGroup.steps[0].id;
+	const activeGroup: NavGroup = foundGroup || CASE_NAVIGATION_GROUPS[0] as NavGroup;
+	const activeStepId: string = foundStepId || (activeGroup.steps[0]?.id || "");
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
