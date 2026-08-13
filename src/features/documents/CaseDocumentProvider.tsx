@@ -29,13 +29,15 @@ const CaseDocumentContext = createContext<CaseDocumentContextType | undefined>(u
 
 const makeDocumentKey = (caseId: string, versionId: string) => `${caseId}::${versionId}`;
 
-const generateNextId = (existingIds: string[], prefix: string, regex: RegExp): string => {
+const generateNextId = (existingIds: (string | undefined)[], prefix: string, regex: RegExp): string => {
   let maxSuffix = 0;
   existingIds.forEach(id => {
-    const match = id.match(regex);
-    if (match) {
-      const num = parseInt(match[1], 10);
-      if (num > maxSuffix) maxSuffix = num;
+    if (id) {
+      const match = id.match(regex);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        if (num > maxSuffix) maxSuffix = num;
+      }
     }
   });
   return `${prefix}${String(maxSuffix + 1).padStart(2, "0")}`;
@@ -247,7 +249,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       if (targetSectionIndex === -1) return prev;
 
-      const currentParagraph = doc.sections[targetSectionIndex].paragraphs[targetParagraphIndex];
+      const section = doc.sections[targetSectionIndex];
+      const currentParagraph = section.paragraphs[targetParagraphIndex];
       
       const hasChanges = 
         (text !== undefined && currentParagraph.text !== text) ||
@@ -257,14 +260,14 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (!hasChanges) return prev;
 
       const updatedSections = [...doc.sections];
-      const updatedParagraphs = [...updatedSections[targetSectionIndex].paragraphs];
+      const updatedParagraphs = [...section.paragraphs];
       updatedParagraphs[targetParagraphIndex] = {
         ...currentParagraph,
         ...patch,
         ...(text !== undefined ? { text } : {})
       };
       updatedSections[targetSectionIndex] = {
-        ...updatedSections[targetSectionIndex],
+        ...section,
         paragraphs: updatedParagraphs
       };
 
