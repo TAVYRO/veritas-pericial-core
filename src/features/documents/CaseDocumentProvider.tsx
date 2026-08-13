@@ -34,7 +34,7 @@ const generateNextId = (existingIds: string[], prefix: string, regex: RegExp): s
   existingIds.forEach(id => {
     const match = id.match(regex);
     if (match) {
-      const num = parseInt(match[1], 10);
+      const num = parseInt(match[1] ?? "0", 10);
       if (!isNaN(num) && num > maxSuffix) maxSuffix = num;
     }
   });
