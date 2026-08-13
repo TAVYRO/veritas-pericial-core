@@ -462,4 +462,5 @@ Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem se
 | C2.3.1 | CLOSED | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; trilha histórica restaurada e regra anti-perda validada. |
 | C2.4 | CLOSED | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | src/features/collaboration/case-permission-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; vocabulário de 14 permissões e formato de política validados; nenhuma matriz concreta criada. |
 | C2.5 | AUDIT_REQUIRED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | PENDENTE | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Contratos Chat/Comment/Activity; pendente de auditoria externa. |
+| C3.1 | BLOCKED | PENDENTE | PENDENTE | - | Gate de infraestrutura depende de C2.5 CLOSED. Não executar C3.1. |
 | C3+ | PLANNED/BLOCKED | - | - | - | Conforme dependência. Gate C3 depende de C2.5 CLOSED. |
