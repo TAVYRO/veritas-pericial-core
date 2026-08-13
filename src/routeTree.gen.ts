@@ -21,6 +21,7 @@ import { Route as AppCasesRouteImport } from './routes/app.cases'
 import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppRecordRouteImport } from './routes/app.record'
+import { Route as AppReviewRouteImport } from './routes/app.review'
 import { Route as AppSearchRouteImport } from './routes/app.search'
 import { Route as AppVeritasRouteImport } from './routes/app.veritas'
 import { Route as RegisterIndexRouteImport } from './routes/register.index'
@@ -29,6 +30,7 @@ import { Route as RegisterProfileRouteImport } from './routes/register.profile'
 import { Route as RegisterSuccessRouteImport } from './routes/register.success'
 import { Route as AppCasesIndexRouteImport } from './routes/app.cases.index'
 import { Route as AppCasesCaseIdRouteImport } from './routes/app.cases.$caseId'
+import { Route as AppCasesContinueRouteImport } from './routes/app.cases.continue'
 import { Route as AppCasesDemoCaseRouteImport } from './routes/app.cases.demo-case'
 import { Route as AppRecordCompleteRouteImport } from './routes/app.record.complete'
 import { Route as AppRecordSessionRouteImport } from './routes/app.record.session'
@@ -94,6 +96,11 @@ const AppRecordRoute = AppRecordRouteImport.update({
   path: '/record',
   getParentRoute: () => AppRoute,
 } as any)
+const AppReviewRoute = AppReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppSearchRoute = AppSearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -134,6 +141,11 @@ const AppCasesCaseIdRoute = AppCasesCaseIdRouteImport.update({
   path: '/$caseId',
   getParentRoute: () => AppCasesRoute,
 } as any)
+const AppCasesContinueRoute = AppCasesContinueRouteImport.update({
+  id: '/continue',
+  path: '/continue',
+  getParentRoute: () => AppCasesRoute,
+} as any)
 const AppCasesDemoCaseRoute = AppCasesDemoCaseRouteImport.update({
   id: '/demo-case',
   path: '/demo-case',
@@ -167,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/record': typeof AppRecordRouteWithChildren
+  '/app/review': typeof AppReviewRoute
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -175,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
@@ -190,6 +204,7 @@ export interface FileRoutesByTo {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/record': typeof AppRecordRouteWithChildren
+  '/app/review': typeof AppReviewRoute
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -198,6 +213,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/register': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
@@ -217,6 +233,7 @@ export interface FileRoutesById {
   '/app/notifications': typeof AppNotificationsRoute
   '/app/profile': typeof AppProfileRoute
   '/app/record': typeof AppRecordRouteWithChildren
+  '/app/review': typeof AppReviewRoute
   '/app/search': typeof AppSearchRoute
   '/app/veritas': typeof AppVeritasRoute
   '/register/professional': typeof RegisterProfessionalRoute
@@ -225,6 +242,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/register/': typeof RegisterIndexRoute
   '/app/cases/$caseId': typeof AppCasesCaseIdRoute
+  '/app/cases/continue': typeof AppCasesContinueRoute
   '/app/cases/demo-case': typeof AppCasesDemoCaseRoute
   '/app/record/complete': typeof AppRecordCompleteRoute
   '/app/record/session': typeof AppRecordSessionRoute
@@ -245,6 +263,7 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/profile'
     | '/app/record'
+    | '/app/review'
     | '/app/search'
     | '/app/veritas'
     | '/register/professional'
@@ -253,6 +272,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/register/'
     | '/app/cases/$caseId'
+    | '/app/cases/continue'
     | '/app/cases/demo-case'
     | '/app/record/complete'
     | '/app/record/session'
@@ -268,6 +288,7 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/profile'
     | '/app/record'
+    | '/app/review'
     | '/app/search'
     | '/app/veritas'
     | '/register/professional'
@@ -276,6 +297,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/register'
     | '/app/cases/$caseId'
+    | '/app/cases/continue'
     | '/app/cases/demo-case'
     | '/app/record/complete'
     | '/app/record/session'
@@ -294,6 +316,7 @@ export interface FileRouteTypes {
     | '/app/notifications'
     | '/app/profile'
     | '/app/record'
+    | '/app/review'
     | '/app/search'
     | '/app/veritas'
     | '/register/professional'
@@ -302,6 +325,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/register/'
     | '/app/cases/$caseId'
+    | '/app/cases/continue'
     | '/app/cases/demo-case'
     | '/app/record/complete'
     | '/app/record/session'
@@ -405,6 +429,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRecordRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/review': {
+      id: '/app/review'
+      path: '/review'
+      fullPath: '/app/review'
+      preLoaderRoute: typeof AppReviewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/search': {
       id: '/app/search'
       path: '/search'
@@ -461,6 +492,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCasesCaseIdRouteImport
       parentRoute: typeof AppCasesRoute
     }
+    '/app/cases/continue': {
+      id: '/app/cases/continue'
+      path: '/continue'
+      fullPath: '/app/cases/continue'
+      preLoaderRoute: typeof AppCasesContinueRouteImport
+      parentRoute: typeof AppCasesRoute
+    }
     '/app/cases/demo-case': {
       id: '/app/cases/demo-case'
       path: '/demo-case'
@@ -494,6 +532,7 @@ declare module '@tanstack/react-router' {
 
 interface AppCasesRouteChildren {
   AppCasesCaseIdRoute: typeof AppCasesCaseIdRoute
+  AppCasesContinueRoute: typeof AppCasesContinueRoute
   AppCasesDemoCaseRoute: typeof AppCasesDemoCaseRoute
   AppCasesIndexRoute: typeof AppCasesIndexRoute
   AppCasesNewProcessRoute: typeof AppCasesNewProcessRoute
@@ -501,6 +540,7 @@ interface AppCasesRouteChildren {
 
 const AppCasesRouteChildren: AppCasesRouteChildren = {
   AppCasesCaseIdRoute: AppCasesCaseIdRoute,
+  AppCasesContinueRoute: AppCasesContinueRoute,
   AppCasesDemoCaseRoute: AppCasesDemoCaseRoute,
   AppCasesIndexRoute: AppCasesIndexRoute,
   AppCasesNewProcessRoute: AppCasesNewProcessRoute,
@@ -529,6 +569,7 @@ interface AppRouteChildren {
   AppNotificationsRoute: typeof AppNotificationsRoute
   AppProfileRoute: typeof AppProfileRoute
   AppRecordRoute: typeof AppRecordRouteWithChildren
+  AppReviewRoute: typeof AppReviewRoute
   AppSearchRoute: typeof AppSearchRoute
   AppVeritasRoute: typeof AppVeritasRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -539,6 +580,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppNotificationsRoute: AppNotificationsRoute,
   AppProfileRoute: AppProfileRoute,
   AppRecordRoute: AppRecordRouteWithChildren,
+  AppReviewRoute: AppReviewRoute,
   AppSearchRoute: AppSearchRoute,
   AppVeritasRoute: AppVeritasRoute,
   AppIndexRoute: AppIndexRoute,
