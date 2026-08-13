@@ -27,7 +27,7 @@ function RecordSessionPage() {
   const [seconds, setSeconds] = useState(0);
   const [markers, setMarkers] = useState<string[]>([]);
   const [waveforms, setWaveforms] = useState<number[]>(Array(40).fill(10));
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(undefined);
 
   // Timer logic
   useEffect(() => {
