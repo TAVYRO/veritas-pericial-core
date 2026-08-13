@@ -722,7 +722,10 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       removeCaseQuestion,
       setCaseQuestionResponse,
       setCaseQuestionInsufficient,
-      clearCaseQuestionResponse
+      clearCaseQuestionResponse,
+      addCaseInterview,
+      updateCaseInterview,
+      removeCaseInterview
     }}>
 
       {children}
