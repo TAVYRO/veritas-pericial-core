@@ -10,11 +10,8 @@ import {
   PenTool, 
   ShieldCheck, 
   FileSearch, 
-  Check, 
-  Flag,
   Scale,
   Building2,
-  ChevronRight,
   Cpu,
   LineChart,
   Share2,
@@ -26,7 +23,7 @@ import {
   ClipboardCheck,
   Signature,
   Download,
-  Inspect
+  Flag
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -77,7 +74,6 @@ export function CaseShell() {
 
   const courtDisplay = `${caseData.court} - ${caseData.district}/${caseData.state}`;
   const professionalsDisplay = caseData.professionals.map(p => p.name).join(", ");
-
 
   return (
     <div className="min-h-screen bg-[#0A0D14] text-white flex flex-col">

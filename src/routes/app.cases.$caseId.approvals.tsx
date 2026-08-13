@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { ClipboardCheck, ShieldCheck, Activity, Signature, Lock, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Activity, Signature, Lock, CheckCircle2 } from "lucide-react";
 import { useCaseWorkflow } from "@/features/cases/CaseWorkflowProvider";
 import { cn } from "@/lib/utils";
 
@@ -21,12 +21,8 @@ function ApprovalsPage() {
     { id: 1, name: "Revisão profissional aprovada", icon: CheckCircle2, status: workflow.professionalReviewApproved },
     { id: 2, name: "Auditoria técnica aprovada", icon: Activity, status: workflow.auditApproved },
     { id: 3, name: "Isolamento do caso confirmado", icon: ShieldCheck, status: workflow.caseIsolationConfirmed },
-    { id: 4, name: "Assinaturas autorizadas", icon: Signature, status: approvedCount === 4 || (approvedCount === 3 && !isComplete && workflow.auditApproved && workflow.professionalReviewApproved && workflow.caseIsolationConfirmed && false) }, // This logic is slightly complex to derive in place, let's just check if it's the 4th one
+    { id: 4, name: "Assinaturas autorizadas", icon: Signature, status: approvedCount === 4 },
   ];
-
-  // Re-evaluating 4th approval status clearly
-  approvals[3].status = approvedCount === 4;
-
 
   return (
     <div className="p-6 space-y-6 pb-32">
@@ -82,10 +78,11 @@ function ApprovalsPage() {
           disabled={!isComplete || workflow.finalReleased}
           className={cn(
             "w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-xs transition-all",
-            isComplete ? "bg-veritas-electric text-white shadow-[0_0_20px_rgba(100,116,255,0.4)]" : "bg-white/5 text-white/20 cursor-not-allowed"
+            workflow.finalReleased ? "bg-emerald-500 text-white" : isComplete ? "bg-veritas-electric text-white shadow-[0_0_20px_rgba(100,116,255,0.4)]" : "bg-white/5 text-white/20 cursor-not-allowed"
           )}
         >
-          {workflow.finalReleased ? "Documento Final Liberado" : isComplete ? "Liberar Versão Final" : "Liberar Versão Final"}
+          {workflow.finalReleased ? <CheckCircle2 className="w-4 h-4" /> : isComplete ? <CheckCircle2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+          {workflow.finalReleased ? "Documento Final Liberado" : "Liberar Versão Final"}
         </button>
         {!isComplete && (
           <p className="text-center text-[9px] text-red-400 font-bold uppercase tracking-widest animate-pulse">
