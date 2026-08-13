@@ -11,12 +11,13 @@ import {
   Check,
   Info
 } from "lucide-react";
+import type { ComponentType } from "react";
 import { Button } from "@/components/ui/button";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
-import { MaterialKind } from "@/features/dossier/case-dossier-types";
+import type { MaterialKind } from "@/features/dossier/case-dossier-types";
 import { cn } from "@/lib/utils";
 
-const VISUAL_CATALOG: { kind: MaterialKind; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+const VISUAL_CATALOG: { kind: MaterialKind; label: string; icon: ComponentType<{ className?: string }> }[] = [
   { kind: "pdf", label: "PDF", icon: FileText },
   { kind: "docx", label: "DOCX", icon: FileText },
   { kind: "image", label: "Imagens", icon: ImageIcon },
@@ -45,8 +46,12 @@ function CaseMaterialsPage() {
     );
   }
 
-  const handleToggleComplete = () => {
-    setMaterialsCollectionComplete(caseId, !dossier.materialsCollectionComplete);
+  const handleComplete = () => {
+    setMaterialsCollectionComplete(caseId, true);
+  };
+
+  const handleReopen = () => {
+    setMaterialsCollectionComplete(caseId, false);
   };
 
   return (
@@ -83,35 +88,32 @@ function CaseMaterialsPage() {
         </p>
       </div>
 
-      <div className="pt-8">
-        <Button 
-          onClick={handleToggleComplete}
-          className={cn(
-            "w-full h-14 rounded-2xl font-semibold shadow-xl transition-all",
-            dossier.materialsCollectionComplete 
-              ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20"
-              : "bg-veritas-electric hover:bg-veritas-electric/90 text-white shadow-veritas-electric/20"
-          )}
-        >
-          {dossier.materialsCollectionComplete ? (
-            <>
+      <div className="pt-8 space-y-4">
+        {!dossier.materialsCollectionComplete ? (
+          <Button 
+            type="button"
+            onClick={handleComplete}
+            className="w-full h-14 rounded-2xl font-semibold bg-veritas-electric hover:bg-veritas-electric/90 text-white shadow-xl shadow-veritas-electric/20 transition-all"
+          >
+            Concluir conferência dos materiais
+            <Check className="ml-2 w-5 h-5" />
+          </Button>
+        ) : (
+          <div className="space-y-4">
+            <div className="w-full h-14 rounded-2xl font-semibold bg-emerald-500 text-white shadow-xl shadow-emerald-500/20 flex items-center justify-center">
               Conferência dos materiais concluída
               <Check className="ml-2 w-5 h-5" />
-            </>
-          ) : (
-            <>
-              Concluir conferência dos materiais
-              <Check className="ml-2 w-5 h-5" />
-            </>
-          )}
-        </Button>
-        {dossier.materialsCollectionComplete && (
-          <button 
-            onClick={handleToggleComplete}
-            className="w-full mt-4 text-[10px] font-bold text-white/20 uppercase tracking-widest hover:text-white/40 transition-colors"
-          >
-            Reabrir conferência
-          </button>
+            </div>
+            
+            <Button 
+              type="button"
+              variant="ghost"
+              onClick={handleReopen}
+              className="w-full text-[10px] font-bold text-white/20 uppercase tracking-widest hover:text-white/40 transition-colors"
+            >
+              Reabrir conferência
+            </Button>
+          </div>
         )}
       </div>
     </div>
