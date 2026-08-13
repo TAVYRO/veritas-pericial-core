@@ -44,6 +44,13 @@ const FLOW_STEPS = [
   { label: "Contradições", path: "contradictions", icon: ShieldCheck },
   { label: "Notas", path: "notes", icon: PenTool },
   { label: "Lacunas", path: "critical-gaps", icon: Flag },
+  { label: "Auditoria", path: "audit", icon: Activity },
+  { label: "Bloqueios", path: "blocks", icon: Lock },
+  { label: "Revisão", path: "review-document", icon: FileCheck },
+  { label: "Profissional", path: "professional-review", icon: UserCheck },
+  { label: "Aprovações", path: "approvals", icon: ClipboardCheck },
+  { label: "Assinaturas", path: "signatures", icon: Signature },
+  { label: "Final", path: "final", icon: Download },
 ];
 
 export function CaseShell() {
