@@ -11,11 +11,9 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const location = useLocation();
 	const path = location.pathname;
 
-	// Improved resolver to find current group and step
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
-	// Find active group and step with explicit defaults
 	let foundGroup: NavGroup | undefined;
 	let foundStepId = "";
 
@@ -46,12 +44,12 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 		}
 	}
 
-	const activeGroup = foundGroup || CASE_NAVIGATION_GROUPS[0];
+	const fallbackGroup = CASE_NAVIGATION_GROUPS[0];
+	const activeGroup = foundGroup ?? fallbackGroup;
 	const activeStepId = foundStepId || activeGroup.steps[0].id;
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
-			{/* Level 1: Groups */}
 			<div className="grid grid-cols-4 px-2 border-b border-white/5">
 				{CASE_NAVIGATION_GROUPS.map((group) => {
 					const isActive = activeGroup.id === group.id;
@@ -78,7 +76,6 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 				})}
 			</div>
 
-			{/* Level 2: Steps */}
 			<div className="overflow-x-auto no-scrollbar">
 				<div className="flex px-6 py-3 gap-6 min-w-max items-center">
 					{activeGroup.steps.map((step) => {
