@@ -17,7 +17,8 @@ interface CaseWorkflowContextType {
 	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
 	setTemplate: (caseId: string, templateId: TemplateId | null) => void;
 	setProfessionals: (caseId: string, professionals: CaseProfessional[]) => void;
-	createNextVersion: (caseId: string) => boolean;
+	canCreateNextVersion: (caseId: string) => boolean;
+	createNextVersion: (caseId: string) => void;
 	setAuditApproved: (caseId: string, approved: boolean) => void;
 	setProfessionalReviewApproved: (caseId: string, approved: boolean) => void;
 	setCaseIsolationConfirmed: (caseId: string, confirmed: boolean) => void;
@@ -156,13 +157,21 @@ export function CaseWorkflowProvider({
 		}
 	}, [cases, workflows, updateCaseData, updateWorkflow]);
 
+	const canCreateNextVersion = useCallback((caseId: string) => {
+		const workflow = workflows[caseId];
+		if (!workflow) return false;
+		if (!workflow.versions || workflow.versions.length === 0) return false;
+		
+		const currentExists = workflow.versions.some(v => v.id === workflow.currentVersion.id);
+		return currentExists;
+	}, [workflows]);
+
 	const createNextVersion = useCallback((caseId: string) => {
-		let success = false;
 		setWorkflows((prev) => {
 			const workflow = prev[caseId];
 			if (!workflow) return prev;
 
-			// Integrity check: currentVersion must exist in versions
+			// Re-validate integrity inside updater
 			const currentExists = workflow.versions.some(v => v.id === workflow.currentVersion.id);
 			if (!currentExists) return prev;
 
@@ -188,7 +197,6 @@ export function CaseWorkflowProvider({
 				return v;
 			});
 
-			success = true;
 			return {
 				...prev,
 				[caseId]: {
@@ -201,7 +209,6 @@ export function CaseWorkflowProvider({
 				},
 			};
 		});
-		return success;
 	}, []);
 
 	const setAuditApproved = useCallback((caseId: string, auditApproved: boolean) => {
@@ -364,6 +371,7 @@ export function CaseWorkflowProvider({
 			setDocumentType,
 			setTemplate,
 			setProfessionals,
+			canCreateNextVersion,
 			createNextVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
@@ -384,6 +392,7 @@ export function CaseWorkflowProvider({
 			setDocumentType,
 			setTemplate,
 			setProfessionals,
+			canCreateNextVersion,
 			createNextVersion,
 			setAuditApproved,
 			setProfessionalReviewApproved,
