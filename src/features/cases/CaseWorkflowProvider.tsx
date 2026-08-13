@@ -6,13 +6,13 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import type { CaseData, CaseWorkflowState, DocumentTypeId, DocumentVersionRef } from "./case-types";
+import type { CaseData, CaseWorkflowState, DocumentTypeId, DocumentVersionRef, CaseProfessional } from "./case-types";
 import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 
 interface CaseWorkflowContextType {
 	getCase: (caseId: string) => CaseData | undefined;
 	getWorkflow: (caseId: string) => CaseWorkflowState | undefined;
-	updateCase: (caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "professionals">) => void;
+	updateCase: (caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "modality" | "professionals">) => void;
 	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
 	setTemplate: (caseId: string, templateId: string | null) => void;
 	setProfessionals: (caseId: string, professionals: CaseProfessional[]) => void;
@@ -75,7 +75,7 @@ export function CaseWorkflowProvider({
 		});
 	}, []);
 
-	const updateCase = useCallback((caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "professionals">) => {
+	const updateCase = useCallback((caseId: string, patch: Omit<Partial<CaseData>, "id" | "documentType" | "modality" | "professionals">) => {
 		updateCaseData(caseId, patch);
 	}, [updateCaseData]);
 
@@ -110,30 +110,50 @@ export function CaseWorkflowProvider({
 	);
 
 	const setDocumentType = useCallback((caseId: string, documentType: DocumentTypeId, modality: string) => {
+		const currentCase = getCase(caseId);
+		const currentWorkflow = getWorkflow(caseId);
+		
+		const changed = currentCase?.documentType !== documentType || currentCase?.modality !== modality;
+		
 		updateCaseData(caseId, { documentType, modality });
-		updateWorkflow(caseId, { documentType });
-	}, [updateCaseData, updateWorkflow]);
+		
+		if (changed && currentWorkflow?.finalReleased) {
+			updateWorkflow(caseId, { documentType, finalReleased: false });
+		} else {
+			updateWorkflow(caseId, { documentType });
+		}
+	}, [getCase, getWorkflow, updateCaseData, updateWorkflow]);
 
 	const setTemplate = useCallback((caseId: string, templateId: string | null) => {
-		updateWorkflow(caseId, { templateId });
-	}, [updateWorkflow]);
+		const current = getWorkflow(caseId);
+		if (!current) return;
+		
+		const changed = current.templateId !== templateId;
+		
+		if (changed && current.finalReleased) {
+			updateWorkflow(caseId, { templateId, finalReleased: false });
+		} else {
+			updateWorkflow(caseId, { templateId });
+		}
+	}, [getWorkflow, updateWorkflow]);
 
 	const setProfessionals = useCallback((caseId: string, professionals: CaseProfessional[]) => {
-		setCases(prev => {
-			const current = prev[caseId];
-			if (!current) return prev;
-			
-			// Detect changes in required signers to invalidate final
-			const currentRequiredIds = current.professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
-			const nextRequiredIds = professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
-			
-			if (currentRequiredIds !== nextRequiredIds) {
+		const currentCase = cases[caseId];
+		if (!currentCase) return;
+
+		// Detect changes in required signers to invalidate final
+		const currentRequiredIds = currentCase.professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
+		const nextRequiredIds = professionals.filter(p => p.isRequiredSigner).map(p => p.id).sort().join(",");
+		
+		updateCaseData(caseId, { professionals });
+		
+		if (currentRequiredIds !== nextRequiredIds) {
+			const currentWorkflow = workflows[caseId];
+			if (currentWorkflow?.finalReleased) {
 				updateWorkflow(caseId, { finalReleased: false });
 			}
-			
-			return { ...prev, [caseId]: { ...current, professionals } };
-		});
-	}, [updateWorkflow]);
+		}
+	}, [cases, workflows, updateCaseData, updateWorkflow]);
 
 	const setCurrentVersion = useCallback((caseId: string, version: DocumentVersionRef) => {
 		updateWorkflow(caseId, { currentVersion: version });
