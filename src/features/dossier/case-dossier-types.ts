@@ -39,8 +39,16 @@ export interface CaseDossierItem {
 
 export type NewCaseDossierItemInput = Omit<CaseDossierItem, "id">;
 
+export interface CaseTriageReview {
+  sourceId: string;
+  reviewed: boolean;
+  note: string;
+}
+
 export interface CaseDossierState {
   caseId: string;
   items: CaseDossierItem[];
   materialsCollectionComplete: boolean;
+  triageReviews: CaseTriageReview[];
+  triageComplete: boolean;
 }
