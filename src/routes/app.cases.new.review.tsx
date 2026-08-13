@@ -78,7 +78,7 @@ function ReviewPage() {
           className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold text-lg shadow-xl shadow-veritas-electric/20"
           asChild
         >
-          <Link to="/app/cases/demo-case/materials">
+          <Link to="/app/cases/$caseId/materials" params={{ caseId: "demo-case" }}>
             Criar ambiente do caso
             <ChevronRight className="ml-2 w-5 h-5" />
           </Link>
