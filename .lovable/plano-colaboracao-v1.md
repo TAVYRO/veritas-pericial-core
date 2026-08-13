@@ -134,154 +134,6 @@ C18.5 — TESTE DE VERSÕES E COMENTÁRIOS
 C18.6 — TESTE DE ASSINATURAS
 C18.7 — AUDITORIA FINAL DE SEGURANÇA
 
-## 19. TESTES FINAIS PLANEJADOS — C18
-
-C18.1 — TESTE COM DUAS CONTAS REAIS
-
-Objetivo:
-provar que dois profissionais autenticados, em contas e sessões distintas, conseguem colaborar no MESMO caso autorizado, sem compartilhamento artificial de sessão e sem mocks.
-
-Critérios mínimos futuros:
-- Conta A e Conta B distintas;
-- ProfessionalProfile distintos;
-- ambos autenticados realmente;
-- ambos membros autorizados do mesmo caseId;
-- alterações autorizadas aparecem corretamente;
-- dados não dependem do mesmo navegador;
-- testar em sessões/dispositivos distintos quando possível.
-
-==================================================
-
-C18.2 — TESTE DE ISOLAMENTO ENTRE CASOS
-
-Objetivo:
-provar que participação no Caso A não concede qualquer acesso automático ao Caso B.
-
-Testar futuramente:
-- parceiro sem CaseMember;
-- membro somente do Caso A;
-- membro do Caso B;
-- profissional não relacionado;
-- dados de dossier;
-- documento;
-- workflow;
-- chat;
-- comentários;
-- assinaturas.
-
-Resultado obrigatório futuro:
-ZERO vazamento entre caseIds.
-
-==================================================
-
-C18.3 — TESTE DE TENTATIVA POR URL DIRETA
-
-Objetivo:
-provar que segurança não depende da interface.
-
-Usuário sem autorização deverá tentar acessar diretamente rotas de outro caseId.
-
-Testar futuramente:
-- página do caso;
-- dossier;
-- documento;
-- review;
-- final;
-- colaboração;
-- chat;
-- comentários;
-- versões.
-
-Resultado obrigatório:
-servidor/backend deve negar acesso.
-Não basta esconder botão ou menu.
-
-==================================================
-
-C18.4 — TESTE DE CONFLITO SIMULTÂNEO
-
-Objetivo:
-provar que edição concorrente não sobrescreve silenciosamente.
-
-Cenário mínimo:
-A abre revisão N.
-B abre revisão N.
-A salva e gera revisão N+1.
-B tenta salvar baseado em N.
-
-Resultado obrigatório:
-escrita de B NÃO sobrescreve A silenciosamente.
-Conflito deve ser detectado.
-B deve revisar o estado atualizado antes de nova gravação.
-
-==================================================
-
-C18.5 — TESTE DE VERSÕES E COMENTÁRIOS
-
-Objetivo:
-provar isolamento por:
-caseId + versionId.
-
-Testar:
-- comentário criado em V01;
-- criação de V02;
-- comentário de V01 não aparece silenciosamente como pertencente à V02;
-- referências de sectionId/paragraphId;
-- histórico da versão;
-- documento correto por versão.
-
-Resultado obrigatório:
-V01 ≠ V02.
-
-==================================================
-
-C18.6 — TESTE DE ASSINATURAS
-
-Objetivo:
-provar isolamento e autorização de assinatura por:
-professionalId + caseId + versionId.
-
-Testar futuramente:
-- PartnerRelationship não autoriza assinatura;
-- CaseMember não autoriza automaticamente;
-- role signer não autoriza automaticamente;
-- autorização de V01 não vale para V02;
-- autorização do Caso A não vale para Caso B;
-- profissional A não usa autorização do profissional B.
-
-Resultado obrigatório:
-nenhuma assinatura migra entre profissional, caso ou versão.
-
-==================================================
-
-C18.7 — AUDITORIA FINAL DE SEGURANÇA
-
-Objetivo:
-executar o checklist final integral antes de considerar colaboração concluída.
-
-Deve verificar, no mínimo:
-- autenticação real;
-- autorização server-side;
-- PartnerRelationship ≠ CaseMember;
-- isolamento de caseId;
-- isolamento de versionId;
-- revogação;
-- URL direta;
-- roles;
-- chat;
-- comentários;
-- concorrência;
-- workflow;
-- assinaturas;
-- auditoria;
-- notificações críticas;
-- duas contas reais.
-
-Resultado futuro:
-PASS / FAIL por item.
-Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
-
-
 ## 6. GRAFO E REGRAS DE DEPENDÊNCIA
 *   C2 depende de C1 CLOSED.
 *   C3 depende de C2 CLOSED.
@@ -439,6 +291,153 @@ Marcar implementação: DECISÃO PENDENTE — C3/C4.
 *   [ ] revogação funciona imediatamente
 *   [ ] nenhum dado cruza processos.
 
+## 19. TESTES FINAIS PLANEJADOS — C18
+
+C18.1 — TESTE COM DUAS CONTAS REAIS
+
+Objetivo:
+provar que dois profissionais autenticados, em contas e sessões distintas, conseguem colaborar no MESMO caso autorizado, sem compartilhamento artificial de sessão e sem mocks.
+
+Critérios mínimos futuros:
+- Conta A e Conta B distintas;
+- ProfessionalProfile distintos;
+- ambos autenticados realmente;
+- ambos membros autorizados do mesmo caseId;
+- alterações autorizadas aparecem corretamente;
+- dados não dependem do mesmo navegador;
+- testar em sessões/dispositivos distintos quando possível.
+
+==================================================
+
+C18.2 — TESTE DE ISOLAMENTO ENTRE CASOS
+
+Objetivo:
+provar que participação no Caso A não concede qualquer acesso automático ao Caso B.
+
+Testar futuramente:
+- parceiro sem CaseMember;
+- membro somente do Caso A;
+- membro do Caso B;
+- profissional não relacionado;
+- dados de dossier;
+- documento;
+- workflow;
+- chat;
+- comentários;
+- assinaturas.
+
+Resultado obrigatório futuro:
+ZERO vazamento entre caseIds.
+
+==================================================
+
+C18.3 — TESTE DE TENTATIVA POR URL DIRETA
+
+Objetivo:
+provar que segurança não depende da interface.
+
+Usuário sem autorização deverá tentar acessar diretamente rotas de outro caseId.
+
+Testar futuramente:
+- página do caso;
+- dossier;
+- documento;
+- review;
+- final;
+- colaboração;
+- chat;
+- comentários;
+- versões.
+
+Resultado obrigatório:
+servidor/backend deve negar acesso.
+Não basta esconder botão ou menu.
+
+==================================================
+
+C18.4 — TESTE DE CONFLITO SIMULTÂNEO
+
+Objetivo:
+provar que edição concorrente não sobrescreve silenciosamente.
+
+Cenário mínimo:
+A abre revisão N.
+B abre revisão N.
+A salva e gera revisão N+1.
+B tenta salvar baseado em N.
+
+Resultado obrigatório:
+escrita de B NÃO sobrescreve A silenciosamente.
+Conflito deve ser detectado.
+B deve revisar o estado atualizado antes de nova gravação.
+
+==================================================
+
+C18.5 — TESTE DE VERSÕES E COMENTÁRIOS
+
+Objetivo:
+provar isolamento por:
+caseId + versionId.
+
+Testar:
+- comentário criado em V01;
+- criação de V02;
+- comentário de V01 não aparece silenciosamente como pertencente à V02;
+- referências de sectionId/paragraphId;
+- histórico da versão;
+- documento correto por versão.
+
+Resultado obrigatório:
+V01 ≠ V02.
+
+==================================================
+
+C18.6 — TESTE DE ASSINATURAS
+
+Objetivo:
+provar isolamento e autorização de assinatura por:
+professionalId + caseId + versionId.
+
+Testar futuramente:
+- PartnerRelationship não autoriza assinatura;
+- CaseMember não autoriza automaticamente;
+- role signer não autoriza automaticamente;
+- autorização de V01 não vale para V02;
+- autorização do Caso A não vale para Caso B;
+- profissional A não usa autorização do profissional B.
+
+Resultado obrigatório:
+nenhuma assinatura migra entre profissional, caso ou versão.
+
+==================================================
+
+C18.7 — AUDITORIA FINAL DE SEGURANÇA
+
+Objetivo:
+executar o checklist final integral antes de considerar colaboração concluída.
+
+Deve verificar, no mínimo:
+- autenticação real;
+- autorização server-side;
+- PartnerRelationship ≠ CaseMember;
+- isolamento de caseId;
+- isolamento de versionId;
+- revogação;
+- URL direta;
+- roles;
+- chat;
+- comentários;
+- concorrência;
+- workflow;
+- assinaturas;
+- auditoria;
+- notificações críticas;
+- duas contas reais.
+
+Resultado futuro:
+PASS / FAIL por item.
+Qualquer FAIL crítico: COLABORAÇÃO NÃO PODE SER CONSIDERADA CONCLUÍDA.
+
 ## 20. REGISTRO DE BASELINES
 
 | ETAPA | STATUS | BASELINE INICIAL | HEAD VALIDADO | ARQUIVOS | OBSERVAÇÕES |
@@ -446,7 +445,7 @@ Marcar implementação: DECISÃO PENDENTE — C3/C4.
 | C0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | fcc99b4afa977364064353eca56df35ff4493b68 | ZERO | Auditoria read-only |
 | C1.0 | CLOSED | fcc99b4afa977364064353eca56df35ff4493b68 | 1aac88ea884a051ab3a04709f856c83b37eac548 | .lovable/plano-colaboracao-v1.md | Plano inicial criado; complementado pelas sanitizações posteriores. |
 | C1.0.1 | CLOSED | 1aac88ea884a051ab3a04709f856c83b37eac548 | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; estrutura granular e protocolo anti-pulo validados. |
-| C1.0.2 | AUDIT_REQUIRED | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | PENDENTE | .lovable/plano-colaboracao-v1.md | Registro explícito dos objetivos C18 e fechamento documental pendente de auditoria externa. |
+| C1.0.2 | CLOSED | e67ff43c26aa8f66a968f4e9c81cd8a14bdbfbae | 6e317973e4eab291542faad6b70e1ebb0aa164bf | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; objetivos C18.1-C18.7 validados. Saneamento estrutural posterior em C1.0.3. |
+| C1.0.3 | AUDIT_REQUIRED | 6e317973e4eab291542faad6b70e1ebb0aa164bf | PENDENTE | .lovable/plano-colaboracao-v1.md | Correção final da ordem/numeração das seções e registro de auditoria. |
 | C1.1 | BLOCKED | - | - | - | Vínculo com Plano Mestre Geral |
 | C2.1+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
-
