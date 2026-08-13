@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { useScroll } from "@/hooks/use-scroll";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 
 export const Route = createFileRoute("/app/cases")({
@@ -84,16 +85,20 @@ const mockCases = [
 function CasesPage() {
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("Todos");
+  const scrolled = useScroll(10);
 
   const filteredCases = activeFilter === "Todos" 
     ? mockCases 
     : mockCases.filter(c => c.status === activeFilter || (activeFilter === "Ativos" && c.status !== "Finalizados"));
 
   return (
-    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)] relative">
-      {/* Header */}
-      <header className="px-6 pt-6 flex flex-col gap-6 mb-6">
-        <div className="flex items-center justify-between">
+    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
+      {/* Header - Sticky */}
+      <header className={cn(
+        "sticky top-0 z-50 flex flex-col transition-all duration-300",
+        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
+      )}>
+        <div className="px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] flex items-center justify-between pb-4">
           <div className="flex items-center gap-2">
             <Button 
               variant="ghost" 
@@ -121,7 +126,10 @@ function CasesPage() {
             </Button>
           </div>
         </div>
+      </header>
 
+      {/* Search & Filters - Non-sticky */}
+      <div className="px-6 flex flex-col gap-6 mb-6 mt-4">
         {/* Search Input */}
         <div className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-veritas-silver/40 group-focus-within:text-veritas-electric transition-colors" />

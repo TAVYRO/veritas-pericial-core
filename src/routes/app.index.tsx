@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { BottomNavigation } from "@/components/veritas/BottomNavigation";
 import { cn } from "@/lib/utils";
 import { usePWAMode } from "@/hooks/use-pwa-mode";
+import { useScroll } from "@/hooks/use-scroll";
 import { useEffect } from "react";
 
 export const Route = createFileRoute("/app/")({
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/app/")({
 function DashboardPage() {
   const navigate = useNavigate();
   const { displayMode, requestFullscreen } = usePWAMode();
+  const scrolled = useScroll(10);
 
   useEffect(() => {
     // If we're in a PWA but not fullscreen, try to request it on mount
@@ -89,9 +91,12 @@ function DashboardPage() {
   ];
 
   return (
-    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white pt-[env(safe-area-inset-top)] relative">
-      {/* Top Bar */}
-      <header className="px-6 pt-6 flex items-center justify-between mb-8">
+    <div className="min-h-[100dvh] veritas-hero-gradient pb-[calc(6rem+env(safe-area-inset-bottom))] text-white relative">
+      {/* Top Bar - Sticky */}
+      <header className={cn(
+        "sticky top-0 z-50 px-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-6 flex items-center justify-between transition-all duration-300",
+        scrolled ? "bg-veritas-graphite/90 backdrop-blur-xl border-b border-white/5 shadow-lg" : "bg-transparent"
+      )}>
         <div className="flex items-center gap-4">
           <Avatar className="w-12 h-12 border-2 border-veritas-electric/20">
             <AvatarImage src="" />
@@ -114,7 +119,7 @@ function DashboardPage() {
       </header>
 
       {/* Search Bar */}
-      <div className="px-6 mb-8">
+      <div className="px-6 mb-8 mt-2">
         <div className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-veritas-silver/40 group-focus-within:text-veritas-electric transition-colors" />
           <Input 
