@@ -255,8 +255,8 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       if (targetSectionIndex === -1) return prev;
 
-      const section = doc.sections[targetSectionIndex];
-      const currentParagraph = section.paragraphs[targetParagraphIndex];
+      const section = doc.sections[targetSectionIndex]!;
+      const currentParagraph = section.paragraphs[targetParagraphIndex]!;
       
       const newText = text !== undefined ? text : currentParagraph.text;
       const newTraceability = patch.hasOwnProperty("traceability") ? patch.traceability : currentParagraph.traceability;
