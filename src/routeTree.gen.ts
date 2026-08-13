@@ -17,6 +17,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RegisterProfessionalRouteImport } from './routes/register.professional'
 import { Route as RegisterProfileRouteImport } from './routes/register.profile'
+import { Route as RegisterSuccessRouteImport } from './routes/register.success'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const RegisterProfileRoute = RegisterProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => RegisterRoute,
 } as any)
+const RegisterSuccessRoute = RegisterSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => RegisterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
+  '/register/success': typeof RegisterSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
+  '/register/success': typeof RegisterSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRouteWithChildren
   '/register/professional': typeof RegisterProfessionalRoute
   '/register/profile': typeof RegisterProfileRoute
+  '/register/success': typeof RegisterSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/register/professional'
     | '/register/profile'
+    | '/register/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/register/professional'
     | '/register/profile'
+    | '/register/success'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/register/professional'
     | '/register/profile'
+    | '/register/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -190,17 +202,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterProfileRouteImport
       parentRoute: typeof RegisterRoute
     }
+    '/register/success': {
+      id: '/register/success'
+      path: '/success'
+      fullPath: '/register/success'
+      preLoaderRoute: typeof RegisterSuccessRouteImport
+      parentRoute: typeof RegisterRoute
+    }
   }
 }
 
 interface RegisterRouteChildren {
   RegisterProfessionalRoute: typeof RegisterProfessionalRoute
   RegisterProfileRoute: typeof RegisterProfileRoute
+  RegisterSuccessRoute: typeof RegisterSuccessRoute
 }
 
 const RegisterRouteChildren: RegisterRouteChildren = {
   RegisterProfessionalRoute: RegisterProfessionalRoute,
   RegisterProfileRoute: RegisterProfileRoute,
+  RegisterSuccessRoute: RegisterSuccessRoute,
 }
 
 const RegisterRouteWithChildren = RegisterRoute._addFileChildren(
