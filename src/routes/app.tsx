@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { CaseWorkflowProvider } from "@/features/cases/CaseWorkflowProvider";
+import { CaseDossierProvider } from "@/features/dossier/CaseDossierProvider";
 
 export const Route = createFileRoute("/app")({
 	component: AppLayout,
@@ -8,7 +9,9 @@ export const Route = createFileRoute("/app")({
 function AppLayout() {
 	return (
 		<CaseWorkflowProvider>
-			<Outlet />
+			<CaseDossierProvider>
+				<Outlet />
+			</CaseDossierProvider>
 		</CaseWorkflowProvider>
 	);
 }

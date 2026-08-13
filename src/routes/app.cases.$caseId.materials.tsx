@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { 
   FileText, 
   Image as ImageIcon, 
@@ -8,22 +8,24 @@ import {
   Video, 
   Type, 
   StickyNote, 
-  Plus, 
   Check,
-  ChevronRight
+  Info
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
+import { MaterialKind } from "@/features/dossier/case-dossier-types";
+import { cn } from "@/lib/utils";
 
-const MATERIAL_TYPES = [
-  { label: "PDF", icon: FileText, count: 4 },
-  { label: "DOCX", icon: FileText, count: 2 },
-  { label: "Imagens", icon: ImageIcon, count: 8 },
-  { label: "Planilhas", icon: FileSpreadsheet, count: 1 },
-  { label: "ZIP", icon: FileArchive, count: 1 },
-  { label: "Áudio", icon: Mic, count: 3 },
-  { label: "Vídeo", icon: Video, count: 0 },
-  { label: "Transcrição", icon: Type, count: 3 },
-  { label: "Notas", icon: StickyNote, count: 12 },
+const VISUAL_CATALOG: { kind: MaterialKind; label: string; icon: any }[] = [
+  { kind: "pdf", label: "PDF", icon: FileText },
+  { kind: "docx", label: "DOCX", icon: FileText },
+  { kind: "image", label: "Imagens", icon: ImageIcon },
+  { kind: "spreadsheet", label: "Planilhas", icon: FileSpreadsheet },
+  { kind: "zip", label: "ZIP", icon: FileArchive },
+  { kind: "audio", label: "Áudio", icon: Mic },
+  { kind: "video", label: "Vídeo", icon: Video },
+  { kind: "transcript", label: "Transcrição", icon: Type },
+  { kind: "note", label: "Notas", icon: StickyNote },
 ];
 
 export const Route = createFileRoute("/app/cases/$caseId/materials")({
@@ -31,40 +33,86 @@ export const Route = createFileRoute("/app/cases/$caseId/materials")({
 });
 
 function CaseMaterialsPage() {
+  const { caseId } = useParams({ from: "/app/cases/$caseId/materials" });
+  const { getDossier, setMaterialsCollectionComplete } = useCaseDossier();
+  const dossier = getDossier(caseId);
+
+  if (!dossier) {
+    return (
+      <div className="p-6 text-center space-y-4">
+        <p className="text-white/40 italic">Dossiê indisponível para este caso.</p>
+      </div>
+    );
+  }
+
+  const handleToggleComplete = () => {
+    setMaterialsCollectionComplete(caseId, !dossier.materialsCollectionComplete);
+  };
+
   return (
-    <div className="p-6 space-y-8 pb-32">
+    <div className="p-6 space-y-8 pb-40">
       <div className="space-y-1">
         <h2 className="text-xl font-semibold">Materiais do Caso</h2>
         <p className="text-white/40 text-sm">Organize todos os documentos e evidências</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        {MATERIAL_TYPES.map((type) => (
-          <button
-            key={type.label}
-            className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all text-left group"
-          >
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:bg-veritas-electric/10 group-hover:border-veritas-electric/20 transition-all">
-              <type.icon className="w-5 h-5 text-white/40 group-hover:text-veritas-electric" />
+        {VISUAL_CATALOG.map((type) => {
+          const count = dossier.items.filter(item => item.materialKind === type.kind).length;
+          return (
+            <div
+              key={type.kind}
+              className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 transition-all text-left"
+            >
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5">
+                <type.icon className="w-5 h-5 text-white/40" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">{type.label}</p>
+                <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{count} arquivos</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium">{type.label}</p>
-              <p className="text-[10px] text-white/20 font-bold uppercase tracking-wider">{type.count} arquivos</p>
-            </div>
-          </button>
-        ))}
-        
-        <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border border-dashed border-white/10 hover:border-veritas-electric/40 hover:bg-veritas-electric/5 transition-all text-veritas-electric/60 hover:text-veritas-electric group">
-          <Plus className="w-6 h-6" />
-          <span className="text-[10px] font-bold uppercase tracking-wider">Adicionar mais</span>
-        </button>
+          );
+        })}
       </div>
 
-      <div className="fixed bottom-28 left-6 right-6">
-        <Button className="w-full h-14 rounded-2xl bg-veritas-electric hover:bg-veritas-electric/90 text-white font-semibold shadow-xl shadow-veritas-electric/20">
-          Terminei os materiais
-          <Check className="ml-2 w-5 h-5" />
+      <div className="bg-veritas-electric/5 border border-veritas-electric/20 p-4 rounded-2xl flex items-start gap-4">
+        <Info className="w-5 h-5 text-veritas-electric shrink-0" />
+        <p className="text-[10px] text-veritas-electric/60 leading-relaxed italic">
+          Inventário local demonstrativo. Nenhum arquivo é enviado ou armazenado nesta etapa.
+        </p>
+      </div>
+
+      <div className="pt-8">
+        <Button 
+          onClick={handleToggleComplete}
+          className={cn(
+            "w-full h-14 rounded-2xl font-semibold shadow-xl transition-all",
+            dossier.materialsCollectionComplete 
+              ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-emerald-500/20"
+              : "bg-veritas-electric hover:bg-veritas-electric/90 text-white shadow-veritas-electric/20"
+          )}
+        >
+          {dossier.materialsCollectionComplete ? (
+            <>
+              Conferência dos materiais concluída
+              <Check className="ml-2 w-5 h-5" />
+            </>
+          ) : (
+            <>
+              Concluir conferência dos materiais
+              <Check className="ml-2 w-5 h-5" />
+            </>
+          )}
         </Button>
+        {dossier.materialsCollectionComplete && (
+          <button 
+            onClick={handleToggleComplete}
+            className="w-full mt-4 text-[10px] font-bold text-white/20 uppercase tracking-widest hover:text-white/40 transition-colors"
+          >
+            Reabrir conferência
+          </button>
+        )}
       </div>
     </div>
   );
