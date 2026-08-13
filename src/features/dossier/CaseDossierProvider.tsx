@@ -37,6 +37,9 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       const dossier = prev[caseId];
       if (!dossier) return prev;
       if (!input.title.trim() || !input.origin.trim() || !input.theme.trim() || !input.processReference.trim() || !input.location.trim()) return prev;
+      
+      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+      if (input.date !== null && !dateRegex.test(input.date)) return prev;
 
       const existingIds = dossier.items.map(i => i.id);
       let maxNum = 0;
