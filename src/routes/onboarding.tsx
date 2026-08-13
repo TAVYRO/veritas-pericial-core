@@ -49,10 +49,10 @@ function OnboardingPage() {
       </p>
 
       <Link
-        to="/"
+        to="/login"
         className="mt-10 inline-flex items-center justify-center rounded-full bg-veritas-electric px-8 py-3 text-sm font-semibold tracking-wide text-veritas-ink shadow-[0_0_24px_-6px_rgba(60,130,246,0.5)] transition-all hover:bg-veritas-electric-glow hover:shadow-[0_0_32px_-4px_rgba(60,130,246,0.7)] active:scale-95"
       >
-        Voltar à splash
+        Acessar sistema
       </Link>
     </div>
   );
