@@ -3,7 +3,6 @@ import {
   Flag, 
   AlertTriangle, 
   Lock, 
-  ChevronRight,
   HelpCircle,
   ArrowRight
 } from "lucide-react";
