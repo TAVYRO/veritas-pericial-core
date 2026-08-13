@@ -5,10 +5,27 @@ import { ChevronRight, ChevronLeft, Shield, Mic, Share2, Zap, CheckCircle2 } fro
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/onboarding")({
+  head: () => ({
+    meta: [
+      { title: "Bem-vindo — Veritas Pericial" },
+      { name: "description", content: "Conheça o Veritas Pericial." },
+      { property: "og:title", content: "Bem-vindo — Veritas Pericial" },
+      { property: "og:description", content: "Conheça o Veritas Pericial." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: OnboardingPage,
 });
 
-const slides = [
+interface Slide {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  items?: string[];
+}
+
+const slides: Slide[] = [
   {
     title: "Sua perícia organizada em um só lugar",
     description: "Gerencie processos, documentos e avaliações com foco na eficiência profissional.",
@@ -41,6 +58,7 @@ const slides = [
 function OnboardingPage() {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const slide = slides[currentSlide];
 
   const next = () => {
     if (currentSlide < slides.length - 1) {
@@ -84,23 +102,23 @@ function OnboardingPage() {
             <div className="relative">
               <div className="absolute inset-0 bg-white/5 blur-2xl rounded-full" />
               <div className="relative p-6 rounded-3xl bg-veritas-graphite/40 border border-white/5 shadow-2xl backdrop-blur-sm">
-                {slides[currentSlide].icon}
+                {slide.icon}
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
             <h1 className="text-3xl font-black tracking-tight leading-tight px-4">
-              {slides[currentSlide].title}
+              {slide.title}
             </h1>
             <p className="text-veritas-silver/60 text-base px-6">
-              {slides[currentSlide].description}
+              {slide.description}
             </p>
           </div>
 
-          {slides[currentSlide].items && (
+          {slide.items && (
             <div className="flex flex-wrap justify-center gap-2 pt-2 px-4">
-              {slides[currentSlide].items.map((item, i) => (
+              {slide.items.map((item, i) => (
                 <div 
                   key={i} 
                   className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-wider text-veritas-silver/80"
