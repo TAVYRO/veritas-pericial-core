@@ -396,6 +396,16 @@ export function CaseDossierProvider({ children }: { children: ReactNode }) {
       const text = patch.text !== undefined ? patch.text.trim() : question.text;
       if (patch.text !== undefined && !text) return prev;
 
+      // Detect real change
+      const hasTextChanged = text !== question.text;
+      const hasAuthorChanged = normalizedAuthor !== question.author;
+      const hasSourcesChanged = canonicalSourceIds.length !== question.sourceIds.length ||
+        canonicalSourceIds.some((id, idx) => id !== question.sourceIds[idx]);
+
+      if (!hasTextChanged && !hasAuthorChanged && !hasSourcesChanged) {
+        return prev;
+      }
+
       const updatedQuestion: CaseQuestion = {
         ...question,
         text,

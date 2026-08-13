@@ -3,6 +3,7 @@ import { ChevronLeft, HelpCircle, CheckCircle2, AlertTriangle, MessageSquare, Ed
 import { useState } from "react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
 import { cn } from "@/lib/utils";
+import type { CaseQuestion } from "@/features/dossier/case-dossier-types";
 
 export const Route = createFileRoute("/app/cases/$caseId/draft/questions")({
   component: DraftQuestionsPage,
@@ -36,7 +37,7 @@ function DraftQuestionsPage() {
   const complementaryQuestions = dossier.questions.filter(q => q.kind === "complementary");
   const displayQuestions = [...officialQuestions, ...complementaryQuestions];
 
-  const handleStartEdit = (q: any) => {
+  const handleStartEdit = (q: CaseQuestion) => {
     setEditingId(q.id);
     setTempResponse(q.response);
   };
@@ -109,11 +110,12 @@ function DraftQuestionsPage() {
               )}
 
               <div className="space-y-3 pt-2">
-                <p className="text-[10px] text-white/40 uppercase tracking-widest font-black ml-1">Resposta Técnica</p>
+                <label htmlFor={`response-${q.id}`} className="text-[10px] text-white/40 uppercase tracking-widest font-black ml-1">Resposta Técnica</label>
                 
                 {editingId === q.id ? (
                   <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
                     <textarea
+                      id={`response-${q.id}`}
                       value={tempResponse}
                       onChange={(e) => setTempResponse(e.target.value)}
                       placeholder="Redigir resposta técnica..."
@@ -181,6 +183,7 @@ function DraftQuestionsPage() {
                           onClick={() => handleClear(q.id)}
                           className="p-2.5 bg-white/5 hover:bg-red-400/10 text-white/20 hover:text-red-400 rounded-xl transition-all"
                           title="Reabrir / Limpar"
+                          aria-label={`Reabrir resposta ${q.id}`}
                         >
                           <RotateCcw className="w-4 h-4" />
                         </button>

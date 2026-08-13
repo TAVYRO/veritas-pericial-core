@@ -3,7 +3,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { HelpCircle, Sparkles, MessageSquare, Info, Plus, Trash2, Edit2, CheckCircle2, AlertTriangle, X } from "lucide-react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
-import type { CaseQuestionKind, NewCaseQuestionInput } from "@/features/dossier/case-dossier-types";
+import type { CaseQuestionKind, NewCaseQuestionInput, CaseQuestion } from "@/features/dossier/case-dossier-types";
 
 export const Route = createFileRoute("/app/cases/$caseId/questions")({
   component: CaseQuestionsPage,
@@ -14,7 +14,7 @@ function CaseQuestionsPage() {
   const { getDossier, addCaseQuestion, updateCaseQuestion, removeCaseQuestion } = useCaseDossier();
   const dossier = getDossier(caseId);
 
-  const [tab, setTab] = useState<CaseQuestionKind | "complementary">("official");
+  const [tab, setTab] = useState<CaseQuestionKind>("official");
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -77,7 +77,7 @@ function CaseQuestionsPage() {
     resetForm();
   };
 
-  const startEdit = (q: any) => {
+  const startEdit = (q: CaseQuestion) => {
     setEditingId(q.id);
     setText(q.text);
     setAuthor(q.author || "");
@@ -104,7 +104,7 @@ function CaseQuestionsPage() {
             role="tab"
             aria-selected={tab === t.id}
             type="button"
-            onClick={() => { setTab(t.id as any); resetForm(); }}
+            onClick={() => { setTab(t.id as CaseQuestionKind); resetForm(); }}
             className={cn(
               "flex-1 min-w-[100px] py-4 flex flex-col items-center gap-1 transition-all relative shrink-0",
               tab === t.id ? "text-veritas-electric" : "text-white/20"
@@ -162,7 +162,7 @@ function CaseQuestionsPage() {
               <h3 className="text-[10px] uppercase tracking-widest font-bold text-veritas-electric">
                 {editingId ? "Editar Item" : "Novo Registro"}
               </h3>
-              <button type="button" onClick={resetForm} className="text-white/20 hover:text-white transition-colors">
+              <button type="button" onClick={resetForm} aria-label="Fechar formulário" className="text-white/20 hover:text-white transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -198,6 +198,7 @@ function CaseQuestionsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {dossier.items.map(item => (
                     <label
+                      htmlFor={editingId ? `question-source-${editingId}-${item.id}` : `question-source-new-${item.id}`}
                       key={item.id}
                       className={cn(
                         "flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer",
@@ -207,12 +208,13 @@ function CaseQuestionsPage() {
                       )}
                     >
                       <input
+                        id={editingId ? `question-source-${editingId}-${item.id}` : `question-source-new-${item.id}`}
                         type="checkbox"
                         checked={selectedSources.includes(item.id)}
                         onChange={() => toggleSource(item.id)}
                         className="w-4 h-4 rounded border-white/10 bg-transparent text-veritas-electric focus:ring-0 focus:ring-offset-0"
                       />
-                      <span className="text-xs font-medium truncate">
+                      <span className="text-xs font-medium break-words min-w-0">
                         <span className="font-bold mr-1.5">{item.id}</span>
                         {item.title}
                       </span>
