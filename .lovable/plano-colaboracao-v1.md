@@ -460,6 +460,7 @@ Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem se
 | C2.2 | CLOSED | 4617e5513063a3c38b90eab9af9d67863bc4f2f8 | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | src/features/collaboration/partner-relationship-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; PartnerRelationship mínimo validado sem acesso a casos. |
 | C2.3 | CLOSED | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | src/features/collaboration/case-member-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa técnica aprovada; CaseMember + roles mínimos validados. |
 | C2.3.1 | CLOSED | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; trilha histórica restaurada e regra anti-perda validada. |
-| C2.4 | AUDIT_REQUIRED | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | PENDENTE | src/features/collaboration/case-permission-types.ts<br>.lovable/plano-colaboracao-v1.md | Contrato de permissões; matriz concreta ainda não definida; pendente de auditoria externa. |
-| C2.5 | BLOCKED | PENDENTE | PENDENTE | - | Contratos Chat/Comment/Activity dependem de C2.4 CLOSED. Não executar C2.5. |
-| C2.5+ | PLANNED/BLOCKED | - | - | - | Conforme dependência |
+| C2.4 | CLOSED | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | src/features/collaboration/case-permission-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; vocabulário de 14 permissões e formato de política validados; nenhuma matriz concreta criada. |
+| C2.5 | AUDIT_REQUIRED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | PENDENTE | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Contratos Chat/Comment/Activity; pendente de auditoria externa. |
+| C3.1 | BLOCKED | PENDENTE | PENDENTE | - | Gate de infraestrutura depende de C2.5 CLOSED. Não executar C3.1. |
+| C3+ | PLANNED/BLOCKED | - | - | - | Conforme dependência. Gate C3 depende de C2.5 CLOSED. |
