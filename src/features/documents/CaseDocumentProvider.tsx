@@ -316,11 +316,12 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }
 
       // Check semantic equivalence to avoid unnecessary updates
-      const keysCurrent = Object.keys(currentParagraph).sort();
-      const keysNext = Object.keys(nextP).sort();
+      const hasChanges = 
+        currentParagraph.text !== nextP.text ||
+        currentParagraph.traceability !== nextP.traceability ||
+        currentParagraph.editorialMarker !== nextP.editorialMarker;
       
-      if (keysCurrent.length === keysNext.length && 
-          keysCurrent.every((k, i) => k === keysNext[i] && (currentParagraph as any)[k] === (nextP as any)[k])) {
+      if (!hasChanges) {
         return prev;
       }
 
