@@ -56,13 +56,14 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const key = makeDocumentKey(cId, vId);
     setDocuments(prev => {
       if (prev[key]) return prev;
+      const newDoc: CaseDocumentVersion = {
+        caseId: cId,
+        versionId: vId,
+        sections: []
+      };
       return {
         ...prev,
-        [key]: {
-          caseId: cId,
-          versionId: vId,
-          sections: []
-        }
+        [key]: newDoc
       };
     });
   }, []);
@@ -198,6 +199,7 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const sectionIndex = doc.sections.findIndex(s => s.id === sectionId);
       if (sectionIndex === -1) return prev;
 
+      const section = doc.sections[sectionIndex];
       const allParagraphIds = doc.sections.flatMap(s => s.paragraphs.map(p => p.id));
       const pId = generateNextId(allParagraphIds, "PAR", /^PAR(\d+)$/);
 
@@ -208,7 +210,6 @@ export const CaseDocumentProvider: React.FC<{ children: React.ReactNode }> = ({ 
         editorialMarker: input.editorialMarker
       };
 
-      const section = doc.sections[sectionIndex];
       const updatedSections = [...doc.sections];
       updatedSections[sectionIndex] = {
         ...section,
