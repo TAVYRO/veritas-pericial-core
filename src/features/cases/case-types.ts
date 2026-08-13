@@ -20,7 +20,7 @@ export interface DocumentVersionRef {
 	id: string;
 	label: string;
 	number: number;
-	status: "draft" | "final" | "archived";
+	status: "draft" | "review" | "approved" | "final" | "archived";
 }
 
 export interface CaseData {

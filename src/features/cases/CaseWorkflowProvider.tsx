@@ -6,13 +6,21 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import type { CaseData, CaseWorkflowState } from "./case-types";
+import type { CaseData, CaseWorkflowState, DocumentTypeId, DocumentVersionRef } from "./case-types";
 import { INITIAL_WORKFLOWS, MOCK_CASES } from "./mock-cases";
 
 interface CaseWorkflowContextType {
 	getCase: (caseId: string) => CaseData | undefined;
 	getWorkflow: (caseId: string) => CaseWorkflowState | undefined;
+	updateCase: (caseId: string, patch: Partial<CaseData>) => void;
 	updateWorkflow: (caseId: string, patch: Partial<CaseWorkflowState>) => void;
+	setDocumentType: (caseId: string, documentType: DocumentTypeId, modality: string) => void;
+	setTemplate: (caseId: string, templateId: string | null) => void;
+	setCurrentVersion: (caseId: string, version: DocumentVersionRef) => void;
+	setAuditApproved: (caseId: string, approved: boolean) => void;
+	setProfessionalReviewApproved: (caseId: string, approved: boolean) => void;
+	setCaseIsolationConfirmed: (caseId: string, confirmed: boolean) => void;
+	setSufficiencyApproved: (caseId: string, approved: boolean) => void;
 	authorizeSignature: (
 		caseId: string,
 		professionalId: string,
@@ -27,6 +35,7 @@ interface CaseWorkflowContextType {
 	// Derived state helpers
 	getApprovalsCount: (caseId: string) => number;
 	isFullyApproved: (caseId: string) => boolean;
+	areRequiredSignaturesAuthorized: (caseId: string) => boolean;
 	isSignatureApproved: (
 		caseId: string,
 		professionalId: string,
@@ -43,13 +52,13 @@ export function CaseWorkflowProvider({
 }: {
 	children: React.ReactNode;
 }) {
-	// Using simple React state for memory-only persistence during SPA session
-	const [workflows, setWorkflows] =
-		useState<Record<string, CaseWorkflowState>>(INITIAL_WORKFLOWS);
+	// Initialize states from mocks to avoid direct mutation
+	const [cases, setCases] = useState<Record<string, CaseData>>(() => ({ ...MOCK_CASES }));
+	const [workflows, setWorkflows] = useState<Record<string, CaseWorkflowState>>(() => ({ ...INITIAL_WORKFLOWS }));
 
 	const getCase = useCallback((caseId: string) => {
-		return MOCK_CASES[caseId];
-	}, []);
+		return cases[caseId];
+	}, [cases]);
 
 	const getWorkflow = useCallback(
 		(caseId: string) => {
@@ -58,19 +67,84 @@ export function CaseWorkflowProvider({
 		[workflows],
 	);
 
+	const invalidateFinalIfNecessary = useCallback((caseId: string) => {
+		setWorkflows(prev => {
+			const workflow = prev[caseId];
+			if (!workflow || !workflow.finalReleased) return prev;
+			
+			// We can't easily calculate areRequiredSignaturesAuthorized here without recursion 
+			// or passing more data. We'll handle invalidation inside each setter for simplicity 
+			// and correctness in this phase.
+			return prev;
+		});
+	}, []);
+
+	const updateCase = useCallback((caseId: string, patch: Partial<CaseData>) => {
+		setCases(prev => {
+			const current = prev[caseId];
+			if (!current) return prev;
+			return { ...prev, [caseId]: { ...current, ...patch } };
+		});
+		// If critical fields change, we should probably invalidate final, 
+		// but CaseData fields are mostly static after creation in this phase.
+	}, []);
+
 	const updateWorkflow = useCallback(
 		(caseId: string, patch: Partial<CaseWorkflowState>) => {
 			setWorkflows((prev) => {
 				const current = prev[caseId];
 				if (!current) return prev;
+				
+				const nextWorkflow = { ...current, ...patch };
+				
+				// Critical fields invalidation logic
+				const criticalFieldsChanged = 
+					(patch.auditApproved === false && current.auditApproved === true) ||
+					(patch.professionalReviewApproved === false && current.professionalReviewApproved === true) ||
+					(patch.caseIsolationConfirmed === false && current.caseIsolationConfirmed === true) ||
+					(patch.currentVersion && patch.currentVersion.id !== current.currentVersion.id);
+
+				if (criticalFieldsChanged && nextWorkflow.finalReleased) {
+					nextWorkflow.finalReleased = false;
+				}
+
 				return {
 					...prev,
-					[caseId]: { ...current, ...patch },
+					[caseId]: nextWorkflow,
 				};
 			});
 		},
 		[],
 	);
+
+	const setDocumentType = useCallback((caseId: string, documentType: DocumentTypeId, modality: string) => {
+		updateCase(caseId, { documentType, modality });
+		updateWorkflow(caseId, { documentType });
+	}, [updateCase, updateWorkflow]);
+
+	const setTemplate = useCallback((caseId: string, templateId: string | null) => {
+		updateWorkflow(caseId, { templateId });
+	}, [updateWorkflow]);
+
+	const setCurrentVersion = useCallback((caseId: string, version: DocumentVersionRef) => {
+		updateWorkflow(caseId, { currentVersion: version });
+	}, [updateWorkflow]);
+
+	const setAuditApproved = useCallback((caseId: string, auditApproved: boolean) => {
+		updateWorkflow(caseId, { auditApproved });
+	}, [updateWorkflow]);
+
+	const setProfessionalReviewApproved = useCallback((caseId: string, professionalReviewApproved: boolean) => {
+		updateWorkflow(caseId, { professionalReviewApproved });
+	}, [updateWorkflow]);
+
+	const setCaseIsolationConfirmed = useCallback((caseId: string, caseIsolationConfirmed: boolean) => {
+		updateWorkflow(caseId, { caseIsolationConfirmed });
+	}, [updateWorkflow]);
+
+	const setSufficiencyApproved = useCallback((caseId: string, sufficiencyApproved: boolean) => {
+		updateWorkflow(caseId, { sufficiencyApproved });
+	}, [updateWorkflow]);
 
 	const authorizeSignature = useCallback(
 		(caseId: string, professionalId: string, versionId: string) => {
@@ -83,30 +157,27 @@ export function CaseWorkflowProvider({
 						a.professionalId === professionalId && a.versionId === versionId,
 				);
 
+				let nextAuthorizations;
 				if (exists) {
-					return {
-						...prev,
-						[caseId]: {
-							...current,
-							signatureAuthorizations: current.signatureAuthorizations.map(
-								(a) =>
-									a.professionalId === professionalId &&
-									a.versionId === versionId
-										? { ...a, authorized: true }
-										: a,
-							),
-						},
-					};
+					nextAuthorizations = current.signatureAuthorizations.map(
+						(a) =>
+							a.professionalId === professionalId &&
+							a.versionId === versionId
+								? { ...a, authorized: true }
+								: a,
+					);
+				} else {
+					nextAuthorizations = [
+						...current.signatureAuthorizations,
+						{ professionalId, versionId, authorized: true },
+					];
 				}
 
 				return {
 					...prev,
 					[caseId]: {
 						...current,
-						signatureAuthorizations: [
-							...current.signatureAuthorizations,
-							{ professionalId, versionId, authorized: true },
-						],
+						signatureAuthorizations: nextAuthorizations,
 					},
 				};
 			});
@@ -120,20 +191,30 @@ export function CaseWorkflowProvider({
 				const current = prev[caseId];
 				if (!current) return prev;
 
+				const nextWorkflow = {
+					...current,
+					signatureAuthorizations: current.signatureAuthorizations.map((a) =>
+						a.professionalId === professionalId && a.versionId === versionId
+							? { ...a, authorized: false }
+							: a,
+					),
+				};
+
+				// If revoking an authorized signature, check if it was required for current version
+				const caseData = cases[caseId];
+				const isRequired = caseData?.professionals.find(p => p.id === professionalId)?.isRequiredSigner;
+				
+				if (isRequired && versionId === current.currentVersion.id && nextWorkflow.finalReleased) {
+					nextWorkflow.finalReleased = false;
+				}
+
 				return {
 					...prev,
-					[caseId]: {
-						...current,
-						signatureAuthorizations: current.signatureAuthorizations.map((a) =>
-							a.professionalId === professionalId && a.versionId === versionId
-								? { ...a, authorized: false }
-								: a,
-						),
-					},
+					[caseId]: nextWorkflow,
 				};
 			});
 		},
-		[],
+		[cases],
 	);
 
 	const isSignatureApproved = useCallback(
@@ -150,7 +231,7 @@ export function CaseWorkflowProvider({
 		[workflows],
 	);
 
-	const areAllRequiredSignaturesAuthorized = useCallback(
+	const areRequiredSignaturesAuthorized = useCallback(
 		(caseId: string) => {
 			const caseData = getCase(caseId);
 			const workflow = workflows[caseId];
@@ -175,11 +256,11 @@ export function CaseWorkflowProvider({
 			if (workflow.professionalReviewApproved) count++;
 			if (workflow.auditApproved) count++;
 			if (workflow.caseIsolationConfirmed) count++;
-			if (areAllRequiredSignaturesAuthorized(caseId)) count++;
+			if (areRequiredSignaturesAuthorized(caseId)) count++;
 
 			return count;
 		},
-		[workflows, areAllRequiredSignaturesAuthorized],
+		[workflows, areRequiredSignaturesAuthorized],
 	);
 
 	const isFullyApproved = useCallback(
@@ -202,23 +283,41 @@ export function CaseWorkflowProvider({
 		() => ({
 			getCase,
 			getWorkflow,
+			updateCase,
 			updateWorkflow,
+			setDocumentType,
+			setTemplate,
+			setCurrentVersion,
+			setAuditApproved,
+			setProfessionalReviewApproved,
+			setCaseIsolationConfirmed,
+			setSufficiencyApproved,
 			authorizeSignature,
 			revokeSignature,
 			releaseFinal,
 			getApprovalsCount,
 			isFullyApproved,
+			areRequiredSignaturesAuthorized,
 			isSignatureApproved,
 		}),
 		[
 			getCase,
 			getWorkflow,
+			updateCase,
 			updateWorkflow,
+			setDocumentType,
+			setTemplate,
+			setCurrentVersion,
+			setAuditApproved,
+			setProfessionalReviewApproved,
+			setCaseIsolationConfirmed,
+			setSufficiencyApproved,
 			authorizeSignature,
 			revokeSignature,
 			releaseFinal,
 			getApprovalsCount,
 			isFullyApproved,
+			areRequiredSignaturesAuthorized,
 			isSignatureApproved,
 		],
 	);

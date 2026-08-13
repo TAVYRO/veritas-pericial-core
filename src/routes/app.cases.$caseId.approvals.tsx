@@ -15,7 +15,7 @@ export const Route = createFileRoute("/app/cases/$caseId/approvals")({
 
 function ApprovalsPage() {
 	const { caseId } = useParams({ from: "/app/cases/$caseId/approvals" });
-	const { getWorkflow, getApprovalsCount, isFullyApproved, releaseFinal } =
+	const { getWorkflow, getApprovalsCount, isFullyApproved, releaseFinal, areRequiredSignaturesAuthorized } =
 		useCaseWorkflow();
 
 	const workflow = getWorkflow(caseId);
@@ -47,7 +47,7 @@ function ApprovalsPage() {
 			id: 4,
 			name: "Assinaturas autorizadas",
 			icon: Signature,
-			status: approvedCount === 4,
+			status: areRequiredSignaturesAuthorized(caseId),
 		},
 	];
 
