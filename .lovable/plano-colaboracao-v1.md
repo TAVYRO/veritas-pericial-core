@@ -147,11 +147,168 @@ C18.7 — AUDITORIA FINAL DE SEGURANÇA
 *   Assinaturas persistentes dependem de: professionalId, caseId, versionId, Workflow persistente, autorização explícita.
 
 ## 7. GATE C3 — INFRAESTRUTURA
+
 Congelar: antes de C3.3 CLOSED, é proibido instalar ou ativar: Supabase, Firebase, Lovable Cloud, outro backend, Auth Provider, Realtime Provider.
+
 *   C3.1: define requisitos.
 *   C3.2: compara fornecedores.
 *   C3.3: exige DECISÃO HUMANA.
+
 Lovable NÃO escolhe fornecedor sozinho.
+
+### C3.1 — REQUISITOS OBRIGATÓRIOS
+
+Esta subseção formaliza DOCUMENTALMENTE os requisitos obrigatórios que qualquer futuro fornecedor de infraestrutura deverá cumprir. Esta etapa NÃO escolhe fornecedor, NÃO instala fornecedor, NÃO ativa backend, NÃO ativa autenticação e NÃO ativa realtime. É apenas um GATE DE REQUISITOS.
+
+#### 1. Autenticação real
+
+O fornecedor futuro deve suportar:
+
+*   contas reais separadas;
+*   sessão segura por usuário;
+*   login;
+*   logout;
+*   recuperação de sessão;
+*   encerramento/revogação de sessão;
+*   isolamento entre usuários;
+*   vínculo verificável entre usuário autenticado e `ProfessionalProfile`.
+
+#### 2. Autorização server-side
+
+Autorização real NÃO pode depender somente da interface. O fornecedor/arquitetura deve permitir:
+
+*   validação server-side;
+*   proteção de leitura;
+*   proteção de escrita;
+*   proteção contra URL direta;
+*   proteção contra manipulação do cliente;
+*   isolamento por `caseId`;
+*   isolamento por `professionalId`;
+*   isolamento por `versionId` quando aplicável.
+
+UI oculta NÃO é segurança.
+
+#### 3. PartnerRelationship
+
+`PartnerRelationship` NÃO concede acesso a casos. Um parceiro sem `CaseMember` não pode ler nem escrever dados de um `caseId`.
+
+#### 4. CaseMember
+
+Acesso ao caso deve depender de membership explícita e autorização server-side. A identidade lógica de membership é `caseId + professionalId`. Membership do Caso A não concede acesso ao Caso B.
+
+#### 5. Papéis e permissões
+
+`CaseMemberRole` sozinho NÃO concede poderes implícitos. A infraestrutura deve suportar política verificável de permissões. Não definir a matriz concreta agora. Preservar `responsible`, `coexpert`, `reviewer`, `signer` sem permissões automáticas.
+
+#### 6. Assinaturas
+
+Autorização de assinatura deve permanecer isolada por `professionalId + caseId + versionId`. Role `signer` NÃO autoriza assinatura automaticamente. Autorização de uma versão não vale para outra versão.
+
+#### 7. Isolamento de CaseDocument
+
+`CaseDocument` deve ser protegido pela identidade `caseId + versionId`. Documento V01 e V02 não podem ser confundidos. Documento do Caso A não pode aparecer no Caso B.
+
+#### 8. Dossier e Workflow
+
+O fornecedor futuro deve permitir autorização consistente para `CaseData`, `CaseDossier`, `CaseDocument` e `CaseWorkflow`, sem duplicar conteúdo textual do `CaseDocument` dentro de `Workflow`.
+
+#### 9. Chat
+
+Chat deve ser sempre case-scoped. Obrigatório: `caseId` em cada mensagem. Proibido: chat global entre parceiros. `PartnerRelationship` sozinho não habilita conversa. Membro removido deve perder acesso ativo conforme política futura.
+
+#### 10. Document comments
+
+Comentários devem ser isolados por `caseId + versionId`. Comentário de V01 não pode aparecer como comentário nativo de V02. `sectionId`/`paragraphId` podem existir como referências.
+
+#### 11. Realtime
+
+Realtime, se escolhido futuramente, deve respeitar a mesma autorização do dado persistido. Realtime NÃO pode permitir que usuário receba dados que não poderia consultar normalmente. Subscriptions/channels devem respeitar `professionalId`, `caseId` e `versionId` quando aplicável.
+
+#### 12. Presence
+
+Presence é apenas indicação visual. Presence NÃO é lock, permissão, autorização ou membership. Presence não substitui optimistic concurrency.
+
+#### 13. Concorrência
+
+Suporte a Optimistic Concurrency é obrigatório. Cenário obrigatório futuro:
+
+*   A e B abrem revisão N.
+*   A salva → revisão N+1.
+*   B tenta salvar baseado em N.
+
+Resultado exigido: B NÃO pode sobrescrever A silenciosamente. Deve existir mecanismo de revisão/versionamento ou equivalente tecnicamente seguro.
+
+#### 14. Revogação
+
+Revogação de `CaseMember` deve interromper acesso ativo. A solução futura deve permitir:
+
+*   revogar leitura;
+*   revogar escrita;
+*   invalidar autorização;
+*   impedir novas consultas indevidas.
+
+Retenção histórica é decisão separada.
+
+#### 15. Auditoria
+
+A solução futura deve suportar trilha auditável para ações críticas: parceria, convite para caso, membership, mudança de role, remoção, chat, comentários, alterações documentais, conflitos, versões, revisões, assinaturas e liberação final.
+
+#### 16. Segurança de dados
+
+Requisitos: transporte seguro, armazenamento seguro, controle de acesso, isolamento entre contas, isolamento entre casos, isolamento entre versões, princípio do menor privilégio, capacidade de revogação e nenhum segredo sensível exposto ao frontend.
+
+#### 17. Dados sensíveis
+
+O projeto manipula dados potencialmente sensíveis de contexto pericial. A futura solução deve permitir arquitetura compatível com confidencialidade, controle de acesso, rastreabilidade e minimização de exposição. NÃO fazer parecer jurídico. NÃO afirmar certificações não verificadas.
+
+#### 18. Backup / recuperação
+
+Backup, recuperação, integridade, prevenção de perda silenciosa e estratégia de restauração são critérios de avaliação futura. Nesta etapa NÃO escolher solução.
+
+#### 19. Escalabilidade
+
+A solução futura deve suportar evolução de 1 profissional → múltiplos profissionais → múltiplos casos simultâneos sem quebrar isolamento ou autorização.
+
+#### 20. Observabilidade
+
+Capacidade de identificar erros relevantes de auth, authorization, persistence, realtime e conflict, sem expor dados sensíveis em logs de forma indevida.
+
+#### 21. Portabilidade / lock-in
+
+Critério de comparação para C3.2: facilidade de exportar dados, dependência de APIs proprietárias, migração futura, custos de saída e portabilidade do modelo de dados. Não julgar fornecedor ainda.
+
+#### 22. Custo
+
+Critério para C3.2: custo inicial, custo por usuário, custo por armazenamento, custo por tráfego/realtime e previsibilidade de crescimento. Não inserir preços agora.
+
+#### 23. Experiência de desenvolvimento
+
+Critério futuro: integração com stack atual, TypeScript, ambiente local, migrations, testes, documentação, debugging, deploy e CI/CD.
+
+#### 24. Fornecedores ainda não escolhidos
+
+BACKEND: NÃO DEFINIDO
+AUTH PROVIDER: NÃO DEFINIDO
+REALTIME PROVIDER: NÃO DEFINIDO
+
+C3.1 NÃO pode concluir: Supabase escolhido, Firebase escolhido, Lovable Cloud escolhido ou qualquer outro fornecedor escolhido.
+
+#### 25. C3.2
+
+C3.2, somente depois de C3.1 CLOSED, comparará fornecedores contra estes requisitos. C3.2 NÃO pode ser executada agora.
+
+#### 26. C3.3
+
+C3.3 é DECISÃO HUMANA. Somente após C3.1 CLOSED + C3.2 CLOSED o usuário poderá escolher qual infraestrutura será adotada. Lovable não pode decidir sozinho.
+
+#### 27. Zero implementação
+
+NÃO: instalar dependência, criar client, criar env, criar database, criar migration, criar schema, criar tabela, criar auth, criar login, criar signup, criar Provider, criar Context, criar API, criar endpoint, criar realtime, criar websocket, criar UI.
+
+#### 28. Preservar histórico
+
+Preservar TODAS as linhas CLOSED anteriores. NÃO apagar histórico. NÃO alterar contratos C2. NÃO reabrir fases antigas.
+
 
 ## 8. REQUISITOS DE AUTH
 *   Usuário autenticado real.
@@ -464,8 +621,9 @@ Linhas CLOSED do REGISTRO DE BASELINES são histórico imutável e não podem se
 | C2.3 | CLOSED | 7c39c12897f001ed25cc482f67e0493d1a3f2ce8 | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | src/features/collaboration/case-member-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa técnica aprovada; CaseMember + roles mínimos validados. |
 | C2.3.1 | CLOSED | bd694fecd510d5cf512b0f695abbb6fe92d4e58c | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; trilha histórica restaurada e regra anti-perda validada. |
 | C2.4 | CLOSED | 91ddefdf58ad81d143f1d1ae2adab3bddbf10287 | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | src/features/collaboration/case-permission-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; vocabulário de 14 permissões e formato de política validados; nenhuma matriz concreta criada. |
-| C2.5 | AUDIT_REQUIRED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | PENDENTE | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Implementação técnica validada isoladamente no intervalo 54aed1ab58aa86efa69e7c5210db609a6bbc0d01 → a20041c01b1a9e1b286796b184fe763407636e74 com somente os quatro arquivos autorizados. O baseline original recebeu commit externo intermediário 54aed1ab58aa86efa69e7c5210db609a6bbc0d01, que alterou apenas src/styles.css. Fechamento formal depende da C2.5.1. |
-| C2.5.1 | AUDIT_REQUIRED | a20041c01b1a9e1b286796b184fe763407636e74 | PENDENTE | .lovable/plano-colaboracao-v1.md | Reconciliação documental de commit externo intermediário entre o baseline original e a implementação da C2.5; pendente de auditoria externa. |
-| C3.1 | BLOCKED | PENDENTE | PENDENTE | - | Gate de infraestrutura depende do fechamento formal de C2.5 e C2.5.1. Não executar C3.1. |
-| C3+ | PLANNED/BLOCKED | - | - | - | Conforme dependência. Gate C3 depende de C2.5 e C2.5.1 CLOSED. |
+| C2.5 | CLOSED | d5acc5c2d0864c1652817b845a5a5d75c4a746f4 | a20041c01b1a9e1b286796b184fe763407636e74 | src/features/collaboration/case-chat-types.ts<br>src/features/collaboration/document-comment-types.ts<br>src/features/collaboration/case-activity-types.ts<br>.lovable/plano-colaboracao-v1.md | Auditoria externa aprovada. Implementação técnica validada isoladamente no intervalo 54aed1ab58aa86efa69e7c5210db609a6bbc0d01 → a20041c01b1a9e1b286796b184fe763407636e74 com somente os quatro arquivos autorizados. Commit externo intermediário 54aed1ab58aa86efa69e7c5210db609a6bbc0d01 registrado separadamente. |
+| C2.5.1 | CLOSED | a20041c01b1a9e1b286796b184fe763407636e74 | 2c4837e6d6034f2e8f2b4d5314c083ff5431892b | .lovable/plano-colaboracao-v1.md | Auditoria externa aprovada; reconciliação de baseline e regra de commit externo validadas. |
+| C3.1 | AUDIT_REQUIRED | 2c4837e6d6034f2e8f2b4d5314c083ff5431892b | PENDENTE | .lovable/plano-colaboracao-v1.md | Gate documental de requisitos de backend/auth/realtime; pendente de auditoria externa. |
+| C3.2 | BLOCKED | PENDENTE | PENDENTE | - | Comparação de fornecedores depende de C3.1 CLOSED. Não executar C3.2. |
+| C3.3 | BLOCKED | PENDENTE | PENDENTE | - | Decisão humana sobre fornecedor depende de C3.1 e C3.2 CLOSED. Lovable NÃO escolhe fornecedor sozinho. |
 
