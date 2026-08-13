@@ -45,7 +45,7 @@ function ApprovalsPage() {
 		},
 		{
 			id: 4,
-			name: "Assinaturas autorizadas",
+			name: `Autorizações de assinatura — ${workflow.currentVersion.label}`,
 			icon: Signature,
 			status: areRequiredSignaturesAuthorized(caseId),
 		},
@@ -55,9 +55,14 @@ function ApprovalsPage() {
 		<div className="p-6 space-y-6 pb-32">
 			<header className="space-y-4">
 				<div className="flex items-center justify-between">
-					<h2 className="text-xl font-bold text-white tracking-tight">
-						Portão de Aprovações
-					</h2>
+					<div className="space-y-1">
+						<h2 className="text-xl font-bold text-white tracking-tight">
+							Portão de Aprovações
+						</h2>
+						<p className="text-[10px] font-black text-veritas-electric uppercase tracking-widest">
+							Versão atual: {workflow.currentVersion.label}
+						</p>
+					</div>
 					<div className="bg-veritas-electric/10 border border-veritas-electric/20 px-4 py-1.5 rounded-full">
 						<span className="text-sm font-black text-veritas-electric">
 							{approvedCount}/4
@@ -65,8 +70,7 @@ function ApprovalsPage() {
 					</div>
 				</div>
 				<p className="text-xs text-white/40 leading-relaxed">
-					Para liberar a emissão do documento final, todos os pilares de
-					segurança e conformidade devem estar validados.
+					Para liberar a versão final no workflow, todos os pilares de segurança e conformidade devem estar validados.
 				</p>
 			</header>
 
@@ -141,7 +145,7 @@ function ApprovalsPage() {
 						<Lock className="w-4 h-4" />
 					)}
 					{workflow.finalReleased
-						? "Documento Final Liberado"
+						? "Versão final liberada"
 						: "Liberar Versão Final"}
 				</button>
 				{!isComplete && (
