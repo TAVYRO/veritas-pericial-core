@@ -272,7 +272,13 @@ Marcar implementação: DECISÃO PENDENTE — C3/C4.
 *   NÃO introduzir persistência isoladamente em apenas uma parte sem plano de migração.
 *   NÃO fazer refatoração ampla para corrigir uma microetapa.
 
-## 18. CHECKLIST FINAL DE SEGURANÇA
+## 18. VÍNCULO COM PLANO MESTRE GERAL
+*   Plano Mestre Geral: `.lovable/plano-mestre-fechamento-v4.md`
+*   Função: referência macro do projeto.
+*   Plano Colaboração V1: referência detalhada e executável para colaboração multiusuário.
+*   Macro fases relacionadas: 10A, 11A, 12A, 12B, 12C, 13A.
+
+## 19. CHECKLIST FINAL DE SEGURANÇA
 *   [ ] parceiro sem caso não acessa caso
 *   [ ] membro do Caso A não acessa Caso B
 *   [ ] usuário removido perde escrita
