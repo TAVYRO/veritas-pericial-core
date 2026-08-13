@@ -16,8 +16,8 @@ export interface CaseDocumentKey {
 export interface CaseDocumentParagraph {
   id: string;
   text: string;
-  traceability?: TraceabilityKind;
-  editorialMarker?: EditorialMarker;
+  traceability?: TraceabilityKind | undefined;
+  editorialMarker?: EditorialMarker | undefined;
 }
 
 /**
