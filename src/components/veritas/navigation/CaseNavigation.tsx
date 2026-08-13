@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { CASE_NAVIGATION_GROUPS } from "./case-navigation-config";
+import { CASE_NAVIGATION_GROUPS, type NavGroup } from "./case-navigation-config";
 
 interface CaseNavigationProps {
 	caseId: string;
@@ -15,15 +15,15 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 	const caseBaseUrl = `/app/cases/${caseId}`;
 	const relativePath = path.replace(caseBaseUrl, "").replace(/^\//, "");
 
-	// Initial default
-	let activeGroup = CASE_NAVIGATION_GROUPS[0];
-	let activeStepId = activeGroup.steps[0].id;
+	// Find active group and step with explicit defaults
+	let foundGroup: NavGroup | undefined;
+	let foundStepId = "";
 
 	for (const group of CASE_NAVIGATION_GROUPS) {
 		const exactMatch = group.steps.find((s) => s.path === relativePath);
 		if (exactMatch) {
-			activeGroup = group;
-			activeStepId = exactMatch.id;
+			foundGroup = group;
+			foundStepId = exactMatch.id;
 			break;
 		}
 
@@ -31,8 +31,8 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			(s) => s.matchPrefix && relativePath.startsWith(s.matchPrefix),
 		);
 		if (prefixMatch) {
-			activeGroup = group;
-			activeStepId = prefixMatch.id;
+			foundGroup = group;
+			foundStepId = prefixMatch.id;
 			break;
 		}
 
@@ -40,11 +40,14 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 			(s) => relativePath.startsWith(s.path) && s.path !== "",
 		);
 		if (startsWithMatch) {
-			activeGroup = group;
-			activeStepId = startsWithMatch.id;
+			foundGroup = group;
+			foundStepId = startsWithMatch.id;
 			break;
 		}
 	}
+
+	const activeGroup = foundGroup || CASE_NAVIGATION_GROUPS[0];
+	const activeStepId = foundStepId || activeGroup.steps[0].id;
 
 	return (
 		<div className="bg-[#0A0D14] border-b border-white/5">
@@ -64,7 +67,7 @@ export function CaseNavigation({ caseId }: CaseNavigationProps) {
 							)}
 							aria-current={isActive ? "page" : undefined}
 						>
-							<span className="text-[9px] sm:text-[10px] uppercase tracking-[0.1em] font-black text-center leading-tight">
+							<span className="text-[9px] sm:text-[10px] uppercase tracking-[0.1em] font-black text-center leading-tight text-white">
 								{group.label}
 							</span>
 							{isActive && (
