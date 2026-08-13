@@ -1,4 +1,4 @@
-import { CaseDossierState } from "./case-dossier-types";
+import type { CaseDossierState } from "./case-dossier-types";
 
 export const INITIAL_DOSSIERS: Record<string, CaseDossierState> = {
   "demo-case": {

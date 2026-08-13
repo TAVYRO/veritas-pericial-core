@@ -2,12 +2,26 @@ import { createFileRoute, useParams } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Eye, FileWarning } from "lucide-react";
 import { useCaseDossier } from "@/features/dossier/CaseDossierProvider";
-import { LegibilityLevel, DuplicateStatus } from "@/features/dossier/case-dossier-types";
-import { TraceabilityKind } from "@/features/documents/document-preview-types";
+import type { LegibilityLevel, DuplicateStatus } from "@/features/dossier/case-dossier-types";
+import type { TraceabilityKind } from "@/features/documents/document-preview-types";
 
 export const Route = createFileRoute("/app/cases/$caseId/sources")({
   component: CaseSourcesPage,
 });
+
+function formatIsoDatePtBr(value: string | null): string {
+  if (!value) return "Não informada";
+
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+
+  if (!match) {
+    return "Data não identificada";
+  }
+
+  const [, year, month, day] = match;
+
+  return `${day}/${month}/${year}`;
+}
 
 const TRACEABILITY_LABELS: Record<TraceabilityKind, string> = {
   documento: "DOCUMENTO",
@@ -79,7 +93,7 @@ function CaseSourcesPage() {
                 <div className="space-y-1">
                   <p className="text-[9px] uppercase tracking-widest font-bold text-white/20">Data</p>
                   <p className="text-xs">
-                    {item.date ? new Date(item.date).toLocaleDateString("pt-BR") : "N/A"}
+                    {formatIsoDatePtBr(item.date)}
                   </p>
                 </div>
                 <div className="space-y-1">

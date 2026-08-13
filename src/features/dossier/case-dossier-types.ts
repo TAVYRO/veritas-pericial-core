@@ -1,4 +1,4 @@
-import { TraceabilityKind } from "@/features/documents/document-preview-types";
+import type { TraceabilityKind } from "@/features/documents/document-preview-types";
 
 export type MaterialKind =
   | "pdf"

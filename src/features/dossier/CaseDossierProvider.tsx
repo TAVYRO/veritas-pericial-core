@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { CaseDossierState } from "./case-dossier-types";
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import type { CaseDossierState } from "./case-dossier-types";
 import { INITIAL_DOSSIERS } from "./mock-dossiers";
 
 interface CaseDossierContextType {
@@ -9,7 +9,7 @@ interface CaseDossierContextType {
 
 const CaseDossierContext = createContext<CaseDossierContextType | undefined>(undefined);
 
-export function CaseDossierProvider({ children }: { children: React.ReactNode }) {
+export function CaseDossierProvider({ children }: { children: ReactNode }) {
   const [dossiers, setDossiers] = useState<Record<string, CaseDossierState>>(INITIAL_DOSSIERS);
 
   const getDossier = useCallback((caseId: string) => {
