@@ -6,6 +6,13 @@ export const INITIAL_DOSSIERS: Record<string, CaseDossierState> = {
     materialsCollectionComplete: false,
     triageReviews: [],
     triageComplete: false,
+    technicalScope: {
+      object: "",
+      purpose: "",
+      limits: "",
+      sourceIds: [],
+      confirmed: false
+    },
     items: [
       {
         id: "F01",

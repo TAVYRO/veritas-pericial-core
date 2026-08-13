@@ -45,10 +45,19 @@ export interface CaseTriageReview {
   note: string;
 }
 
+export interface CaseTechnicalScope {
+  object: string;
+  purpose: string;
+  limits: string;
+  sourceIds: string[];
+  confirmed: boolean;
+}
+
 export interface CaseDossierState {
   caseId: string;
   items: CaseDossierItem[];
   materialsCollectionComplete: boolean;
   triageReviews: CaseTriageReview[];
   triageComplete: boolean;
+  technicalScope: CaseTechnicalScope;
 }
